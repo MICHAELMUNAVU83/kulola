@@ -57,26 +57,20 @@ const SwiperNewArrivals = {
     if (prevBtn) {
       if (swiper.isBeginning) {
         prevBtn.classList.add("opacity-40", "cursor-not-allowed");
-        prevBtn.classList.remove(
-          "hover:border-gray-900",
-          "hover:text-gray-900",
-        );
+        prevBtn.classList.remove("hover:border-black", "hover:text-black");
       } else {
         prevBtn.classList.remove("opacity-40", "cursor-not-allowed");
-        prevBtn.classList.add("hover:border-gray-900", "hover:text-gray-900");
+        prevBtn.classList.add("hover:border-black", "hover:text-black");
       }
     }
 
     if (nextBtn) {
       if (swiper.isEnd) {
         nextBtn.classList.add("opacity-40", "cursor-not-allowed");
-        nextBtn.classList.remove(
-          "hover:border-gray-900",
-          "hover:text-gray-900",
-        );
+        nextBtn.classList.remove("hover:border-black", "hover:text-black");
       } else {
         nextBtn.classList.remove("opacity-40", "cursor-not-allowed");
-        nextBtn.classList.add("hover:border-gray-900", "hover:text-gray-900");
+        nextBtn.classList.add("hover:border-black", "hover:text-black");
       }
     }
   },

@@ -5,17 +5,26 @@ defmodule KulolaWeb.HomeComponents do
   alias Kulola.Shop.DummyData
   alias Phoenix.LiveView.JS
 
+  def promo_bar(assigns) do
+    ~H"""
+    <div class="bg-black py-2 text-center text-xs text-white">
+      Use Coupon Code 20% Off for Offers.
+      <a href="/" class="underline hover:no-underline">Shop Now</a>
+    </div>
+    """
+  end
+
   def navbar(assigns) do
     ~H"""
     <header class="border-b border-gray-200 bg-white">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-        <a href="/" class="text-xl font-bold text-gray-900 sm:text-2xl">Dojeen.</a>
+        <a href="/" class="brand-logo text-2xl font-bold text-black sm:text-3xl">Dojeen.</a>
 
         <nav class="hidden items-center gap-6 lg:flex lg:gap-8">
-          <a href="/" class="text-sm font-medium text-gray-900 hover:text-gray-600">Home</a>
+          <a href="/" class="text-base font-medium text-gray-900 hover:text-gray-600">Home</a>
 
           <div class="relative">
-            <button class="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900">
+            <button class="flex items-center gap-1 text-base font-medium text-gray-600 hover:text-black">
               Shop
               <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -29,7 +38,7 @@ defmodule KulolaWeb.HomeComponents do
           </div>
 
           <div class="relative">
-            <button class="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900">
+            <button class="flex items-center gap-1 text-base font-medium text-gray-600 hover:text-black">
               Pages
               <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -42,13 +51,13 @@ defmodule KulolaWeb.HomeComponents do
             </button>
           </div>
 
-          <a href="/contact" class="text-sm font-medium text-gray-600 hover:text-gray-900">Contact</a>
+          <a href="/contact" class="text-base font-medium text-gray-600 hover:text-black">Contact</a>
         </nav>
         
     <!-- Right side: Search, Account, Cart -->
         <div class="flex items-center gap-2 sm:gap-4">
           <!-- Search - Icon on mobile, full input on desktop -->
-          <button class="text-gray-600 hover:text-gray-900 lg:hidden">
+          <button class="text-gray-600 hover:text-black lg:hidden">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -63,7 +72,7 @@ defmodule KulolaWeb.HomeComponents do
             <input
               type="text"
               placeholder="Search products....."
-              class="w-48 rounded-full border border-gray-300 bg-gray-50 py-2 pl-4 pr-10 text-sm placeholder-gray-400 focus:border-gray-400 focus:outline-none xl:w-64"
+              class="w-48 rounded-full border border-gray-300 bg-gray-50 py-2 pl-4 pr-10 text-base placeholder-gray-400 focus:border-gray-400 focus:outline-none xl:w-64"
             />
             <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
               <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +87,7 @@ defmodule KulolaWeb.HomeComponents do
           </div>
           
     <!-- Account -->
-          <button class="text-gray-600 hover:text-gray-900">
+          <button class="text-gray-600 hover:text-black">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -90,7 +99,7 @@ defmodule KulolaWeb.HomeComponents do
           </button>
           
     <!-- Cart -->
-          <button class="flex items-center gap-1 text-gray-600 hover:text-gray-900 sm:gap-2">
+          <button class="flex items-center gap-1 text-gray-600 hover:text-black sm:gap-2">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -99,12 +108,12 @@ defmodule KulolaWeb.HomeComponents do
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            <span class="hidden text-sm font-medium sm:inline">Cart</span>
+            <span class="hidden text-base font-medium sm:inline">Cart</span>
           </button>
           
     <!-- Mobile Menu Button -->
           <button
-            class="ml-2 text-gray-600 hover:text-gray-900 lg:hidden"
+            class="ml-2 text-gray-600 hover:text-black lg:hidden"
             phx-click={JS.toggle(to: "#mobile-menu")}
           >
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +153,7 @@ defmodule KulolaWeb.HomeComponents do
     <!-- Mobile Nav Links -->
           <a
             href="/"
-            class="block rounded-lg px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100"
+            class="block rounded-lg px-3 py-2 text-base font-medium text-black hover:bg-gray-100"
           >
             Home
           </a>
@@ -216,27 +225,27 @@ defmodule KulolaWeb.HomeComponents do
           
     <!-- Content -->
           <div class="hero-content relative z-10 opacity-0 transition-all delay-300 duration-700">
-            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-gray-600">
-              <span class="h-px w-8 bg-gray-400"></span> SPRING 2025
+            <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-gray-700">
+              <span class="h-px w-8 bg-gray-500"></span> SPRING 2025
             </div>
 
-            <h1 class="mt-6 font-serif text-4xl font-bold italic leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
+            <h1 class="mt-6 text-5xl font-bold leading-tight text-gray-900 sm:text-6xl lg:text-7xl">
               Quiet Luxury!<br />Timeless Form.
             </h1>
 
-            <p class="mt-6 max-w-md text-base text-gray-600 sm:text-lg">
+            <p class="mt-6 max-w-md text-base text-gray-700 sm:text-lg">
               Discover our latest collection where fluid design meets architectural precision. Each piece is crafted to move with you.
             </p>
             
     <!-- Stats -->
             <div class="mt-8 flex gap-12">
               <div>
-                <p class="text-3xl font-bold text-gray-900 sm:text-4xl">40</p>
-                <p class="text-sm text-gray-600">New Pieces</p>
+                <p class="text-4xl font-bold text-gray-900 sm:text-4xl">40</p>
+                <p class="text-base text-gray-700">New Pieces</p>
               </div>
               <div>
-                <p class="text-3xl font-bold text-gray-900 sm:text-4xl">100%</p>
-                <p class="text-sm text-gray-600">Sustainable</p>
+                <p class="text-4xl font-bold text-gray-900 sm:text-4xl">100%</p>
+                <p class="text-base text-gray-700">Sustainable</p>
               </div>
             </div>
             
@@ -244,14 +253,14 @@ defmodule KulolaWeb.HomeComponents do
             <div class="mt-8 flex flex-wrap gap-4">
               <a
                 href="/shop"
-                class="rounded-full bg-gray-900 px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+                class="rounded-full bg-gray-900 px-8 py-3 text-base font-medium text-white transition hover:bg-gray-800"
               >
                 Shop Now
               </a>
 
               <a
                 href="/collection"
-                class="rounded-full border-2 border-gray-900 px-8 py-3 text-sm font-medium text-gray-900 transition hover:bg-gray-900 hover:text-white"
+                class="rounded-full border-2 border-gray-900 px-8 py-3 text-base font-medium text-gray-900 transition hover:bg-gray-900 hover:text-white"
               >
                 View More
               </a>
@@ -287,10 +296,10 @@ defmodule KulolaWeb.HomeComponents do
     <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-7xl">
         <div class="text-center" data-motion-reveal>
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
             Fashion's Gallery
           </p>
-          <h2 class="mt-3 font-serif text-3xl font-bold italic text-gray-900 sm:text-4xl lg:text-5xl">
+          <h2 class="mt-3 text-3xl font-bold text-black sm:text-4xl lg:text-5xl">
             Explore Our Collections
           </h2>
         </div>
@@ -303,7 +312,7 @@ defmodule KulolaWeb.HomeComponents do
             >
               <div>
                 <span class="text-sm text-gray-400">{String.pad_leading("#{index}", 2, "0")}</span>
-                <h3 class="mt-2 text-xl font-semibold text-gray-900">{collection.name}</h3>
+                <h3 class="mt-2 text-xl font-semibold text-black">{collection.name}</h3>
               </div>
 
               <%= if collection.image do %>
@@ -317,9 +326,9 @@ defmodule KulolaWeb.HomeComponents do
               <% end %>
 
               <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-500">{collection.item_count} Items</span>
+                <span class="text-sm text-gray-700">{collection.item_count} Items</span>
                 <svg
-                  class="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-gray-900"
+                  class="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-black"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -359,27 +368,27 @@ defmodule KulolaWeb.HomeComponents do
       <div class="grid lg:grid-cols-2">
         <!-- Left Content -->
         <div class="flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16 lg:py-24">
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
             Biggest Sale Offer
           </p>
-          <h2 class="mt-4 font-serif text-3xl font-bold italic text-gray-900 sm:text-4xl lg:text-5xl">
+          <h2 class="mt-4 text-4xl font-bold text-gray-900 sm:text-5xl lg:text-6xl">
             New & Modern Products<br class="hidden sm:block" /> in Our Online Store
           </h2>
 
           <a
             href="/shop"
-            class="mt-8 w-fit rounded-full bg-gray-900 px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+            class="mt-8 w-fit rounded-full bg-gray-900 px-8 py-3 text-base font-medium text-white transition hover:bg-gray-800"
           >
             Shop Now
           </a>
           
     <!-- Sale Tag -->
-          <div class="mt-12 flex items-center gap-2 text-sm">
-            <span class="text-gray-900">Midseason Sale</span>
+          <div class="mt-12 flex items-center gap-2 text-xs">
+            <span class="text-black">Midseason Sale</span>
             <span class="font-semibold text-red-500">25% Off!</span>
             <span class="text-gray-400">•</span>
             <span class="text-gray-600">Only</span>
-            <a href="/sale" class="font-medium text-gray-900 underline">Selected Product</a>
+            <a href="/sale" class="font-medium text-black underline">Selected Product</a>
           </div>
           
     <!-- Floating Product Card -->
@@ -404,16 +413,18 @@ defmodule KulolaWeb.HomeComponents do
               <div class="mt-4 flex gap-2">
                 <%= for color <- product[:colors] || [] do %>
                   <button
-                    class={"h-7 w-7 rounded-full border-2 #{if color[:selected], do: "border-gray-900", else: "border-transparent"} border-gray-300"}
+                    class={"h-7 w-7 rounded-full border-2 #{if color[:selected], do: "border-black", else: "border-transparent"} border-gray-300"}
                     style={"background-color: #{color[:hex]}"}
                   >
                   </button>
                 <% end %>
               </div>
 
-              <h3 class="mt-3 font-medium text-gray-900">{product[:name] || "Featured Product"}</h3>
+              <h3 class="mt-3 text-sm font-medium text-gray-900">
+                {product[:name] || "Featured Product"}
+              </h3>
               <div class="mt-1 flex items-center gap-2">
-                <span class="text-lg font-semibold text-red-500">
+                <span class="text-base font-semibold text-red-500">
                   $ {product[:price] && Decimal.to_string(product[:price])} USD
                 </span>
                 <%= if product[:original_price] do %>
@@ -456,8 +467,8 @@ defmodule KulolaWeb.HomeComponents do
     <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-7xl">
         <div class="text-center" data-motion-reveal>
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">New Arrivals</p>
-          <h2 class="mt-3 font-serif text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">New Arrivals</p>
+          <h2 class="mt-3 text-3xl font-bold text-black sm:text-4xl lg:text-5xl">
             Modern & Trendy Styles<br />Just Arrived
           </h2>
         </div>
@@ -468,7 +479,7 @@ defmodule KulolaWeb.HomeComponents do
           <button
             type="button"
             id="new-arrivals-prev"
-            class="new-arrivals-nav-btn absolute -left-6 top-[200px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-gray-900 hover:text-gray-900 lg:flex xl:-left-16"
+            class="new-arrivals-nav-btn absolute -left-6 top-[200px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-black hover:text-black lg:flex xl:-left-16"
             aria-label="Previous"
           >
             <svg
@@ -485,7 +496,7 @@ defmodule KulolaWeb.HomeComponents do
           <button
             type="button"
             id="new-arrivals-next"
-            class="new-arrivals-nav-btn absolute -right-6 top-[200px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-gray-900 hover:text-gray-900 lg:flex xl:-right-16"
+            class="new-arrivals-nav-btn absolute -right-6 top-[200px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-black hover:text-black lg:flex xl:-right-16"
             aria-label="Next"
           >
             <svg
@@ -525,16 +536,16 @@ defmodule KulolaWeb.HomeComponents do
                     <div class="mt-4 flex gap-2">
                       <%= for color <- product.colors do %>
                         <button
-                          class={"h-6 w-6 rounded-full border-2 #{if color.selected, do: "border-gray-900", else: "border-transparent"}"}
+                          class={"h-6 w-6 rounded-full border-2 #{if color.selected, do: "border-black", else: "border-transparent"}"}
                           style={"background-color: #{color.hex}"}
                         >
                         </button>
                       <% end %>
                     </div>
                     <!-- Product Info -->
-                    <h3 class="mt-3 text-sm font-medium text-gray-900">{product.name}</h3>
+                    <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
                     <div class="mt-1 flex items-center gap-2">
-                      <span class={"font-semibold #{if product.original_price, do: "text-red-500", else: "text-gray-900"}"}>
+                      <span class={"font-semibold #{if product.original_price, do: "text-red-500", else: "text-black"}"}>
                         $ {product.price} USD
                       </span>
                       <%= if product.original_price do %>
@@ -603,15 +614,15 @@ defmodule KulolaWeb.HomeComponents do
         <%= for _collection <- [1,2] do %>
           <div class="group flex flex-col overflow-hidden bg-gray-100 sm:flex-row" data-motion-reveal>
             <div class="flex flex-1 flex-col justify-center p-8 sm:p-10">
-              <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+              <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
                 New Collection
               </p>
-              <h3 class="mt-4 text-2xl font-bold text-gray-900 sm:text-3xl">
+              <h3 class="mt-4 text-2xl font-bold text-black sm:text-3xl">
                 ElegantDesign<br />Dress
               </h3>
               <a
                 href="/collection/elegant"
-                class="mt-6 flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 transition hover:border-gray-900 hover:bg-gray-900 hover:text-white"
+                class="mt-6 flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 transition hover:border-black hover:bg-black hover:text-white"
               >
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -685,7 +696,7 @@ defmodule KulolaWeb.HomeComponents do
           <button
             id="video-toggle"
             type="button"
-            class="mt-10 flex h-16 w-16 items-center justify-center rounded-full bg-white text-gray-900 shadow-lg transition hover:scale-105 sm:h-20 sm:w-20"
+            class="mt-10 flex h-16 w-16 items-center justify-center rounded-full bg-white text-black shadow-lg transition hover:scale-105 sm:h-20 sm:w-20"
             aria-label="Play or pause video"
           >
             <svg
@@ -711,8 +722,8 @@ defmodule KulolaWeb.HomeComponents do
     <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-7xl">
         <div class="text-center" data-motion-reveal>
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">Bundle & Save</p>
-          <h2 class="mt-3 font-serif text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">Bundle & Save</p>
+          <h2 class="mt-3 text-3xl font-bold text-black sm:text-4xl lg:text-5xl">
             Build Your Product Bundle<br />& Save Money
           </h2>
         </div>
@@ -737,14 +748,14 @@ defmodule KulolaWeb.HomeComponents do
                       <div class="flex gap-2">
                         <%= for color <- product.colors do %>
                           <span
-                            class={"h-7 w-7 rounded-full border-2 #{if color.selected, do: "border-gray-900", else: "border-gray-200"}"}
+                            class={"h-7 w-7 rounded-full border-2 #{if color.selected, do: "border-black", else: "border-gray-200"}"}
                             style={"background-color: #{color.hex}"}
                           >
                           </span>
                         <% end %>
                       </div>
-                      <h3 class="mt-3 text-sm font-medium text-gray-900">{product.name}</h3>
-                      <p class="mt-1 font-semibold text-gray-900">$ {product.price} USD</p>
+                      <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
+                      <p class="mt-1 font-semibold text-black">$ {product.price} USD</p>
                     </div>
                   </a>
                 <% end %>
@@ -754,7 +765,7 @@ defmodule KulolaWeb.HomeComponents do
               <div class="border-t border-gray-200 bg-white p-6 text-center">
                 <a
                   href="/shop/bundles"
-                  class="inline-block rounded-full bg-gray-900 px-10 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+                  class="inline-block rounded-full bg-black px-10 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
                 >
                   Shop Now
                 </a>
@@ -779,106 +790,76 @@ defmodule KulolaWeb.HomeComponents do
   def testimonials(assigns) do
     ~H"""
     <section
-      class="relative bg-gray-50"
-      id="testimonials-section"
-      phx-hook="TestimonialsHorizontalScroll"
+      class="bg-gray-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
       data-motion-reveal
+      id="testimonials-section"
     >
-      <!-- Sticky container -->
-      <div class="sticky top-0 h-screen overflow-hidden">
-        <!-- Header -->
-        <div class="px-4 py-8  text-center sm:px-6 lg:px-8">
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">Testimonial</p>
-          <h2 class="mt-3 font-serif text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
+      <div class="mx-auto max-w-7xl">
+        <div class="text-center">
+          <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">Testimonial</p>
+          <h2 class="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
             Customer Feedback
           </h2>
         </div>
-        
-    <!-- Testimonials horizontal track -->
-        <div class="relative h-[300px] overflow-visible">
-          <div
-            id="testimonials-track"
-            class="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-6 lg:gap-10"
-            style="padding-left: calc(50vw - 300px);"
-          >
-            <%= for {testimonial, index} <- Enum.with_index(@testimonials) do %>
-              <% rating_float = Decimal.to_float(testimonial.rating) %>
-              <% full_stars = trunc(rating_float) %>
-              <% has_half = rating_float - full_stars >= 0.5 %>
-
-              <div
-                class="testimonial-slide w-[500px] flex-shrink-0 transition-all duration-500 ease-out sm:w-[600px]"
-                data-index={index}
-              >
-                <div class="testimonial-card rounded-2xl bg-white p-6 shadow-sm transition-all duration-500 ease-out sm:p-8">
-                  <!-- Top section: Rating + Customer Image -->
-                  <div class="flex items-start justify-between gap-4">
-                    <div class="flex-1">
-                      <!-- Rating -->
-                      <div class="flex items-center gap-2">
-                        <div class="flex text-yellow-400">
-                          <%= for _i <- 1..full_stars do %>
-                            <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
-                              <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                            </svg>
-                          <% end %>
-                          <%= if has_half do %>
-                            <svg class="h-5 w-5" viewBox="0 0 20 20">
-                              <defs>
-                                <linearGradient id={"half-star-#{testimonial.id}"}>
-                                  <stop offset="50%" stop-color="#FACC15" />
-                                  <stop offset="50%" stop-color="#E5E7EB" />
-                                </linearGradient>
-                              </defs>
-                              <path
-                                fill={"url(#half-star-#{testimonial.id})"}
-                                d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                              />
-                            </svg>
-                          <% end %>
-                        </div>
-                        <span class="text-sm text-gray-500">({testimonial.rating})</span>
-                      </div>
-
-                      <div class="mt-3 flex items-center gap-2">
-                        <h4 class="font-semibold text-gray-900">{testimonial.name}</h4>
-                        <span class="text-gray-400">—</span>
-                        <span class="text-sm text-gray-500">{testimonial.role}</span>
-                      </div>
+        <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:gap-8">
+          <%= for testimonial <- @testimonials do %>
+            <% rating_float = Decimal.to_float(testimonial.rating) %>
+            <% full_stars = trunc(rating_float) %>
+            <% has_half = rating_float - full_stars >= 0.5 %>
+            <div class="rounded-2xl bg-white p-5 shadow-sm sm:p-6">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2">
+                    <div class="flex text-yellow-400">
+                      <%= for _i <- 1..full_stars do %>
+                        <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                        </svg>
+                      <% end %>
+                      <%= if has_half do %>
+                        <svg class="h-5 w-5" viewBox="0 0 20 20">
+                          <defs>
+                            <linearGradient id={"half-star-#{testimonial.id}"}>
+                              <stop offset="50%" stop-color="#FACC15" />
+                              <stop offset="50%" stop-color="#E5E7EB" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            fill={"url(#half-star-#{testimonial.id})"}
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      <% end %>
                     </div>
-                    
-    <!-- Customer Image -->
-                    <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      class="h-28 w-24 flex-shrink-0 rounded-lg object-cover sm:h-36 sm:w-28"
-                    />
+                    <span class="text-sm text-gray-500">({testimonial.rating})</span>
                   </div>
-                  
-    <!-- Content -->
-                  <p class="mt-4 leading-relaxed text-gray-600">{testimonial.content}</p>
-                  
-    <!-- Product Referenced -->
-                  <div class="mt-6 flex items-center gap-3 rounded-lg bg-gray-50 p-3">
-                    <img
-                      src={testimonial.product.image}
-                      alt={testimonial.product.name}
-                      class="h-14 w-12 flex-shrink-0 rounded object-cover"
-                    />
-                    <div>
-                      <p class="text-sm font-medium text-gray-900">{testimonial.product.name}</p>
-                      <p class="text-sm text-gray-600">$ {testimonial.product.price} USD</p>
-                    </div>
+                  <div class="mt-2 flex items-center gap-2">
+                    <h4 class="font-semibold text-gray-900">{testimonial.name}</h4>
+                    <span class="text-gray-400">—</span>
+                    <span class="text-sm text-gray-500">{testimonial.role}</span>
                   </div>
                 </div>
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  class="h-28 w-24 flex-shrink-0 rounded-lg object-cover sm:h-36 sm:w-28"
+                />
               </div>
-            <% end %>
-          </div>
+              <p class="mt-3 leading-relaxed text-gray-600">{testimonial.content}</p>
+              <div class="mt-4 flex items-center gap-3 rounded-lg bg-gray-50 p-2.5">
+                <img
+                  src={testimonial.product.image}
+                  alt={testimonial.product.name}
+                  class="h-14 w-12 flex-shrink-0 rounded object-cover"
+                />
+                <div>
+                  <p class="text-sm font-medium text-gray-900">{testimonial.product.name}</p>
+                  <p class="text-sm text-gray-600">$ {testimonial.product.price} USD</p>
+                </div>
+              </div>
+            </div>
+          <% end %>
         </div>
-      </div>
-      
-    <!-- Spacer for scroll distance -->
-      <div class="pointer-events-none" style={"height: #{length(assigns.testimonials) * 30}vh;"}>
       </div>
     </section>
     """
@@ -890,12 +871,12 @@ defmodule KulolaWeb.HomeComponents do
       <div class="mx-auto max-w-7xl">
         <div class="grid gap-6 lg:grid-cols-12">
           <!-- Left Promo Card - Takes 4 columns, spans full height -->
-          <div class="flex flex-col rounded-2xl bg-gray-100 p-6 sm:p-8 lg:col-span-8 lg:row-span-2">
+          <div class="flex flex-col rounded-2xl bg-gray-100 p-6 sm:p-8 lg:col-span-7 lg:row-span-2">
             <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+              <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
                 Our Best Sellers
               </p>
-              <h2 class="mt-4 text-3xl font-bold text-gray-900 sm:text-4xl">
+              <h2 class="mt-4 text-3xl font-bold text-black sm:text-4xl">
                 -20% Off for<br />Bestsellers Product
               </h2>
               <p class="mt-4 text-gray-600">
@@ -904,7 +885,7 @@ defmodule KulolaWeb.HomeComponents do
 
               <a
                 href="/bestsellers"
-                class="mt-8 inline-block rounded-full bg-gray-900 px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+                class="mt-8 inline-block rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
               >
                 Shop Now
               </a>
@@ -922,7 +903,7 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-6 lg:col-span-4">
+          <div class="grid grid-cols-2 gap-6 lg:col-span-5">
             <%= for product <- @bestsellers do %>
               <div class="group">
                 <div class="overflow-hidden rounded-lg bg-gray-100">
@@ -936,7 +917,7 @@ defmodule KulolaWeb.HomeComponents do
                 <div class="mt-4 flex gap-2">
                   <%= for color <- product.colors do %>
                     <button
-                      class={"h-7 w-7 rounded-full border-2 transition-all hover:scale-110 #{if color.selected, do: "border-gray-900", else: "border-gray-200 hover:border-gray-400"}"}
+                      class={"h-7 w-7 rounded-full border-2 transition-all hover:scale-110 #{if color.selected, do: "border-black", else: "border-gray-200 hover:border-gray-400"}"}
                       style={"background-color: #{color.hex}"}
                       aria-label={"Select #{color.name}"}
                     >
@@ -944,8 +925,8 @@ defmodule KulolaWeb.HomeComponents do
                   <% end %>
                 </div>
 
-                <h3 class="mt-3 text-sm font-medium text-gray-900">{product.name}</h3>
-                <p class="mt-1 font-semibold text-gray-900">$ {product.price} USD</p>
+                <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
+                <p class="mt-1 font-semibold text-black">$ {product.price} USD</p>
 
                 <div class="mt-2 flex items-center gap-1">
                   <div class="flex text-yellow-400">
@@ -1090,7 +1071,7 @@ defmodule KulolaWeb.HomeComponents do
             </p>
             <a
               href="/sale"
-              class="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-sm font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-lg"
+              class="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-sm font-semibold text-black transition-all hover:bg-gray-100 hover:shadow-lg"
             >
               Shop The Sale
             </a>
@@ -1109,7 +1090,7 @@ defmodule KulolaWeb.HomeComponents do
           <div class="flex flex-col items-center text-center" data-motion-reveal>
             <div class="flex h-16 w-16 items-center justify-center">
               <svg
-                class="h-12 w-12 text-gray-900"
+                class="h-12 w-12 text-black"
                 viewBox="0 0 48 48"
                 fill="none"
                 stroke="currentColor"
@@ -1124,14 +1105,14 @@ defmodule KulolaWeb.HomeComponents do
                 <path d="M36 34h4M38 32v4" stroke-linecap="round" />
               </svg>
             </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900">Worldwide Shipping</h3>
+            <h3 class="mt-4 text-lg font-semibold text-black">Worldwide Shipping</h3>
             <p class="mt-2 text-sm text-gray-500">Free shipping on all orders</p>
           </div>
-          
+
           <div class="flex flex-col items-center text-center" data-motion-reveal>
             <div class="flex h-16 w-16 items-center justify-center">
               <svg
-                class="h-12 w-12 text-gray-900"
+                class="h-12 w-12 text-black"
                 viewBox="0 0 48 48"
                 fill="none"
                 stroke="currentColor"
@@ -1142,13 +1123,13 @@ defmodule KulolaWeb.HomeComponents do
                 <rect x="10" y="30" width="8" height="4" rx="1" />
               </svg>
             </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900">Secured Payment</h3>
+            <h3 class="mt-4 text-lg font-semibold text-black">Secured Payment</h3>
             <p class="mt-2 text-sm text-gray-500">Safe & secured payments</p>
           </div>
           <div class="flex flex-col items-center text-center" data-motion-reveal>
             <div class="flex h-16 w-16 items-center justify-center">
               <svg
-                class="h-12 w-12 text-gray-900"
+                class="h-12 w-12 text-black"
                 viewBox="0 0 48 48"
                 fill="none"
                 stroke="currentColor"
@@ -1160,13 +1141,13 @@ defmodule KulolaWeb.HomeComponents do
                 <path d="M34 26v6l4 2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900">30-Days Free Returns</h3>
+            <h3 class="mt-4 text-lg font-semibold text-black">30-Days Free Returns</h3>
             <p class="mt-2 text-sm text-gray-500">Within 30 days for an exchange</p>
           </div>
           <div class="flex flex-col items-center text-center" data-motion-reveal>
             <div class="flex h-16 w-16 items-center justify-center">
               <svg
-                class="h-12 w-12 text-gray-900"
+                class="h-12 w-12 text-black"
                 viewBox="0 0 48 48"
                 fill="none"
                 stroke="currentColor"
@@ -1179,9 +1160,76 @@ defmodule KulolaWeb.HomeComponents do
                 <path d="M24 14c4-6 12-6 12 0s-8 6-12 0" />
               </svg>
             </div>
-            <h3 class="mt-4 text-lg font-semibold text-gray-900">Surprise Gift</h3>
+            <h3 class="mt-4 text-lg font-semibold text-black">Surprise Gift</h3>
             <p class="mt-2 text-sm text-gray-500">Free gift cards & vouchers</p>
           </div>
+        </div>
+      </div>
+    </section>
+    """
+  end
+
+  def contact_section(assigns) do
+    ~H"""
+    <section class="bg-gray-100">
+      <div class="grid min-h-[420px] lg:grid-cols-2">
+        <%!-- Left: Form --%>
+        <div class="flex flex-col justify-center px-6 py-12 sm:px-10 sm:py-16 lg:px-14 lg:py-20">
+          <h2 class="text-3xl font-bold text-black sm:text-4xl">Get in Touch</h2>
+          <p class="mt-4 max-w-md text-gray-700">
+            Have questions, or ideas here to help you explore the world of Your shopping.
+          </p>
+          <form class="mt-8 space-y-5" phx-submit="contact_submit">
+            <div class="grid gap-5 sm:grid-cols-2">
+              <input
+                type="text"
+                name="full_name"
+                placeholder="Full Name"
+                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-gray-400 focus:outline-none"
+              />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-gray-400 focus:outline-none"
+              />
+            </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-gray-400 focus:outline-none"
+              />
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-gray-400 focus:outline-none"
+              />
+            </div>
+            <textarea
+              name="message"
+              rows="4"
+              placeholder="How Can We Help You?"
+              class="w-full resize-y rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-gray-400 focus:outline-none"
+            >
+            </textarea>
+            <button
+              type="submit"
+              class="rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+        <%!-- Right: Image --%>
+        <div class="relative min-h-[280px] lg:min-h-0">
+          <img
+            src="/images/main.jpeg"
+            alt=""
+            class="absolute inset-0 h-full w-full object-cover object-center"
+          />
         </div>
       </div>
     </section>
@@ -1351,7 +1399,7 @@ defmodule KulolaWeb.HomeComponents do
                 />
                 <button
                   type="submit"
-                  class="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white text-gray-900 transition hover:bg-gray-200"
+                  class="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition hover:bg-gray-200"
                 >
                   <svg
                     class="h-4 w-4"
@@ -1403,9 +1451,13 @@ defmodule KulolaWeb.HomeComponents do
     <!-- Copyright -->
       <div class="border-t border-gray-400 py-6">
         <p class="text-center text-sm text-gray-500">
-          Copyright © Dojeen. <span class="mx-2">|</span>
-          Designed by <a href="#" class="text-white transition hover:underline">Brandbes</a>
-          - Powered by <a href="#" class="text-white transition hover:underline">Webflow</a>
+          Copyright © Kulola's Closet 2026 . <span class="mx-2">|</span>
+          Designed by
+          <a href="www.michaelmunavu.com" class="text-white transition hover:underline">
+            Michael Munavu
+          </a>
+          - Powered by
+          <a href="www.virgil.africa" class="text-white transition hover:underline">Virgil Africa</a>
         </p>
       </div>
     </footer>

@@ -20,6 +20,13 @@ defmodule KulolaWeb.HomeLive.Index do
   end
 
   @impl true
+  def handle_event("contact_submit", _params, socket) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "Thanks! We'll get back to you soon.")}
+  end
+
+  @impl true
   def handle_event("select_sale_slide", %{"index" => raw_index}, socket) do
     index = String.to_integer(raw_index)
     slides = socket.assigns.sale_banner.slides
@@ -31,7 +38,8 @@ defmodule KulolaWeb.HomeLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <div id="home-page" phx-hook="HomeReveal">
+    <div id="home-page" class="page-typography" phx-hook="HomeReveal">
+      <.promo_bar />
       <.navbar />
       <.hero />
       <.collections collections={@collections} />
@@ -45,6 +53,7 @@ defmodule KulolaWeb.HomeLive.Index do
       <.best_sellers bestsellers={@bestsellers} />
       <.countdown />
       <.features />
+      <.contact_section />
       <.footer />
     </div>
     """

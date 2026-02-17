@@ -1,8 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,300;0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+/* ---------------------------------------------------------------------------
+   Instrument Sans & Inter – font-family + weight utilities
+   Use: .font-instrument, .font-instrument-medium, .font-instrument-bold, etc.
+   --------------------------------------------------------------------------- */
+.font-instrument-light {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+}
+.font-instrument {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+}
+.font-instrument-medium {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+}
+.font-instrument-semibold {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+}
+.font-instrument-bold {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.font-inter-thin {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 100;
+}
+.font-inter-extralight {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 200;
+}
+.font-inter-light {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+}
+.font-inter {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+}
+.font-inter-medium {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+}
+.font-inter-semibold {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+}
+.font-inter-bold {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+.font-inter-extrabold {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+}
+.font-inter-black {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 900;
+}
+
+/* Home & Category pages: match reference – Instrument for titles, Inter for UI & body */
+.page-typography {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+}
+/* All headings: Instrument Sans */
+.page-typography h1,
+.page-typography h2,
+.page-typography h3,
+.page-typography h4,
+.page-typography h5,
+.page-typography h6 {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+}
+.page-typography h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.page-typography h2 {
+  font-weight: 700;
+}
+.page-typography h3,
+.page-typography h4 {
+  font-weight: 600;
+}
+.page-typography h5,
+.page-typography h6 {
+  font-weight: 600;
+}
+/* Logo / brand: Instrument Bold */
+.page-typography header a[href="/"],
+.page-typography .brand-logo {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+/* Nav links, buttons, pill filters, sort dropdown: Inter Medium for readability */
+.page-typography header nav a,
+.page-typography header button:not([aria-label]),
+.page-typography header .text-sm.font-medium,
+.page-typography a.rounded-full[href],
+.page-typography button.rounded-full,
+.page-typography .rounded-full.border.px-4.py-2,
+.page-typography main select,
+.page-typography .category-sidebar button {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+}
+/* Search placeholder: Inter thin */
+.page-typography header input::placeholder {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 100;
+}
+/* Uppercase labels (e.g. FASHION'S GALLERY, SPRING 2025): Inter Medium */
+.page-typography .text-xs.uppercase,
+.page-typography .text-xs.font-semibold.uppercase {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+}
+/* Hero stats numbers (40, 100%): Instrument Bold */
+.page-typography .hero-content p.text-3xl,
+.page-typography .hero-content p.text-4xl {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+/* Countdown numbers: Instrument Bold */
+.page-typography #countdown-section .font-display {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+/* Paragraphs and body copy: Inter regular for readability (inherit from .page-typography) */
+.page-typography p:not(.text-3xl):not(.text-4xl):not(.text-2xl) {
+  font-weight: 400;
+}
 
 /* Remove Swiper's default arrow content */
 .new-arrivals-swiper .swiper-button-prev::after,
@@ -20,29 +157,24 @@
   opacity: 0.4;
 }
 
+.related-products-swiper .swiper-button-prev::after,
+.related-products-swiper .swiper-button-next::after {
+  content: none;
+}
+
+.related-products-nav-btn {
+  opacity: 1;
+  transition: all 0.2s ease;
+}
+
+.related-products-nav-btn.opacity-40 {
+  opacity: 0.4;
+}
+
 /* Video banner: slow, smooth overlay reveal */
 #video-reveal-container {
   will-change: clip-path;
   transition: clip-path 1.2s ease-out;
-}
-
-/* Testimonials: centered carousel, one main card with peek */
-/* Testimonials Horizontal Scroll */
-#testimonials-section {
-  position: relative;
-}
-
-#testimonials-track {
-  will-change: transform;
-}
-
-.testimonial-slide {
-  will-change: transform, opacity;
-}
-
-.testimonial-card {
-  will-change: transform, opacity, box-shadow;
-  backface-visibility: hidden;
 }
 
 /* Countdown section */
@@ -129,7 +261,6 @@
   animation: marquee-slow 40s linear infinite;
 }
 
-
 /* Hero reveal */
 #hero-overlay {
   will-change: clip-path;
@@ -190,4 +321,11 @@
 }
 [data-motion-reveal][data-motion-direction="right"].in-view {
   transform: translateX(0);
+}
+
+/* Category page: mobile filters sidebar */
+@media (max-width: 1023px) {
+  .category-sidebar {
+    padding-top: env(safe-area-inset-top, 0);
+  }
 }

@@ -22,8 +22,8 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import SwiperNewArrivals from "./hooks/swiper_new_arrivals.js";
+import SwiperRelatedProducts from "./hooks/swiper_related_products.js";
 import VideoBannerReveal from "./hooks/video_banner_reveal.js";
-import TestimonialsHorizontalScroll from "./hooks/testimonials_horizontal_scroll.js";
 import CountdownTimer from "./hooks/countdown_timer.js";
 import HeroReveal from "./hooks/hero_reveal.js";
 import HomeReveal from "./hooks/home_reveal.js";
@@ -36,8 +36,8 @@ const liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: {
     SwiperNewArrivals,
+    SwiperRelatedProducts,
     VideoBannerReveal,
-    TestimonialsHorizontalScroll,
     CountdownTimer,
     HeroReveal,
     HomeReveal,

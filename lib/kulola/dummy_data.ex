@@ -148,6 +148,72 @@ defmodule Kulola.Shop.DummyData do
     ]
   end
 
+  def category_by_slug(slug) do
+    collections()
+    |> Enum.find(fn c -> c.slug == slug end)
+    |> case do
+      nil ->
+        nil
+
+      c ->
+        %{
+          id: c.id,
+          name: c.name,
+          slug: c.slug,
+          title: "Our Product Collection",
+          subtitle: "EXPLORE OUR PRODUCT",
+          hero_image: c.image,
+          href: c.href
+        }
+    end
+  end
+
+  def popular_products do
+    [
+      %{
+        id: "pop_1",
+        name: "Modern Shirt and Jean Outfit",
+        price: Decimal.new("276.00"),
+        currency: "USD",
+        image: "/images/main.jpeg",
+        rating: 4.0,
+        href: "#"
+      },
+      %{
+        id: "pop_2",
+        name: "Cropped Stonewash Denim Jacket",
+        price: Decimal.new("135.00"),
+        currency: "USD",
+        image: "/images/main.jpeg",
+        rating: 4.0,
+        href: "#"
+      },
+      %{
+        id: "pop_3",
+        name: "Fitted Classic Blue Denim Jacket",
+        price: Decimal.new("132.00"),
+        currency: "USD",
+        image: "/images/main.jpeg",
+        rating: 4.5,
+        href: "#"
+      }
+    ]
+  end
+
+  def products_for_category(slug) do
+    coll = collections() |> Enum.find(fn c -> c.slug == slug end)
+
+    list =
+      if coll do
+        products() |> Enum.filter(fn p -> p.collection_id == coll.id end)
+      else
+        products()
+      end
+
+    # Ensure at least 6 for grid; pad with more products if needed
+    if length(list) >= 6, do: list, else: list ++ Enum.take(products(), max(0, 6 - length(list)))
+  end
+
   def featured_collections do
     [
       %{
@@ -204,7 +270,8 @@ defmodule Kulola.Shop.DummyData do
         collection_id: "col_3",
         is_featured: true,
         is_active: true,
-        stock_quantity: 15
+        stock_quantity: 15,
+        sku: "DJK-1203"
       },
       %{
         id: "prod_2",
@@ -237,7 +304,8 @@ defmodule Kulola.Shop.DummyData do
         collection_id: "col_3",
         is_featured: true,
         is_active: true,
-        stock_quantity: 8
+        stock_quantity: 8,
+        sku: "DJK-1204"
       },
       %{
         id: "prod_3",
@@ -268,7 +336,8 @@ defmodule Kulola.Shop.DummyData do
         collection_id: "col_2",
         is_featured: true,
         is_active: true,
-        stock_quantity: 5
+        stock_quantity: 5,
+        sku: "DJK-1205"
       },
       %{
         id: "prod_4",
@@ -300,9 +369,63 @@ defmodule Kulola.Shop.DummyData do
         collection_id: "col_1",
         is_featured: true,
         is_active: true,
-        stock_quantity: 20
+        stock_quantity: 20,
+        sku: "DJK-1206"
+      },
+      %{
+        id: "prod_5",
+        name: "Ribbed Halter-Neck Cutout Top",
+        slug: "ribbed-halter-neck-cutout-top-test",
+        description: "Trendy halter top with unique cutout design.",
+        price: Decimal.new("228.00"),
+        original_price: nil,
+        currency: "USD",
+        badge: "Sale",
+        rating: Decimal.new("4.3"),
+        reviews_count: 42,
+        main_image: "/images/main.jpeg",
+        gallery_images: [
+          "/images/main.jpeg",
+          "/images/main.jpeg"
+        ],
+        colors: [
+          %{id: "c1", name: "Sage", hex: "#9caf88", selected: true},
+          %{id: "c2", name: "Dusty Purple", hex: "#a5969c", selected: false},
+          %{id: "c3", name: "Navy", hex: "#1e3a5f", selected: false}
+        ],
+        sizes: [
+          %{id: "s1", name: "XS", available: true},
+          %{id: "s2", name: "S", available: true},
+          %{id: "s3", name: "M", available: true},
+          %{id: "s4", name: "L", available: true}
+        ],
+        collection_id: "col_1",
+        is_featured: true,
+        is_active: true,
+        stock_quantity: 20,
+        sku: "DJK-1206"
       }
     ]
+  end
+
+  def product_by_slug(slug) do
+    product = products() |> Enum.find(fn p -> p.slug == slug end)
+
+    if product do
+      sku = Map.get(product, :sku, "DJK-#{String.replace(product.id, "prod_", "")}")
+      collection = collections() |> Enum.find(fn c -> c.id == product.collection_id end)
+      product_type = if collection, do: collection.name, else: "Product"
+
+      product
+      |> Map.put(:sku, sku)
+      |> Map.put(:product_type, product_type)
+    end
+  end
+
+  def related_products(current_product_id, limit \\ 4) do
+    products()
+    |> Enum.reject(fn p -> p.id == current_product_id end)
+    |> Enum.take(limit)
   end
 
   def new_arrivals do
@@ -569,6 +692,21 @@ defmodule Kulola.Shop.DummyData do
           image: "/images/main.jpeg",
           href: "/products/rust-red-gold-satin-dress"
         }
+      },
+      %{
+        id: "test_4",
+        name: "Taylor Swift",
+        role: "Customer",
+        rating: Decimal.new("5.0"),
+        content:
+          "Absolutely love the quality! The fabric feels premium and the fit is exactly as described. Will definitely be ordering more pieces from this collection.",
+        avatar: "/images/main.jpeg",
+        product: %{
+          name: "Rust Red Gold Satin Dress",
+          price: Decimal.new("179.00"),
+          image: "/images/main.jpeg",
+          href: "/products/rust-red-gold-satin-dress"
+        }
       }
     ]
   end
@@ -697,9 +835,9 @@ defmodule Kulola.Shop.DummyData do
         %{name: "TikTok", href: "#", icon: "tiktok"},
         %{name: "Twitter", href: "#", icon: "twitter"}
       ],
-      copyright: "Copyright © Dojeen.",
-      designed_by: %{name: "Brandbes", href: "#"},
-      powered_by: %{name: "Webflow", href: "#"}
+      copyright: "Copyright © Kulola's Closet 2026",
+      designed_by: %{name: "Michael Munavu", href: "www.michaelmunavu.com"},
+      powered_by: %{name: "Virgil Africa", href: "www.virgil.africa"}
     }
   end
 

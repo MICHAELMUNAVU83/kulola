@@ -91,6 +91,7 @@ defmodule KulolaWeb do
       import KulolaWeb.CoreComponents
 
       import KulolaWeb.HomeComponents
+      import KulolaWeb.CategoryComponents
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 
