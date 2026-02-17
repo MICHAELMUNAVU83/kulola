@@ -31,7 +31,7 @@ defmodule KulolaWeb.HomeLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div id="home-page" phx-hook="HomeReveal">
       <.navbar />
       <.hero />
       <.collections collections={@collections} />
@@ -44,7 +44,8 @@ defmodule KulolaWeb.HomeLive.Index do
       <.testimonials testimonials={@testimonials} />
       <.best_sellers bestsellers={@bestsellers} />
       <.countdown />
-      <.partners instagram_images={@instagram_images} />
+      <.features />
+      <.footer />
     </div>
     """
   end

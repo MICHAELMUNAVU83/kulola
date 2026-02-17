@@ -1,0 +1,7 @@
+{
+  "name": "kulola-assets",
+  "private": true,
+  "dependencies": {
+    "motion": "^11.11.17"
+  }
+}

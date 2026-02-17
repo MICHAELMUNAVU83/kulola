@@ -16,31 +16,44 @@
 //
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
-import "phoenix_html"
+import "phoenix_html";
 // Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
-import topbar from "../vendor/topbar"
-import MarqueeHook from "./hooks/marquee_hook"
+import { Socket } from "phoenix";
+import { LiveSocket } from "phoenix_live_view";
+import topbar from "../vendor/topbar";
+import SwiperNewArrivals from "./hooks/swiper_new_arrivals.js";
+import VideoBannerReveal from "./hooks/video_banner_reveal.js";
+import TestimonialsHorizontalScroll from "./hooks/testimonials_horizontal_scroll.js";
+import CountdownTimer from "./hooks/countdown_timer.js";
+import HeroReveal from "./hooks/hero_reveal.js";
+import HomeReveal from "./hooks/home_reveal.js";
+// Safe CSRF token (avoid throwing if meta tag is missing)
+const csrfMeta = document.querySelector("meta[name='csrf-token']");
+const csrfToken = csrfMeta ? csrfMeta.getAttribute("content") : "";
 
-let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {
+const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
-  params: {_csrf_token: csrfToken},
-  hooks: {Marquee: MarqueeHook}
-})
+  params: { _csrf_token: csrfToken },
+  hooks: {
+    SwiperNewArrivals,
+    VideoBannerReveal,
+    TestimonialsHorizontalScroll,
+    CountdownTimer,
+    HeroReveal,
+    HomeReveal,
+  },
+});
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
-window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
-window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
+topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" });
+window.addEventListener("phx:page-loading-start", () => topbar.show(300));
+window.addEventListener("phx:page-loading-stop", () => topbar.hide());
 
 // connect if there are any LiveViews on the page
-liveSocket.connect()
+liveSocket.connect();
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
-window.liveSocket = liveSocket
-
+window.liveSocket = liveSocket;

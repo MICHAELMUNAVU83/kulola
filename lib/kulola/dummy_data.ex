@@ -370,6 +370,22 @@ defmodule Kulola.Shop.DummyData do
           %{id: "c3", name: "Navy", hex: "#1e3a5f", selected: false}
         ],
         href: "/products/ribbed-halter-neck-cutout-top"
+      },
+      %{
+        id: "new_5",
+        name: "Ribbed Halter-Neck Cutout Top",
+        slug: "ribbed-halter-neck-cutout-top",
+        price: Decimal.new("228.00"),
+        original_price: nil,
+        currency: "USD",
+        badge: "Sale",
+        main_image: "/images/main.jpeg",
+        colors: [
+          %{id: "c1", name: "Sage", hex: "#9caf88", selected: true},
+          %{id: "c2", name: "Dusty Purple", hex: "#a5969c", selected: false},
+          %{id: "c3", name: "Navy", hex: "#1e3a5f", selected: false}
+        ],
+        href: "/products/ribbed-halter-neck-cutout-top"
       }
     ]
   end

@@ -3,3 +3,191 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+/* Remove Swiper's default arrow content */
+.new-arrivals-swiper .swiper-button-prev::after,
+.new-arrivals-swiper .swiper-button-next::after {
+  content: none;
+}
+
+/* Navigation buttons */
+.new-arrivals-nav-btn {
+  opacity: 1;
+  transition: all 0.2s ease;
+}
+
+.new-arrivals-nav-btn.opacity-40 {
+  opacity: 0.4;
+}
+
+/* Video banner: slow, smooth overlay reveal */
+#video-reveal-container {
+  will-change: clip-path;
+  transition: clip-path 1.2s ease-out;
+}
+
+/* Testimonials: centered carousel, one main card with peek */
+/* Testimonials Horizontal Scroll */
+#testimonials-section {
+  position: relative;
+}
+
+#testimonials-track {
+  will-change: transform;
+}
+
+.testimonial-slide {
+  will-change: transform, opacity;
+}
+
+.testimonial-card {
+  will-change: transform, opacity, box-shadow;
+  backface-visibility: hidden;
+}
+
+/* Countdown section */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Optional: Add a custom display font for the numbers */
+/* If you're using a Google Font like Inter or DM Sans, the numbers will look great */
+
+/* Ensure numbers don't jump around */
+#countdown-days,
+#countdown-hours,
+#countdown-minutes,
+#countdown-seconds {
+  min-width: 1.5ch;
+  display: inline-block;
+}
+
+/* Dot pattern animation (optional) */
+@keyframes dot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Footer logo marquee - slower animation */
+@keyframes marquee-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 30s linear infinite;
+}
+
+/* Custom scrollbar for bundle section */
+.lg\:overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lg\:overflow-y-auto::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.lg\:overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.lg\:overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Hide scrollbar but keep functionality (optional) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hero background marquee - very slow */
+@keyframes marquee-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 40s linear infinite;
+}
+
+
+/* Hero reveal */
+#hero-overlay {
+  will-change: clip-path;
+}
+
+#hero-image {
+  will-change: transform;
+}
+
+.hero-content {
+  will-change: opacity, transform;
+}
+
+/* Marquee animation */
+@keyframes marquee-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 40s linear infinite;
+}
+
+/* Scroll reveal: initial state + transition, then .in-view for final state */
+[data-motion-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-motion-reveal].in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-motion-reveal][data-motion-direction="down"] {
+  transform: translateY(-28px);
+}
+[data-motion-reveal][data-motion-direction="down"].in-view {
+  transform: translateY(0);
+}
+
+[data-motion-reveal][data-motion-direction="left"] {
+  transform: translateX(28px);
+}
+[data-motion-reveal][data-motion-direction="left"].in-view {
+  transform: translateX(0);
+}
+
+[data-motion-reveal][data-motion-direction="right"] {
+  transform: translateX(-28px);
+}
+[data-motion-reveal][data-motion-direction="right"].in-view {
+  transform: translateX(0);
+}
