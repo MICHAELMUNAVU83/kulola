@@ -1,0 +1,18 @@
+<div class="flex h-screen overflow-hidden">
+  <.admin_sidebar
+    current_path={@current_path}
+    counts={
+      %{
+        products: 10,
+        collections: 3,
+        bundles: 5,
+        pending_orders: 5,
+        pending_reviews: 8,
+        customers: 9
+      }
+    }
+  />
+  <main class="flex-1 p-4 overflow-y-auto">
+    {@inner_content}
+  </main>
+</div>

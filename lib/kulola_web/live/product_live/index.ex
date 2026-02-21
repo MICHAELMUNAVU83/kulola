@@ -1,101 +1,47 @@
 defmodule KulolaWeb.ProductLive.Index do
   use KulolaWeb, :live_view
 
-  alias Kulola.Shop.DummyData
-  import KulolaWeb.ProductComponents
-  import KulolaWeb.HomeComponents
+  alias Kulola.Products
+  alias Kulola.Products.Product
 
   @impl true
-  def mount(%{"slug" => slug}, _session, socket) do
-    product = DummyData.product_by_slug(slug)
-    if is_nil(product) do
-      {:ok,
-       socket
-       |> put_flash(:error, "Product not found")
-       |> push_navigate(to: "/")}
-    else
-      related = DummyData.related_products(product.id, 4)
-      selected_color = product.colors |> Enum.find(& &1.selected) || List.first(product.colors)
-      selected_size = product.sizes |> Enum.find(& &1.available) || List.first(product.sizes)
-      selected_color_id = selected_color && selected_color.id
-      selected_size_id = selected_size && selected_size.name
-
-      {:ok,
-       socket
-       |> assign(:page_title, "#{product.name} | Kulola")
-       |> assign(:product, product)
-       |> assign(:related_products, related)
-       |> assign(:selected_color_id, selected_color_id)
-       |> assign(:selected_size_id, selected_size_id)
-       |> assign(:quantity, 1)
-       |> assign(:main_image_index, 0)
-       |> assign(:accordion_open, nil)}
-    end
+  def mount(_params, _session, socket) do
+    {:ok, stream(socket, :products, Products.list_products())}
   end
 
   @impl true
-  def handle_event("select_color", %{"id" => id}, socket) do
-    {:noreply, assign(socket, :selected_color_id, id)}
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :edit, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Edit Product")
+    |> assign(:product, Products.get_product!(id))
+  end
+
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "New Product")
+    |> assign(:product, %Product{})
+  end
+
+  defp apply_action(socket, :index, _params) do
+    socket
+    |> assign(:page_title, "Listing Products")
+    |> assign(:product, nil)
   end
 
   @impl true
-  def handle_event("select_size", %{"name" => name}, socket) do
-    {:noreply, assign(socket, :selected_size_id, name)}
+  def handle_info({KulolaWeb.ProductLive.FormComponent, {:saved, product}}, socket) do
+    {:noreply, stream_insert(socket, :products, product)}
   end
 
   @impl true
-  def handle_event("set_quantity", %{"quantity" => qty}, socket) do
-    qty = max(1, min(99, String.to_integer(qty)))
-    {:noreply, assign(socket, :quantity, qty)}
-  end
+  def handle_event("delete", %{"id" => id}, socket) do
+    product = Products.get_product!(id)
+    {:ok, _} = Products.delete_product(product)
 
-  @impl true
-  def handle_event("set_main_image", %{"index" => idx}, socket) do
-    idx = String.to_integer(idx)
-    max_idx = length(socket.assigns.product.gallery_images) - 1
-    idx = max(0, min(idx, max_idx))
-    {:noreply, assign(socket, :main_image_index, idx)}
-  end
-
-  @impl true
-  def handle_event("toggle_accordion", %{"section" => section}, socket) do
-    current = socket.assigns.accordion_open
-    next = if current == section, do: nil, else: section
-    {:noreply, assign(socket, :accordion_open, next)}
-  end
-
-  @impl true
-  def handle_event("add_to_cart", _params, socket) do
-    # Placeholder – no cart yet
-    {:noreply,
-     socket
-     |> put_flash(:info, "Added to cart")}
-  end
-
-  @impl true
-  def handle_event("contact_submit", _params, socket) do
-    {:noreply,
-     socket
-     |> put_flash(:info, "Thanks! We'll get back to you soon.")}
-  end
-
-  @impl true
-  def render(assigns) do
-    ~H"""
-    <div id="product-page" class="page-typography min-h-screen bg-white">
-      <.navbar />
-      <.product_detail
-        product={@product}
-        main_image_index={@main_image_index}
-        selected_color_id={@selected_color_id}
-        selected_size_id={@selected_size_id}
-        quantity={@quantity}
-      />
-      <.product_accordions accordion_open={@accordion_open} />
-      <.related_products_section products={@related_products} />
-      <.contact_section />
-      <.footer />
-    </div>
-    """
+    {:noreply, stream_delete(socket, :products, product)}
   end
 end

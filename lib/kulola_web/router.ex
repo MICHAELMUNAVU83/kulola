@@ -23,6 +23,54 @@ defmodule KulolaWeb.Router do
     live "/", HomeLive.Index, :index
     live "/collections/:slug", CategoryLive.Index, :index
     live "/products/:slug", ProductLive.Index, :index
+
+    live "/products", ProductLive.Index, :index
+    live "/products/new", ProductLive.Index, :new
+    live "/products/:id/edit", ProductLive.Index, :edit
+
+    live "/products/:id", ProductLive.Show, :show
+    live "/products/:id/show/edit", ProductLive.Show, :edit
+    live "/collections", CollectionLive.Index, :index
+    live "/collections/new", CollectionLive.Index, :new
+    live "/collections/:id/edit", CollectionLive.Index, :edit
+
+    live "/collections/:id", CollectionLive.Show, :show
+    live "/collections/:id/show/edit", CollectionLive.Show, :edit
+
+    live "/product_variants", ProductVariantLive.Index, :index
+    live "/product_variants/new", ProductVariantLive.Index, :new
+    live "/product_variants/:id/edit", ProductVariantLive.Index, :edit
+
+    live "/product_variants/:id", ProductVariantLive.Show, :show
+    live "/product_variants/:id/show/edit", ProductVariantLive.Show, :edit
+
+    live "/product_images", ProductImageLive.Index, :index
+    live "/product_images/new", ProductImageLive.Index, :new
+    live "/product_images/:id/edit", ProductImageLive.Index, :edit
+
+    live "/product_images/:id", ProductImageLive.Show, :show
+    live "/product_images/:id/show/edit", ProductImageLive.Show, :edit
+
+    live "/bundles", BundleLive.Index, :index
+    live "/bundles/new", BundleLive.Index, :new
+    live "/bundles/:id/edit", BundleLive.Index, :edit
+
+    live "/bundles/:id", BundleLive.Show, :show
+    live "/bundles/:id/show/edit", BundleLive.Show, :edit
+
+    live "/bundle_items", BundleItemLive.Index, :index
+    live "/bundle_items/new", BundleItemLive.Index, :new
+    live "/bundle_items/:id/edit", BundleItemLive.Index, :edit
+
+    live "/bundle_items/:id", BundleItemLive.Show, :show
+    live "/bundle_items/:id/show/edit", BundleItemLive.Show, :edit
+
+    live "/testimonials", TestimonialLive.Index, :index
+    live "/testimonials/new", TestimonialLive.Index, :new
+    live "/testimonials/:id/edit", TestimonialLive.Index, :edit
+
+    live "/testimonials/:id", TestimonialLive.Show, :show
+    live "/testimonials/:id/show/edit", TestimonialLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

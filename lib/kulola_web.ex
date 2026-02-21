@@ -59,6 +59,15 @@ defmodule KulolaWeb do
     end
   end
 
+  def admin_live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {KulolaWeb.Layouts, :admin}
+
+      unquote(html_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent
@@ -92,6 +101,8 @@ defmodule KulolaWeb do
 
       import KulolaWeb.HomeComponents
       import KulolaWeb.CategoryComponents
+      import KulolaWeb.SidebarComponents
+      import KulolaWeb.ProductComponents
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 

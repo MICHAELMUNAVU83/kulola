@@ -1,0 +1,31 @@
+<.header>
+  Testimonial {@testimonial.id}
+  <:subtitle>This is a testimonial record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/testimonials/#{@testimonial}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit testimonial</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@testimonial.name}</:item>
+  <:item title="Rating">{@testimonial.rating}</:item>
+  <:item title="Image">{@testimonial.image}</:item>
+  <:item title="Body">{@testimonial.body}</:item>
+  <:item title="Is active">{@testimonial.is_active}</:item>
+  <:item title="Position">{@testimonial.position}</:item>
+</.list>
+
+<.back navigate={~p"/testimonials"}>Back to testimonials</.back>
+
+<.modal :if={@live_action == :edit} id="testimonial-modal" show on_cancel={JS.patch(~p"/testimonials/#{@testimonial}")}>
+  <.live_component
+    module={KulolaWeb.TestimonialLive.FormComponent}
+    id={@testimonial.id}
+    title={@page_title}
+    action={@live_action}
+    testimonial={@testimonial}
+    patch={~p"/testimonials/#{@testimonial}"}
+  />
+</.modal>

@@ -1,0 +1,28 @@
+<.header>
+  Bundle {@bundle.id}
+  <:subtitle>This is a bundle record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/bundles/#{@bundle}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit bundle</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title">{@bundle.title}</:item>
+  <:item title="Description">{@bundle.description}</:item>
+  <:item title="Image">{@bundle.image}</:item>
+</.list>
+
+<.back navigate={~p"/bundles"}>Back to bundles</.back>
+
+<.modal :if={@live_action == :edit} id="bundle-modal" show on_cancel={JS.patch(~p"/bundles/#{@bundle}")}>
+  <.live_component
+    module={KulolaWeb.BundleLive.FormComponent}
+    id={@bundle.id}
+    title={@page_title}
+    action={@live_action}
+    bundle={@bundle}
+    patch={~p"/bundles/#{@bundle}"}
+  />
+</.modal>
