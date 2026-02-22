@@ -1364,7 +1364,7 @@ defmodule KulolaWeb.HomeComponents do
           </form>
         </div>
         <%!-- Right: Swiper Image Panel --%>
-        <div class="relative min-h-[280px] overflow-hidden lg:min-h-0">
+        <div class="relative min-h-[380px] overflow-hidden lg:min-h-full">
           <div
             id="contact-swiper"
             class="swiper contact-swiper absolute inset-0 h-full w-full"

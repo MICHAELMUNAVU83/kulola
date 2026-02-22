@@ -28,6 +28,14 @@ defmodule KulolaWeb.Router do
     live "/success", SuccessLive.Index, :index
 
     scope "/admin" do
+      live "/", DashboardLive.Index, :index
+
+      live "/orders", OrderLive.Index, :index
+      live "/orders/:id", OrderLive.Show, :show
+
+      live "/customers", CustomerLive.Index, :index
+      live "/customers/:id", CustomerLive.Show, :show
+
       live "/products", ProductLive.Index, :index
       live "/products/new", ProductLive.Index, :new
       live "/products/:id/edit", ProductLive.Index, :edit

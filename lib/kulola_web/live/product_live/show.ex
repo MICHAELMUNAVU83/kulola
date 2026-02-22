@@ -6,6 +6,7 @@ defmodule KulolaWeb.ProductLive.Show do
   alias Kulola.ProductVariants
   alias Kulola.ProductVariants.ProductVariant
   alias Kulola.Collections
+  alias Kulola.Orders
 
   @impl true
   def mount(_params, _session, socket) do
@@ -32,7 +33,8 @@ defmodule KulolaWeb.ProductLive.Show do
      |> assign(:product, product)
      |> assign(:collection, load_collection(product.collection_id))
      |> assign(:images, ProductImages.list_product_images_for_product(id))
-     |> assign(:variants, ProductVariants.list_product_variants_for_product(id))}
+     |> assign(:variants, ProductVariants.list_product_variants_for_product(id))
+     |> assign(:order_count, Orders.count_orders_for_product(product.id))}
   end
 
   @impl true
@@ -255,6 +257,13 @@ defmodule KulolaWeb.ProductLive.Show do
             <% end %>
 
             <span class="text-gray-400 text-sm">Position {@product.position}</span>
+
+            <.link navigate="/admin/orders" class="flex items-center gap-1.5 rounded-full bg-gray-900 px-3 py-1 text-xs font-semibold text-white hover:bg-gray-700 transition">
+              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/>
+              </svg>
+              {@order_count} {if @order_count == 1, do: "order", else: "orders"}
+            </.link>
 
             <div class="flex gap-2">
               <%= if @product.is_featured do %>

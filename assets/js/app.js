@@ -32,6 +32,7 @@ import HomeReveal from "./hooks/home_reveal.js";
 import SyncColorPicker from "./hooks/sync_color.js";
 import CartHook from "./hooks/cart_hook.js";
 import CartSync from "./hooks/cart_sync.js";
+import ChartHook from "./hooks/chart_hook.js";
 // Safe CSRF token (avoid throwing if meta tag is missing)
 const csrfMeta = document.querySelector("meta[name='csrf-token']");
 const csrfToken = csrfMeta ? csrfMeta.getAttribute("content") : "";
@@ -51,6 +52,7 @@ const liveSocket = new LiveSocket("/live", Socket, {
     HomeReveal,
     CartHook,
     CartSync,
+    ChartHook,
   },
 });
 

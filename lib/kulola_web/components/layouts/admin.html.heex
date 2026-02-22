@@ -2,14 +2,16 @@
   <.admin_sidebar
     current_path={@current_path}
     counts={
-      %{
-        products: 10,
-        collections: 3,
-        bundles: 5,
-        pending_orders: 5,
-        pending_reviews: 8,
-        customers: 9
-      }
+      Map.merge(
+        %{
+          products: Kulola.Repo.aggregate(Kulola.Products.Product, :count),
+          collections: Kulola.Repo.aggregate(Kulola.Collections.Collection, :count),
+          bundles: Kulola.Repo.aggregate(Kulola.Bundles.Bundle, :count),
+          orders: Map.get(Kulola.Orders.count_by_status(), "all", 0),
+          customers: Kulola.Customers.count_customers()
+        },
+        Map.get(assigns, :counts, %{})
+      )
     }
   />
   <main class="flex-1 p-4 overflow-y-auto">

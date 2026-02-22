@@ -20,7 +20,15 @@ defmodule Kulola.Orders.Order do
     |> cast(attrs, [:reference, :email, :name, :phone, :address, :total_amount, :status, :items])
     |> validate_required([:reference, :email, :name, :total_amount])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must be a valid email")
-    |> validate_inclusion(:status, ["pending", "paid", "failed"])
+    |> validate_inclusion(:status, [
+      "pending",
+      "paid",
+      "processing",
+      "shipped",
+      "delivered",
+      "cancelled",
+      "failed"
+    ])
     |> unique_constraint(:reference)
   end
 end

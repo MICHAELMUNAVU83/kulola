@@ -78,7 +78,7 @@ defmodule Kulola.Paystack do
 
   defp api_key do
     Application.get_env(:kulola, :paystack_secret_key) ||
-      "sk_live_7cb323a425bdac8ebb23b770b632358090e2e429"
+      "sk_test_7267bf7b9b38cd9798c6328f7e0b3cc5a264f4aa"
   end
 
   def callback_url do

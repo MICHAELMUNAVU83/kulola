@@ -28,8 +28,8 @@ defmodule KulolaWeb.SidebarComponents do
           path={~p"/admin/orders"}
           active={String.starts_with?(@current_path, "/admin/orders")}
           icon="cart"
-          badge={Map.get(@counts, :pending_orders)}
-          badge_variant={:alert}
+          badge={Map.get(@counts, :orders)}
+          badge_variant={:default}
         />
 
         <.nav_item
