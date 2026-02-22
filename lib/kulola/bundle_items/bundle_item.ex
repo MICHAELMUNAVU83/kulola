@@ -3,9 +3,8 @@ defmodule Kulola.BundleItems.BundleItem do
   import Ecto.Changeset
 
   schema "bundle_items" do
-
-    field :bundle_id, :id
-    field :product_id, :id
+    belongs_to :bundle, Kulola.Bundles.Bundle
+    belongs_to :product, Kulola.Products.Product
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +12,8 @@ defmodule Kulola.BundleItems.BundleItem do
   @doc false
   def changeset(bundle_item, attrs) do
     bundle_item
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:bundle_id, :product_id])
+    |> validate_required([:bundle_id, :product_id])
+    |> unique_constraint([:bundle_id, :product_id])
   end
 end

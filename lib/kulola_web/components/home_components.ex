@@ -14,8 +14,101 @@ defmodule KulolaWeb.HomeComponents do
     """
   end
 
+  attr :cart_items, :list, default: []
+
   def navbar(assigns) do
     ~H"""
+    <%!-- CartHook root — persists across navigations, drives badge + drawer --%>
+    <div id="cart-hook-root" phx-hook="CartHook" class="hidden"></div>
+
+    <%!-- Cart Drawer (right sidebar) --%>
+    <div
+      id="cart-drawer-backdrop"
+      class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none"
+      onclick="window.CartDrawer && window.CartDrawer.close()"
+    >
+    </div>
+    <div
+      id="cart-drawer"
+      class="fixed right-0 top-0 z-50 flex h-full w-full max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-out"
+      style="transform: translateX(100%);"
+    >
+      <%!-- Drawer Header --%>
+      <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <h2 class="text-base font-semibold text-gray-900">
+            Your Cart (<span id="drawer-item-count">0</span>)
+          </h2>
+        </div>
+        <button
+          onclick="window.CartDrawer && window.CartDrawer.close()"
+          class="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black"
+          aria-label="Close cart"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <%!-- Drawer Items (filled by CartHook JS) --%>
+      <div id="cart-drawer-items" class="flex-1 overflow-y-auto px-5 py-4">
+        <div id="cart-drawer-empty" class="flex flex-col items-center justify-center py-16 text-center">
+          <svg
+            class="h-14 w-14 text-gray-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          <p class="mt-4 text-sm font-medium text-gray-600">Your cart is empty</p>
+          <p class="mt-1 text-xs text-gray-400">Add some items to get started</p>
+        </div>
+        <div id="cart-drawer-list" class="hidden space-y-4"></div>
+      </div>
+
+      <%!-- Drawer Footer --%>
+      <div id="cart-drawer-footer" class="hidden border-t border-gray-100 px-5 py-5">
+        <div class="mb-4 flex justify-between text-sm">
+          <span class="text-gray-500">Subtotal</span>
+          <span class="font-semibold text-gray-900">
+            KSH <span id="drawer-total">0</span>
+          </span>
+        </div>
+        <a
+          href="/checkout"
+          class="block w-full rounded-full bg-black py-3 text-center text-sm font-semibold text-white transition hover:bg-gray-800"
+        >
+          Checkout →
+        </a>
+        <a
+          href="/cart"
+          class="mt-2 block w-full rounded-full border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 transition hover:border-black hover:text-black"
+        >
+          View Cart
+        </a>
+      </div>
+    </div>
+
     <header class="border-b border-gray-200 bg-white">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <a href="/" class="brand-logo text-2xl font-bold text-black sm:text-3xl">Dojeen.</a>
@@ -98,16 +191,28 @@ defmodule KulolaWeb.HomeComponents do
             </svg>
           </button>
           
-    <!-- Cart -->
-          <button class="flex items-center gap-1 text-gray-600 hover:text-black sm:gap-2">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
+          <!-- Cart — opens drawer on shop pages, navigates to /cart on cart/checkout -->
+          <button
+            onclick="(window.location.pathname==='/cart'||window.location.pathname==='/checkout') ? window.location='/cart' : window.CartDrawer && window.CartDrawer.open()"
+            class="relative flex items-center gap-1 text-gray-600 hover:text-black sm:gap-2"
+          >
+            <span class="relative">
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span
+                id="cart-count-badge"
+                style="display:none;"
+                class="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white"
+              >
+                0
+              </span>
+            </span>
             <span class="hidden text-base font-medium sm:inline">Cart</span>
           </button>
           
@@ -194,6 +299,8 @@ defmodule KulolaWeb.HomeComponents do
     """
   end
 
+  attr :hero_images, :list, default: []
+
   def hero(assigns) do
     ~H"""
     <section class="relative bg-white" id="hero-section" phx-hook="HeroReveal">
@@ -207,8 +314,8 @@ defmodule KulolaWeb.HomeComponents do
             style="transform: translateX(0%);"
           >
           </div>
-          
-    <!-- Background Marquee Text -->
+
+          <!-- Background Marquee Text -->
           <div class="pointer-events-none absolute inset-0 flex items-center overflow-hidden opacity-[0.04]">
             <div class="animate-marquee-slow flex whitespace-nowrap">
               <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
@@ -222,8 +329,8 @@ defmodule KulolaWeb.HomeComponents do
               </span>
             </div>
           </div>
-          
-    <!-- Content -->
+
+          <!-- Content -->
           <div class="hero-content relative z-10 opacity-0 transition-all delay-300 duration-700">
             <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-gray-700">
               <span class="h-px w-8 bg-gray-500"></span> SPRING 2025
@@ -236,11 +343,11 @@ defmodule KulolaWeb.HomeComponents do
             <p class="mt-6 max-w-md text-base text-gray-700 sm:text-lg">
               Discover our latest collection where fluid design meets architectural precision. Each piece is crafted to move with you.
             </p>
-            
-    <!-- Stats -->
+
+            <!-- Stats -->
             <div class="mt-8 flex gap-12">
               <div>
-                <p class="text-4xl font-bold text-gray-900 sm:text-4xl">40</p>
+                <p class="text-4xl font-bold text-gray-900 sm:text-4xl">{length(@hero_images)}</p>
                 <p class="text-base text-gray-700">New Pieces</p>
               </div>
               <div>
@@ -248,8 +355,8 @@ defmodule KulolaWeb.HomeComponents do
                 <p class="text-base text-gray-700">Sustainable</p>
               </div>
             </div>
-            
-    <!-- Buttons -->
+
+            <!-- Buttons -->
             <div class="mt-8 flex flex-wrap gap-4">
               <a
                 href="/shop"
@@ -267,10 +374,10 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
         </div>
-        
-    <!-- Right Image -->
+
+        <!-- Right: Swiper Image Panel -->
         <div class="relative min-h-[400px] overflow-hidden lg:min-h-full">
-          <!-- Black Overlay (Right) -->
+          <!-- Black Overlay (Right) — kept for HeroReveal animation -->
           <div
             id="hero-overlay-right"
             class="pointer-events-none absolute inset-0 z-20 bg-black transition-transform duration-700 ease-out"
@@ -278,13 +385,36 @@ defmodule KulolaWeb.HomeComponents do
           >
           </div>
 
-          <img
+          <!-- Swiper wrapper — id="hero-image" so HeroReveal targets the whole panel -->
+          <div
             id="hero-image"
-            src="/images/main.jpeg"
-            alt="Spring collection model"
-            class="absolute inset-0 h-full w-full object-cover opacity-0 transition-all duration-700"
+            class="swiper hero-swiper absolute inset-0 h-full w-full opacity-0 transition-all duration-700"
             style="transform: scale(1.1);"
-          />
+            phx-hook="SwiperHero"
+            phx-update="ignore"
+          >
+            <div class="swiper-wrapper h-full">
+              <%= if @hero_images == [] do %>
+                <div class="swiper-slide h-full">
+                  <img
+                    src="/images/main.jpeg"
+                    alt="Spring collection"
+                    class="h-full w-full object-cover"
+                  />
+                </div>
+              <% else %>
+                <%= for img <- @hero_images do %>
+                  <div class="swiper-slide h-full">
+                    <img
+                      src={img.image}
+                      alt={img.alt}
+                      class="h-full w-full object-cover"
+                    />
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -609,19 +739,19 @@ defmodule KulolaWeb.HomeComponents do
 
   def two_column_collection(assigns) do
     ~H"""
-    <section class="bg-white px-4 py-16 sm:px-6 lg:px-8">
+    <section :if={@featured_collections != []} class="bg-white px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2" data-motion-stagger-group="0.12">
-        <%= for _collection <- [1,2] do %>
+        <%= for collection <- @featured_collections do %>
           <div class="group flex flex-col overflow-hidden bg-gray-100 sm:flex-row" data-motion-reveal>
             <div class="flex flex-1 flex-col justify-center p-8 sm:p-10">
               <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
                 New Collection
               </p>
               <h3 class="mt-4 text-2xl font-bold text-black sm:text-3xl">
-                ElegantDesign<br />Dress
+                {collection.name}
               </h3>
               <a
-                href="/collection/elegant"
+                href={collection.href}
                 class="mt-6 flex h-12 w-12 items-center justify-center rounded-full border border-gray-300 transition hover:border-black hover:bg-black hover:text-white"
               >
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -636,8 +766,8 @@ defmodule KulolaWeb.HomeComponents do
             </div>
             <div class="relative h-[300px] cursor-pointer flex-1 sm:min-h-0">
               <img
-                src="/images/main.jpeg"
-                alt="Elegant dress"
+                src={collection.image || "/images/main.jpeg"}
+                alt={collection.name}
                 class="absolute inset-0 hover:scale-110 transition-all ease-in-out duration-500 h-full w-full object-cover"
               />
             </div>
@@ -774,11 +904,19 @@ defmodule KulolaWeb.HomeComponents do
             
     <!-- Featured Image (Fixed) - Takes 2 columns -->
             <div class="hidden lg:col-span-2 lg:block">
-              <img
-                src="/images/main.jpeg"
-                alt="Bundle collection"
-                class="h-full w-full object-cover lg:h-[700px]"
-              />
+              <%= if @active_bundle && @active_bundle.image not in [nil, ""] do %>
+                <img
+                  src={@active_bundle.image}
+                  alt={@active_bundle.title}
+                  class="h-full w-full object-cover lg:h-[700px]"
+                />
+              <% else %>
+                <img
+                  src="/images/main.jpeg"
+                  alt="Bundle collection"
+                  class="h-full w-full object-cover lg:h-[700px]"
+                />
+              <% end %>
             </div>
           </div>
         </div>
@@ -1169,6 +1307,8 @@ defmodule KulolaWeb.HomeComponents do
     """
   end
 
+  attr :contact_images, :list, default: []
+
   def contact_section(assigns) do
     ~H"""
     <section class="bg-gray-100">
@@ -1223,13 +1363,36 @@ defmodule KulolaWeb.HomeComponents do
             </button>
           </form>
         </div>
-        <%!-- Right: Image --%>
-        <div class="relative min-h-[280px] lg:min-h-0">
-          <img
-            src="/images/main.jpeg"
-            alt=""
-            class="absolute inset-0 h-full w-full object-cover object-center"
-          />
+        <%!-- Right: Swiper Image Panel --%>
+        <div class="relative min-h-[280px] overflow-hidden lg:min-h-0">
+          <div
+            id="contact-swiper"
+            class="swiper contact-swiper absolute inset-0 h-full w-full"
+            phx-hook="SwiperContact"
+            phx-update="ignore"
+          >
+            <div class="swiper-wrapper h-full">
+              <%= if @contact_images == [] do %>
+                <div class="swiper-slide h-full">
+                  <img
+                    src="/images/main.jpeg"
+                    alt="Collection"
+                    class="h-full w-full object-cover object-center"
+                  />
+                </div>
+              <% else %>
+                <%= for img <- @contact_images do %>
+                  <div class="swiper-slide h-full">
+                    <img
+                      src={img.image}
+                      alt={img.alt}
+                      class="h-full w-full object-cover object-center"
+                    />
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
     </section>

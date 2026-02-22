@@ -18,7 +18,9 @@ defmodule Kulola.Testimonials do
 
   """
   def list_testimonials do
-    Repo.all(Testimonial)
+    Testimonial
+    |> Repo.all()
+    |> Repo.preload(:product)
   end
 
   @doc """
@@ -35,7 +37,11 @@ defmodule Kulola.Testimonials do
       ** (Ecto.NoResultsError)
 
   """
-  def get_testimonial!(id), do: Repo.get!(Testimonial, id)
+  def get_testimonial!(id) do
+    Testimonial
+    |> Repo.get!(id)
+    |> Repo.preload(:product)
+  end
 
   @doc """
   Creates a testimonial.

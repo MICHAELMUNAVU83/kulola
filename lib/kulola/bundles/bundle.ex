@@ -14,7 +14,7 @@ defmodule Kulola.Bundles.Bundle do
   @doc false
   def changeset(bundle, attrs) do
     bundle
-    |> cast(attrs, [:title, :description, :image])
-    |> validate_required([:title, :description, :image])
+    |> cast(attrs, [:title, :description, :image, :is_active])
+    |> validate_required([:title, :description])
   end
 end

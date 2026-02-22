@@ -1,20 +1,28 @@
 defmodule KulolaWeb.HomeLive.Index do
   use KulolaWeb, :live_view
 
+  alias Kulola.Shop
   alias Kulola.Shop.DummyData
 
   @impl true
   def mount(_params, _session, socket) do
+    collections = Shop.list_collections_for_display()
+    hero_images = Shop.list_hero_images(6)
+
     {:ok,
      socket
      |> assign(:page_title, "Home | Kulola")
-     |> assign(:collections, DummyData.collections())
-     |> assign(:products, DummyData.new_arrivals())
-     |> assign(:bestsellers, DummyData.bestsellers())
-     |> assign(:bundle_products, DummyData.bundle_products())
-     |> assign(:testimonials, DummyData.testimonials())
+     |> assign(:collections, collections)
+     |> assign(:featured_collections, Enum.take(collections, 2))
+     |> assign(:hero_images, hero_images)
+     |> assign(:contact_images, Enum.shuffle(hero_images))
+     |> assign(:products, Shop.list_new_arrivals())
+     |> assign(:bestsellers, Shop.list_bestsellers())
+     |> assign(:bundle_products, Shop.list_bundle_display_products())
+     |> assign(:active_bundle, Shop.get_active_bundle())
+     |> assign(:testimonials, Shop.list_testimonials_for_display())
      |> assign(:instagram_images, DummyData.instagram_images())
-     |> assign(:sale_banner, DummyData.sale_banner())
+     |> assign(:sale_banner, Shop.get_sale_banner_data())
      |> assign(:sale_banner_index, 0)
      |> assign(:marquee_items, DummyData.marquee_items())}
   end
@@ -41,19 +49,19 @@ defmodule KulolaWeb.HomeLive.Index do
     <div id="home-page" class="page-typography" phx-hook="HomeReveal">
       <.promo_bar />
       <.navbar />
-      <.hero />
+      <.hero hero_images={@hero_images} />
       <.collections collections={@collections} />
       <.sale_banner sale_banner={@sale_banner} current_index={@sale_banner_index} />
       <.new_arrivals products={@products} />
       <.banner items={@marquee_items} />
-      <.two_column_collection />
+      <.two_column_collection featured_collections={@featured_collections} />
       <.video_banner />
-      <.bundle_and_save bundle_products={@bundle_products} />
+      <.bundle_and_save bundle_products={@bundle_products} active_bundle={@active_bundle} />
       <.testimonials testimonials={@testimonials} />
       <.best_sellers bestsellers={@bestsellers} />
       <.countdown />
       <.features />
-      <.contact_section />
+      <.contact_section contact_images={@contact_images} />
       <.footer />
     </div>
     """

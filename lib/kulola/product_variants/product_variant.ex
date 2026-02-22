@@ -15,7 +15,7 @@ defmodule Kulola.ProductVariants.ProductVariant do
   @doc false
   def changeset(product_variant, attrs) do
     product_variant
-    |> cast(attrs, [:color_name, :color_hex, :size, :stock_quantity])
-    |> validate_required([:color_name, :color_hex, :size, :stock_quantity])
+    |> cast(attrs, [:color_name, :color_hex, :size, :stock_quantity, :product_id])
+    |> validate_required([:color_name, :color_hex, :size, :stock_quantity, :product_id])
   end
 end

@@ -21,6 +21,14 @@ defmodule Kulola.BundleItems do
     Repo.all(BundleItem)
   end
 
+  def list_bundle_items_for_bundle(bundle_id) do
+    from(bi in BundleItem,
+      where: bi.bundle_id == ^bundle_id,
+      preload: [:product]
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single bundle_item.
 

@@ -21,6 +21,11 @@ defmodule Kulola.Products do
     Repo.all(Product)
   end
 
+  def list_products_for_collection(collection_id) do
+    from(p in Product, where: p.collection_id == ^collection_id, order_by: p.position)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single product.
 

@@ -180,31 +180,37 @@ defmodule KulolaWeb.ProductComponents do
           section="product_info"
         >
           <p class="pb-4 text-sm text-gray-700">
-            Material: 100% Cotton. Care: Machine wash cold. Do not bleach. Tumble dry low. Iron on low heat.
+            {@product.description}
           </p>
         </.accordion_item>
-        <.accordion_item
-          id="size_advice"
-          title="Size Advice"
-          icon="ruler"
-          open={@accordion_open == "size_advice"}
-          section="size_advice"
-        >
-          <p class="pb-4 text-sm text-gray-700">
-            This item runs true to size. We recommend ordering your usual size. For a relaxed fit, consider sizing up.
-          </p>
-        </.accordion_item>
-        <.accordion_item
-          id="shipping"
-          title="Shipping & Returns"
-          icon="info"
-          open={@accordion_open == "shipping"}
-          section="shipping"
-        >
-          <p class="pb-4 text-sm text-gray-700">
-            Free standard shipping on orders over $50. Returns accepted within 30 days. Items must be unworn and in original packaging.
-          </p>
-        </.accordion_item>
+
+        <%= if @product[:size_advice] not in [nil, ""] do %>
+          <.accordion_item
+            id="size_advice"
+            title="Size Advice"
+            icon="ruler"
+            open={@accordion_open == "size_advice"}
+            section="size_advice"
+          >
+            <p class="pb-4 text-sm text-gray-700">
+              {@product.size_advice}
+            </p>
+          </.accordion_item>
+        <% end %>
+
+        <%= if @product[:shipping_returns] not in [nil, ""] do %>
+          <.accordion_item
+            id="shipping"
+            title="Shipping & Returns"
+            icon="info"
+            open={@accordion_open == "shipping"}
+            section="shipping"
+          >
+            <p class="pb-4 text-sm text-gray-700">
+              {@product.shipping_returns}
+            </p>
+          </.accordion_item>
+        <% end %>
       </div>
     </div>
     """

@@ -5,6 +5,7 @@ defmodule Kulola.Repo.Migrations.CreateCollections do
     create table(:collections) do
       add :title, :string
       add :slug, :string
+      add :image, :string
       add :position, :integer
       add :is_active, :boolean, default: false, null: false
 

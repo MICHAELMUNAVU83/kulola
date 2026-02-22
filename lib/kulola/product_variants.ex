@@ -21,6 +21,11 @@ defmodule Kulola.ProductVariants do
     Repo.all(ProductVariant)
   end
 
+  def list_product_variants_for_product(product_id) do
+    from(pv in ProductVariant, where: pv.product_id == ^product_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single product_variant.
 

@@ -1,11 +1,11 @@
 defmodule KulolaWeb.CategoryLive.Index do
   use KulolaWeb, :live_view
 
-  alias Kulola.Shop.DummyData
+  alias Kulola.Shop
 
   @impl true
   def mount(%{"slug" => slug}, _session, socket) do
-    category = DummyData.category_by_slug(slug)
+    category = Shop.get_collection_by_slug(slug)
 
     if is_nil(category) do
       {:ok,
@@ -13,9 +13,9 @@ defmodule KulolaWeb.CategoryLive.Index do
        |> put_flash(:error, "Category not found")
        |> push_navigate(to: "/")}
     else
-      product_types = DummyData.collections()
-      products = DummyData.products_for_category(slug)
-      popular = DummyData.popular_products()
+      product_types = Shop.list_collections_for_display()
+      products = Shop.list_products_for_collection_display(category.id)
+      popular = Shop.list_popular_products_for_display(3)
 
       {:ok,
        socket
@@ -23,7 +23,7 @@ defmodule KulolaWeb.CategoryLive.Index do
        |> assign(:category, category)
        |> assign(:product_types, product_types)
        |> assign(:selected_types, [slug])
-       |> assign(:bestsellers, DummyData.bestsellers())
+       |> assign(:bestsellers, Shop.list_bestsellers())
        |> assign(:filter_pill, "all")
        |> assign(:sort, "best_selling")
        |> assign(:products, products)

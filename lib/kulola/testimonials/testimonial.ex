@@ -9,15 +9,14 @@ defmodule Kulola.Testimonials.Testimonial do
     field :body, :string
     field :rating, :integer
     field :is_active, :boolean, default: false
-    field :product_id, :id
-
+    belongs_to :product, Kulola.Products.Product
     timestamps(type: :utc_datetime)
   end
 
   @doc false
   def changeset(testimonial, attrs) do
     testimonial
-    |> cast(attrs, [:name, :rating, :image, :body, :is_active, :position])
+    |> cast(attrs, [:name, :rating, :image, :body, :is_active, :position, :product_id])
     |> validate_required([:name, :rating, :image, :body, :is_active, :position])
   end
 end

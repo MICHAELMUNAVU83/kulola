@@ -1,13 +1,13 @@
 defmodule KulolaWeb.OldProductLive.Index do
   use KulolaWeb, :live_view
 
-  alias Kulola.Shop.DummyData
+  alias Kulola.Shop
   import KulolaWeb.ProductComponents
   import KulolaWeb.HomeComponents
 
   @impl true
   def mount(%{"slug" => slug}, _session, socket) do
-    product = DummyData.product_by_slug(slug)
+    product = Shop.get_product_by_slug(slug)
 
     if is_nil(product) do
       {:ok,
@@ -15,7 +15,7 @@ defmodule KulolaWeb.OldProductLive.Index do
        |> put_flash(:error, "Product not found")
        |> push_navigate(to: "/")}
     else
-      related = DummyData.related_products(product.id, 4)
+      related = Shop.list_related_products(product.id, 4)
       selected_color = product.colors |> Enum.find(& &1.selected) || List.first(product.colors)
       selected_size = product.sizes |> Enum.find(& &1.available) || List.first(product.sizes)
       selected_color_id = selected_color && selected_color.id
@@ -67,10 +67,24 @@ defmodule KulolaWeb.OldProductLive.Index do
 
   @impl true
   def handle_event("add_to_cart", _params, socket) do
-    # Placeholder – no cart yet
-    {:noreply,
-     socket
-     |> put_flash(:info, "Added to cart")}
+    %{product: product, selected_color_id: color_id, selected_size_id: size, quantity: qty} =
+      socket.assigns
+
+    color = Enum.find(product.colors, fn c -> c.id == color_id end)
+
+    item = %{
+      id: product.id,
+      slug: product.slug,
+      name: product.name,
+      image: product.main_image,
+      price: product.price,
+      color: color && color.name,
+      color_id: color_id,
+      size: size,
+      quantity: qty
+    }
+
+    {:noreply, push_event(socket, "add-to-cart", item)}
   end
 
   @impl true
@@ -92,7 +106,7 @@ defmodule KulolaWeb.OldProductLive.Index do
         selected_size_id={@selected_size_id}
         quantity={@quantity}
       />
-      <.product_accordions accordion_open={@accordion_open} />
+      <.product_accordions accordion_open={@accordion_open} product={@product} />
       <.related_products_section products={@related_products} />
       <.contact_section />
       <.footer />

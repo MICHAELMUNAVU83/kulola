@@ -23,10 +23,15 @@ import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
 import SwiperNewArrivals from "./hooks/swiper_new_arrivals.js";
 import SwiperRelatedProducts from "./hooks/swiper_related_products.js";
+import SwiperHero from "./hooks/swiper_hero.js";
+import SwiperContact from "./hooks/swiper_contact.js";
 import VideoBannerReveal from "./hooks/video_banner_reveal.js";
 import CountdownTimer from "./hooks/countdown_timer.js";
 import HeroReveal from "./hooks/hero_reveal.js";
 import HomeReveal from "./hooks/home_reveal.js";
+import SyncColorPicker from "./hooks/sync_color.js";
+import CartHook from "./hooks/cart_hook.js";
+import CartSync from "./hooks/cart_sync.js";
 // Safe CSRF token (avoid throwing if meta tag is missing)
 const csrfMeta = document.querySelector("meta[name='csrf-token']");
 const csrfToken = csrfMeta ? csrfMeta.getAttribute("content") : "";
@@ -37,10 +42,15 @@ const liveSocket = new LiveSocket("/live", Socket, {
   hooks: {
     SwiperNewArrivals,
     SwiperRelatedProducts,
+    SwiperHero,
+    SwiperContact,
     VideoBannerReveal,
     CountdownTimer,
     HeroReveal,
+    SyncColorPicker,
     HomeReveal,
+    CartHook,
+    CartSync,
   },
 });
 
@@ -51,6 +61,16 @@ window.addEventListener("phx:page-loading-stop", () => topbar.hide());
 
 // connect if there are any LiveViews on the page
 liveSocket.connect();
+
+// Auto-dismiss flash messages after 4 s (info) or 6 s (error)
+window.addEventListener("flash:auto-dismiss", (e) => {
+  const { id, kind } = e.detail;
+  const delay = kind === "error" ? 6000 : 4000;
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.click();
+  }, delay);
+});
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()

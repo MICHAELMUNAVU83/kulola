@@ -15,7 +15,9 @@ defmodule Kulola.Products.Product do
     field :is_featured, :boolean, default: false
     field :is_bestseller, :boolean, default: false
     field :is_new_arrival, :boolean, default: false
-    field :collection_id, :id
+    field :size_advice, :string
+    field :shipping_returns, :string
+    belongs_to :collection, Kulola.Collections.Collection
 
     timestamps(type: :utc_datetime)
   end
@@ -29,25 +31,29 @@ defmodule Kulola.Products.Product do
       :description,
       :base_price,
       :badge_label,
+      :image,
       :badge_color,
       :is_featured,
       :is_bestseller,
       :is_new_arrival,
       :position,
-      :status
+      :status,
+      :collection_id,
+      :size_advice,
+      :shipping_returns
     ])
     |> validate_required([
       :name,
       :slug,
       :description,
+      :image,
       :base_price,
-      :badge_label,
-      :badge_color,
       :is_featured,
       :is_bestseller,
       :is_new_arrival,
       :position,
-      :status
+      :status,
+      :collection_id
     ])
   end
 end

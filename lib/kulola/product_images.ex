@@ -21,6 +21,11 @@ defmodule Kulola.ProductImages do
     Repo.all(ProductImage)
   end
 
+  def list_product_images_for_product(product_id) do
+    from(pi in ProductImage, where: pi.product_id == ^product_id, order_by: pi.position)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single product_image.
 
