@@ -27,7 +27,6 @@ import SwiperHero from "./hooks/swiper_hero.js";
 import SwiperContact from "./hooks/swiper_contact.js";
 import VideoBannerReveal from "./hooks/video_banner_reveal.js";
 import CountdownTimer from "./hooks/countdown_timer.js";
-import HeroReveal from "./hooks/hero_reveal.js";
 import HomeReveal from "./hooks/home_reveal.js";
 import SyncColorPicker from "./hooks/sync_color.js";
 import CartHook from "./hooks/cart_hook.js";
@@ -47,7 +46,6 @@ const liveSocket = new LiveSocket("/live", Socket, {
     SwiperContact,
     VideoBannerReveal,
     CountdownTimer,
-    HeroReveal,
     SyncColorPicker,
     HomeReveal,
     CartHook,
