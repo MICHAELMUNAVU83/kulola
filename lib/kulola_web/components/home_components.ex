@@ -536,15 +536,7 @@ defmodule KulolaWeb.HomeComponents do
       <div class="grid min-h-[600px] lg:min-h-[700px] lg:grid-cols-2">
         <!-- Left Content -->
         <div class="relative flex flex-col justify-center overflow-hidden bg-[#f5f5f3] px-6 py-12 sm:px-12 lg:px-16 xl:px-24">
-          <!-- Black Overlay (Left) -->
-          <div
-            id="hero-overlay-left"
-            class="pointer-events-none absolute inset-0 z-20 bg-black transition-transform duration-700 ease-out"
-            style="transform: translateX(0%);"
-          >
-          </div>
-          
-    <!-- Background Marquee Text -->
+          <!-- Background Marquee Text -->
           <div class="pointer-events-none absolute inset-0 flex items-center overflow-hidden opacity-[0.04]">
             <div class="animate-marquee-slow flex whitespace-nowrap">
               <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
@@ -560,7 +552,7 @@ defmodule KulolaWeb.HomeComponents do
           </div>
           
     <!-- Content -->
-          <div class="hero-content relative z-10 opacity-0 transition-all delay-300 duration-700">
+          <div class="hero-content relative z-10 transition-all duration-700">
             <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-gray-700">
               <span class="h-px w-8 bg-gray-500"></span> Everyday Fashion, Effortlessly You💫
             </div>
@@ -616,19 +608,11 @@ defmodule KulolaWeb.HomeComponents do
         
     <!-- Right: Swiper Image Panel -->
         <div class="relative min-h-[400px] overflow-hidden lg:min-h-full">
-          <!-- Black Overlay (Right) — kept for HeroReveal animation -->
-          <div
-            id="hero-overlay-right"
-            class="pointer-events-none absolute inset-0 z-20 bg-black transition-transform duration-700 ease-out"
-            style="transform: translateX(0%);"
-          >
-          </div>
-          
-    <!-- Swiper wrapper — id="hero-image" so HeroReveal targets the whole panel -->
+          <!-- Swiper wrapper — id="hero-image" so HeroReveal targets the whole panel -->
           <div
             id="hero-image"
-            class="swiper hero-swiper absolute inset-0 h-full w-full opacity-0 transition-all duration-700"
-            style="transform: scale(1.1);"
+            class="swiper hero-swiper absolute inset-0 h-full w-full transition-all duration-700"
+            style=""
             phx-hook="SwiperHero"
             phx-update="ignore"
           >
