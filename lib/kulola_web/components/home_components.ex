@@ -219,7 +219,12 @@ defmodule KulolaWeb.HomeComponents do
           class="flex items-center justify-center gap-2 rounded-full border border-gray-200 py-2.5 text-xs font-medium text-gray-400 transition hover:border-[#C8001F]/30 hover:text-[#C8001F]"
         >
           <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
           </svg>
           Admin Panel
         </a>
@@ -523,6 +528,7 @@ defmodule KulolaWeb.HomeComponents do
 
   attr :hero_images, :list, default: []
   attr :collections, :list, default: []
+  attr :hero_collection, :map, default: nil
 
   def hero(assigns) do
     ~H"""
@@ -547,7 +553,7 @@ defmodule KulolaWeb.HomeComponents do
               <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
                 Kulola's Closet
               </span>
-              <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
+              <span class="mx-4 text-[120px] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
                 Kulola's Closet
               </span>
             </div>
@@ -588,17 +594,21 @@ defmodule KulolaWeb.HomeComponents do
     <!-- Buttons -->
             <div class="mt-8 flex flex-wrap gap-4">
               <a
-                href="/#collections"
+                href={
+                  if @hero_collection,
+                    do: "/collections/#{@hero_collection.slug}",
+                    else: "/#collections"
+                }
                 class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
               >
-                Shop Now
+                Shop {(@hero_collection && @hero_collection.name) || "Collection"}
               </a>
 
               <a
-                href="/collection"
+                href="/collections"
                 class="rounded-full border-2 border-gray-900 px-8 py-3 text-base font-medium text-gray-900 transition hover:bg-gray-900 hover:text-white"
               >
-                View More
+                View All
               </a>
             </div>
           </div>
@@ -801,7 +811,7 @@ defmodule KulolaWeb.HomeComponents do
             </a>
           </div>
         </div>
-
+        
     <!-- Right Image (current slide) -->
         <div class="relative z-0 hidden min-h-[500px] lg:block">
           <img

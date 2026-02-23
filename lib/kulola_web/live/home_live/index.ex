@@ -25,7 +25,8 @@ defmodule KulolaWeb.HomeLive.Index do
      |> assign(:sale_banner, Shop.get_sale_banner_data())
      |> assign(:sale_banner_index, 0)
      |> assign(:marquee_items, DummyData.marquee_items())
-     |> assign(:countdown_collection, Enum.random(collections))}
+     |> assign(:countdown_collection, Enum.random(collections))
+     |> assign(:hero_collection, Enum.random(collections))}
   end
 
   @impl true
@@ -50,7 +51,7 @@ defmodule KulolaWeb.HomeLive.Index do
     <div id="home-page" class="page-typography" phx-hook="HomeReveal">
       <.promo_bar />
       <.navbar collections={@collections} />
-      <.hero hero_images={@hero_images} collections={@collections} />
+      <.hero hero_images={@hero_images} collections={@collections} hero_collection={@hero_collection} />
       <.collections collections={@collections} />
       <.sale_banner sale_banner={@sale_banner} current_index={@sale_banner_index} />
       <.new_arrivals products={@products} />
