@@ -198,23 +198,6 @@ defmodule Kulola.OrderNotifier do
   defp build_items_html(items) do
     items
     |> Enum.map(fn item ->
-      img_html =
-        if item["image"] && item["image"] != "" do
-          """
-          <img src="#{item["image"]}"
-               width="64" height="64"
-               style="width:64px;height:64px;border-radius:8px;object-fit:cover;display:block;border:1px solid #f0ede8;" />
-          """
-        else
-          """
-          <div style="width:64px;height:64px;border-radius:8px;background:#f5f5f3;
-                      display:flex;align-items:center;justify-content:center;
-                      font-size:24px;text-align:center;line-height:64px;">
-            👗
-          </div>
-          """
-        end
-
       meta =
         [
           if(item["color"] && item["color"] != "", do: item["color"]),
@@ -229,19 +212,10 @@ defmodule Kulola.OrderNotifier do
       """
       <tr>
         <td style="padding:14px 16px;border-bottom:1px solid #f8f5f2;">
-          <table cellpadding="0" cellspacing="0" role="presentation">
-            <tr>
-              <td style="vertical-align:top;padding-right:14px;">
-                #{img_html}
-              </td>
-              <td style="vertical-align:middle;">
-                <p style="margin:0;font-size:14px;font-weight:600;color:#111;">#{item["name"]}</p>
-                <p style="margin:4px 0 0;font-size:12px;color:#888;">#{meta}</p>
-              </td>
-            </tr>
-          </table>
+          <p style="margin:0;font-size:14px;font-weight:600;color:#111;">#{item["name"]}</p>
+          <p style="margin:4px 0 0;font-size:12px;color:#888;">#{meta}</p>
         </td>
-        <td style="padding:14px 16px;border-bottom:1px solid #f8f5f2;text-align:right;vertical-align:middle;">
+        <td style="padding:14px 16px;border-bottom:1px solid #f8f5f2;text-align:right;vertical-align:middle;white-space:nowrap;">
           <span style="font-size:14px;font-weight:600;color:#111;">KES #{price(line_total)}</span>
         </td>
       </tr>

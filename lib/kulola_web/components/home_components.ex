@@ -533,37 +533,112 @@ defmodule KulolaWeb.HomeComponents do
   def hero(assigns) do
     ~H"""
     <section class="relative bg-white" id="hero-section" phx-hook="HeroReveal">
-      <div class="grid min-h-[600px] lg:min-h-[700px] lg:grid-cols-2">
+      <%!-- ── MOBILE: full-bleed image hero with overlay text ── --%>
+      <div class="relative overflow-hidden lg:hidden" style="height: 75svh; min-height: 480px;">
+        <%!-- Background image swiper — all layers forced to fill parent --%>
+        <div
+          id="hero-image"
+          class="swiper hero-swiper"
+          style="position: absolute; inset: 0; width: 100%; height: 100%;"
+          phx-hook="SwiperHero"
+          phx-update="ignore"
+        >
+          <div class="swiper-wrapper" style="height: 100%;">
+            <%= if @hero_images == [] do %>
+              <div class="swiper-slide" style="height: 100%;">
+                <img src="/images/main.jpeg" alt="Collection"
+                  style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" />
+              </div>
+            <% else %>
+              <%= for img <- @hero_images do %>
+                <div class="swiper-slide" style="height: 100%;">
+                  <img src={img.image} alt={img.alt}
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" />
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <%!-- Dark overlay for text legibility --%>
+        <div
+          class="pointer-events-none absolute inset-0"
+          style="background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.15) 100%); z-index: 1;"
+        >
+        </div>
+
+        <%!-- Text content pinned to bottom --%>
+        <div class="absolute inset-x-0 bottom-0 px-6 pb-10 pt-6" style="z-index: 2;">
+          <div class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-widest text-white/70">
+            <span class="h-px w-6 bg-white/50"></span> Everyday Fashion, Effortlessly You 💫
+          </div>
+
+          <h1 class="mt-3 text-4xl font-bold leading-tight text-white">
+            Quiet Luxury!<br />Timeless Form.
+          </h1>
+
+          <p class="mt-3 text-sm leading-relaxed text-white/80">
+            Discover our latest collection — each piece crafted to move with you.
+          </p>
+
+          <%!-- Stats row --%>
+          <div class="mt-5 flex gap-6 divide-x divide-white/20">
+            <div class="pr-6">
+              <p class="text-2xl font-bold text-white">{length(@collections)}+</p>
+              <p class="text-[11px] font-medium text-white/60">Collections</p>
+            </div>
+            <div class="pl-6">
+              <p class="text-2xl font-bold text-white">10K+</p>
+              <p class="text-[11px] font-medium text-white/60">Happy Clients</p>
+            </div>
+          </div>
+
+          <%!-- Buttons --%>
+          <div class="mt-6 flex gap-3">
+            <a
+              href={if @hero_collection, do: "/collections/#{@hero_collection.slug}", else: "/#collections"}
+              class="flex-1 rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800"
+            >
+              Shop {(@hero_collection && @hero_collection.name) || "Collection"}
+            </a>
+            <a
+              href="/collections"
+              class="rounded-full border border-white/40 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+            >
+              View All
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <%!-- ── DESKTOP: side-by-side layout ── --%>
+      <div class="hidden lg:grid lg:min-h-[700px] lg:grid-cols-2">
         <!-- Left Content -->
-        <div class="relative flex flex-col justify-center overflow-hidden bg-[#f5f5f3] px-6 py-12 sm:px-12 lg:px-16 xl:px-24">
+        <div class="relative flex flex-col justify-center overflow-hidden bg-[#f5f5f3] px-16 py-16 xl:px-24">
           <!-- Background Marquee Text -->
           <div class="pointer-events-none absolute inset-0 flex items-center overflow-hidden opacity-[0.04]">
             <div class="animate-marquee-slow flex whitespace-nowrap">
-              <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
+              <span class="mx-4 text-[280px] font-bold uppercase leading-none tracking-tight xl:text-[350px]">
                 Kulola's Closet
               </span>
-              <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
-                Kulola's Closet
-              </span>
-              <span class="mx-4 text-[120px] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
+              <span class="mx-4 text-[280px] font-bold uppercase leading-none tracking-tight xl:text-[350px]">
                 Kulola's Closet
               </span>
             </div>
           </div>
-          
-    <!-- Content -->
+
           <div class="hero-content relative z-10 transition-all duration-700">
             <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-gray-700">
-              <span class="h-px w-8 bg-gray-500"></span> Everyday Fashion, Effortlessly You💫
+              <span class="h-px w-8 bg-gray-500"></span> Everyday Fashion, Effortlessly You 💫
             </div>
 
             <p class="font-tagline mt-3 text-2xl">Fashion &amp; Function</p>
 
-            <h1 class="mt-3 text-5xl font-bold leading-tight text-gray-900 sm:text-6xl lg:text-7xl">
+            <h1 class="mt-3 text-6xl font-bold leading-tight text-gray-900 xl:text-7xl">
               Quiet Luxury!<br />Timeless Form.
             </h1>
 
-            <p class="mt-6 max-w-md text-base text-gray-700 sm:text-lg">
+            <p class="mt-6 max-w-md text-base text-gray-700 lg:text-lg">
               Discover our latest collection where fluid design meets architectural precision. Each piece is crafted to move with you.
             </p>
 
@@ -582,20 +657,14 @@ defmodule KulolaWeb.HomeComponents do
                 <p class="mt-0.5 text-sm font-medium text-gray-600">Drops Monthly</p>
               </div>
             </div>
-            
-    <!-- Buttons -->
+
             <div class="mt-8 flex flex-wrap gap-4">
               <a
-                href={
-                  if @hero_collection,
-                    do: "/collections/#{@hero_collection.slug}",
-                    else: "/#collections"
-                }
+                href={if @hero_collection, do: "/collections/#{@hero_collection.slug}", else: "/#collections"}
                 class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
               >
                 Shop {(@hero_collection && @hero_collection.name) || "Collection"}
               </a>
-
               <a
                 href="/collections"
                 class="rounded-full border-2 border-gray-900 px-8 py-3 text-base font-medium text-gray-900 transition hover:bg-gray-900 hover:text-white"
@@ -605,25 +674,19 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
         </div>
-        
-    <!-- Right: Swiper Image Panel -->
-        <div class="relative min-h-[400px] overflow-hidden lg:min-h-full">
-          <!-- Swiper wrapper — id="hero-image" so HeroReveal targets the whole panel -->
+
+        <!-- Right: Swiper Image Panel -->
+        <div class="relative overflow-hidden">
           <div
-            id="hero-image"
+            id="hero-image-desktop"
             class="swiper hero-swiper absolute inset-0 h-full w-full transition-all duration-700"
-            style=""
             phx-hook="SwiperHero"
             phx-update="ignore"
           >
             <div class="swiper-wrapper h-full">
               <%= if @hero_images == [] do %>
                 <div class="swiper-slide h-full">
-                  <img
-                    src="/images/main.jpeg"
-                    alt="Spring collection"
-                    class="h-full w-full object-cover"
-                  />
+                  <img src="/images/main.jpeg" alt="Spring collection" class="h-full w-full object-cover" />
                 </div>
               <% else %>
                 <%= for img <- @hero_images do %>
@@ -752,7 +815,7 @@ defmodule KulolaWeb.HomeComponents do
             <% product = Map.get(@sale_banner, :featured_product, %{}) %>
             <a
               href={if product[:slug], do: "/products/#{product[:slug]}", else: "#"}
-              class="block w-full max-w-xs rounded-xl bg-white p-4 shadow-xl transition hover:shadow-2xl sm:max-w-sm"
+              class="block w-full rounded-xl bg-white p-4 shadow-xl transition hover:shadow-2xl lg:max-w-sm"
             >
               <!-- Discount Badge -->
               <div class="relative">
@@ -764,7 +827,7 @@ defmodule KulolaWeb.HomeComponents do
                 <img
                   src={product[:image] || "/images/main.jpeg"}
                   alt={product[:name] || "Featured"}
-                  class="h-48 w-full rounded-lg object-contain sm:h-64"
+                  class="h-64 w-full rounded-lg object-cover object-top"
                 />
               </div>
               
@@ -797,7 +860,7 @@ defmodule KulolaWeb.HomeComponents do
         </div>
         
     <!-- Right Image (current slide) -->
-        <div class="relative z-0 hidden min-h-[500px] lg:block">
+        <div class="relative z-0 hidden lg:block lg:min-h-[500px]">
           <img
             src={current_slide[:image]}
             alt={current_slide[:alt]}
