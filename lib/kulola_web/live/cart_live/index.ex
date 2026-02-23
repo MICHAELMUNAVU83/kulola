@@ -42,9 +42,9 @@ defmodule KulolaWeb.CartLive.Index do
   def render(assigns) do
     ~H"""
     <div id="cart-page" class="min-h-screen bg-white" phx-hook="CartSync">
-      <.navbar cart_items={@cart_items} />
+      <.navbar cart_items={@cart_items} collections={[]} />
 
-      <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <h1 class="mb-8 text-3xl font-bold text-gray-900">Your Cart</h1>
 
         <%= if not @cart_loaded do %>
@@ -75,7 +75,7 @@ defmodule KulolaWeb.CartLive.Index do
               <p class="mt-2 text-gray-500">Start adding some beautiful pieces to your cart.</p>
               <a
                 href="/shop"
-                class="mt-8 rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+                class="mt-8 rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
               >
                 Shop Now
               </a>
@@ -99,8 +99,8 @@ defmodule KulolaWeb.CartLive.Index do
                           <div class="flex h-full items-center justify-center text-3xl">👗</div>
                         <% end %>
                       </div>
-
-                      <!-- Details -->
+                      
+    <!-- Details -->
                       <div class="flex flex-1 flex-col justify-between">
                         <div class="flex items-start justify-between gap-2">
                           <div>
@@ -154,8 +154,8 @@ defmodule KulolaWeb.CartLive.Index do
                               +
                             </button>
                           </div>
-
-                          <!-- Price -->
+                          
+    <!-- Price -->
                           <span class="font-semibold text-gray-900">
                             KSH {fmt((item["price"] || 0) * (item["quantity"] || 1))}
                           </span>
@@ -165,15 +165,17 @@ defmodule KulolaWeb.CartLive.Index do
                   <% end %>
                 </div>
               </div>
-
-              <!-- Order Summary -->
+              
+    <!-- Order Summary -->
               <div class="h-fit rounded-xl border border-gray-100 bg-gray-50 p-6 shadow-sm">
                 <h2 class="mb-6 text-lg font-semibold text-gray-900">Order Summary</h2>
 
                 <div class="space-y-3 text-sm">
                   <div class="flex justify-between text-gray-600">
                     <span>
-                      Subtotal ({Enum.reduce(@cart_items, 0, fn i, acc -> acc + (i["quantity"] || 1) end)} items)
+                      Subtotal ({Enum.reduce(@cart_items, 0, fn i, acc ->
+                        acc + (i["quantity"] || 1)
+                      end)} items)
                     </span>
                     <span>KSH {fmt(total_price(@cart_items))}</span>
                   </div>
@@ -191,7 +193,7 @@ defmodule KulolaWeb.CartLive.Index do
 
                 <a
                   href="/checkout"
-                  class="mt-6 block w-full rounded-full bg-black py-3 text-center text-sm font-medium text-white transition hover:bg-gray-800"
+                  class="mt-6 block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-medium text-white transition hover:bg-red-800"
                 >
                   Proceed to Checkout
                 </a>

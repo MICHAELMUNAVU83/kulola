@@ -124,20 +124,15 @@ defmodule KulolaWeb.SidebarComponents do
 
   defp sidebar_logo(assigns) do
     ~H"""
-    <div class="flex items-center gap-2.5 border-b border-gray-200 px-4 py-4">
-      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-black">
-        <svg
-          class="h-4 w-4 text-white"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-        >
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-        </svg>
+    <div class="flex items-center gap-2.5 border-b border-gray-200 px-4 py-3.5">
+      <img src="/images/kulola-logo.png" alt="Kulola" class="h-8 w-8 flex-shrink-0 rounded-full object-cover ring-2 ring-[#C8001F]/60" />
+      <div class="min-w-0">
+        <span class="brand-logo block text-[17px] leading-tight text-gray-900">
+          Kulola's Closet<span class="text-[#C8001F]">.</span>
+        </span>
+        <span class="block text-[9px] uppercase tracking-widest text-gray-400">Fashion &amp; Function</span>
       </div>
-      <span class="text-[17px] font-bold tracking-tight text-black">Dojeen.</span>
-      <span class="ml-auto rounded-md bg-gray-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+      <span class="ml-auto flex-shrink-0 rounded-md bg-[#C8001F]/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C8001F]">
         Admin
       </span>
     </div>
@@ -214,8 +209,10 @@ defmodule KulolaWeb.SidebarComponents do
     """
   end
 
-  defp badge_class(:alert), do: "bg-red-100 text-red-600"
-  defp badge_class(:count), do: "bg-gray-100 text-gray-500"
+  defp badge_class(:alert),   do: "bg-red-100 text-red-600"
+  defp badge_class(:count),   do: "bg-gray-100 text-gray-500"
+  defp badge_class(:default), do: "bg-gray-100 text-gray-600"
+  defp badge_class(_),        do: "bg-gray-100 text-gray-500"
 
   # ── Footer / User ─────────────────────────────────────────────────
 

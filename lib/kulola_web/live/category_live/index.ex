@@ -71,7 +71,7 @@ defmodule KulolaWeb.CategoryLive.Index do
     ~H"""
     <div id="category-page" class="page-typography min-h-screen bg-white" phx-hook="HomeReveal">
       <.promo_bar />
-      <.navbar />
+      <.navbar collections={@product_types} />
       <.category_hero category={@category} />
       <.category_main
         product_types={@product_types}

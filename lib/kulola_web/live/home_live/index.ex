@@ -48,7 +48,7 @@ defmodule KulolaWeb.HomeLive.Index do
     ~H"""
     <div id="home-page" class="page-typography" phx-hook="HomeReveal">
       <.promo_bar />
-      <.navbar />
+      <.navbar collections={@collections} />
       <.hero hero_images={@hero_images} />
       <.collections collections={@collections} />
       <.sale_banner sale_banner={@sale_banner} current_index={@sale_banner_index} />

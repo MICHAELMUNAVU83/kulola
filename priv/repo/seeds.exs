@@ -506,7 +506,7 @@ testimonials = [
   %{
     name: "Amina W.",
     position: 1,
-    image: "/images/main.jpeg",
+    image: "/images/people/woman1.jpg",
     body:
       "I ordered the Red & Denim Co-ord Set and I'm obsessed! The quality is incredible — the fabric feels premium and the fit is perfect. Got so many compliments on my first wear. Will definitely be ordering again!",
     rating: 5,
@@ -516,7 +516,7 @@ testimonials = [
   %{
     name: "Cynthia O.",
     position: 2,
-    image: "/images/main.jpeg",
+    image: "/images/people/woman2.jpg",
     body:
       "The Denim Maxi Skirt is everything I wanted. Beautifully structured, the waist fits perfectly and the length is just right. I styled it with a simple white tee and got so many compliments.",
     rating: 5,
@@ -526,7 +526,7 @@ testimonials = [
   %{
     name: "Grace M.",
     position: 3,
-    image: "/images/main.jpeg",
+    image: "/images/people/woman3.jpg",
     body:
       "The Sage Linen Jumpsuit is my new favourite piece. Light, breathable and so flattering. I wore it to a garden party and everyone kept asking where I got it from. Kulola never disappoints!",
     rating: 5,
@@ -536,52 +536,12 @@ testimonials = [
   %{
     name: "Fatuma K.",
     position: 4,
-    image: "/images/main.jpeg",
+    image: "/images/people/woman4.jpg",
     body:
       "Bought the Black Wide-Leg Palazzo Pants and they are absolutely stunning. The pleating is chef's kiss. Delivery was fast and the packaging was so elegant. This is my go-to shop now.",
     rating: 5,
     is_active: true,
     product_slug: "black-wide-leg-palazzo-pants"
-  },
-  %{
-    name: "Sharon N.",
-    position: 5,
-    image: "/images/main.jpeg",
-    body:
-      "I've been looking for a quality Red Knit Cardigan for ages and this one is perfect. The buttons are beautiful and it layers so well. The sizing is true to size. Highly recommend!",
-    rating: 4,
-    is_active: true,
-    product_slug: "red-knit-cardigan"
-  },
-  %{
-    name: "Miriam A.",
-    position: 6,
-    image: "/images/main.jpeg",
-    body:
-      "The Burgundy Pleated Maxi Skirt is a showstopper. I wore it to a dinner event and felt like a queen. The fabric drapes beautifully and the colour is rich and deep. 10/10 purchase.",
-    rating: 5,
-    is_active: true,
-    product_slug: "burgundy-pleated-maxi-skirt"
-  },
-  %{
-    name: "Jackline T.",
-    position: 7,
-    image: "/images/main.jpeg",
-    body:
-      "The Chocolate Knit Co-ord Set is cosy luxury at its finest. Wore it on a cool evening out and it was the perfect weight — not too heavy, not too light. The colour is exactly as shown.",
-    rating: 5,
-    is_active: true,
-    product_slug: "chocolate-knit-coord-set"
-  },
-  %{
-    name: "Zawadi B.",
-    position: 8,
-    image: "/images/main.jpeg",
-    body:
-      "Ordered the Navy Pinstripe Blazer and I am in love. It looks so polished and professional but also very stylish. The fit is fantastic and I've already worn it three times this week!",
-    rating: 5,
-    is_active: true,
-    product_slug: "navy-pinstripe-blazer"
   }
 ]
 

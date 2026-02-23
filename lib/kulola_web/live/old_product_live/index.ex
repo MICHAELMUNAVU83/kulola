@@ -30,7 +30,8 @@ defmodule KulolaWeb.OldProductLive.Index do
        |> assign(:selected_size_id, selected_size_id)
        |> assign(:quantity, 1)
        |> assign(:main_image_index, 0)
-       |> assign(:accordion_open, nil)}
+       |> assign(:accordion_open, nil)
+       |> assign(:nav_collections, Shop.list_collections_for_display())}
     end
   end
 
@@ -98,7 +99,7 @@ defmodule KulolaWeb.OldProductLive.Index do
   def render(assigns) do
     ~H"""
     <div id="product-page" class="page-typography min-h-screen bg-white">
-      <.navbar />
+      <.navbar collections={@nav_collections} />
       <.product_detail
         product={@product}
         main_image_index={@main_image_index}

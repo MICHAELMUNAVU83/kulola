@@ -116,7 +116,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
   def render(assigns) do
     ~H"""
     <div id="checkout-page" class="min-h-screen bg-[#f9f9f7]" phx-hook="CartSync">
-      <.navbar cart_items={@cart_items} />
+      <.navbar cart_items={@cart_items} collections={[]} />
 
       <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <!-- Header -->
@@ -212,7 +212,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                 <button
                   type="submit"
                   disabled={@submitting or @cart_items == []}
-                  class="w-full rounded-full bg-black py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+                  class="w-full rounded-full bg-[#C8001F] py-3.5 text-sm font-semibold text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <%= if @submitting do %>
                     <span class="flex items-center justify-center gap-2">

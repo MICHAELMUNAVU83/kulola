@@ -14,8 +14,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#FD4F00",
-      }
+        brand: {
+          DEFAULT: "#C8001F",
+          50:  "#fff0f2",
+          100: "#ffd6db",
+          200: "#ffadb6",
+          300: "#ff7384",
+          400: "#ff3a52",
+          500: "#ff0a27",
+          600: "#C8001F",
+          700: "#a00019",
+          800: "#7a0014",
+          900: "#55000e",
+        },
+      },
+      fontFamily: {
+        script:  ["Dancing Script", "cursive"],
+        serif:   ["Playfair Display", "Georgia", "serif"],
+        sans:    ["Instrument Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+        ui:      ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+      },
     },
   },
   plugins: [

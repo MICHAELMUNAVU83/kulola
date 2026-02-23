@@ -7,42 +7,148 @@ defmodule KulolaWeb.HomeComponents do
 
   def promo_bar(assigns) do
     ~H"""
-    <div class="bg-black py-2 text-center text-xs text-white">
-      Use Coupon Code 20% Off for Offers.
-      <a href="/" class="underline hover:no-underline">Shop Now</a>
+    <div class="bg-[#C8001F] py-2 text-center text-xs font-medium text-white tracking-wide">
+      ✨ Use Coupon Code for 20% Off — Limited Time.
+      <a href="/" class="ml-1 underline decoration-white/50 hover:decoration-white">Shop Now</a>
     </div>
     """
   end
 
   attr :cart_items, :list, default: []
+  attr :collections, :list, default: []
 
   def navbar(assigns) do
     ~H"""
     <%!-- CartHook root — persists across navigations, drives badge + drawer --%>
     <div id="cart-hook-root" phx-hook="CartHook" class="hidden"></div>
 
-    <%!-- Cart Drawer (right sidebar) --%>
+    <%!-- ── Mobile menu overlay ── --%>
+    <div
+      id="mobile-menu-backdrop"
+      class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"
+      onclick="closeMobileMenu()"
+    ></div>
+
+    <%!-- Mobile slide-in panel (left) --%>
+    <div
+      id="mobile-menu-panel"
+      class="fixed left-0 top-0 z-50 flex h-full w-[300px] flex-col bg-white shadow-2xl transition-transform duration-300 ease-out lg:hidden"
+      style="transform: translateX(-100%);"
+    >
+      <%!-- Panel header --%>
+      <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+          <a href="/" class="flex items-center gap-2.5">
+          <img src="/images/kulola-logo.png" alt="Kulola" class="h-8 w-8 rounded-full object-cover" />
+          <span class="brand-logo text-2xl text-gray-900">Kulola's Closet<span class="text-[#C8001F]">.</span></span>
+        </a>
+        <button
+          onclick="closeMobileMenu()"
+          class="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <%!-- Mobile search --%>
+      <div class="px-5 py-4 border-b border-gray-100">
+        <div class="relative">
+          <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search products…"
+            class="w-full rounded-full border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-4 text-sm placeholder-gray-400 focus:border-gray-400 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <%!-- Mobile nav links --%>
+      <nav class="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+        <a href="/" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Home
+        </a>
+
+        <%!-- Shop section in mobile --%>
+        <div>
+          <button
+            onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('svg').classList.toggle('rotate-180')"
+            class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition"
+          >
+            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="flex-1 text-left">Shop</span>
+            <svg class="h-4 w-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="hidden ml-7 mt-1 space-y-1 border-l border-gray-100 pl-4">
+            <a href="/" class="block py-2 text-sm text-gray-600 hover:text-black transition">All Products</a>
+            <a href="/" class="block py-2 text-sm text-gray-600 hover:text-black transition">New Arrivals</a>
+            <a href="/" class="block py-2 text-sm text-gray-600 hover:text-black transition">Bestsellers</a>
+            <%= for col <- @collections do %>
+              <a href={"/collections/#{col.slug}"} class="block py-2 text-sm text-gray-600 hover:text-black transition">{col[:title] || col[:name] || col.slug}</a>
+            <% end %>
+          </div>
+        </div>
+
+        <a href="/#new-arrivals" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-black transition">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+          </svg>
+          New Arrivals
+        </a>
+
+        <a href="/#contact" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-black transition">
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          Contact
+        </a>
+      </nav>
+
+      <%!-- Mobile bottom: cart + checkout --%>
+      <div class="border-t border-gray-100 px-5 py-4 space-y-2">
+        <a
+          href="/cart"
+          class="flex items-center justify-center gap-2 rounded-full border border-gray-300 py-3 text-sm font-medium text-gray-700 transition hover:border-black hover:text-black"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          View Cart
+        </a>
+        <a
+          href="/checkout"
+          class="flex items-center justify-center gap-2 rounded-full bg-[#C8001F] py-3 text-sm font-semibold text-white transition hover:bg-red-800"
+        >
+          Checkout →
+        </a>
+      </div>
+    </div>
+
+    <%!-- ── Cart Drawer (right sidebar) ── --%>
     <div
       id="cart-drawer-backdrop"
       class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none"
       onclick="window.CartDrawer && window.CartDrawer.close()"
-    >
-    </div>
+    ></div>
+
     <div
       id="cart-drawer"
       class="fixed right-0 top-0 z-50 flex h-full w-full max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-out"
       style="transform: translateX(100%);"
     >
-      <%!-- Drawer Header --%>
       <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4">
         <div class="flex items-center gap-2">
           <svg class="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           <h2 class="text-base font-semibold text-gray-900">
             Your Cart (<span id="drawer-item-count">0</span>)
@@ -51,34 +157,17 @@ defmodule KulolaWeb.HomeComponents do
         <button
           onclick="window.CartDrawer && window.CartDrawer.close()"
           class="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black"
-          aria-label="Close cart"
         >
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
 
-      <%!-- Drawer Items (filled by CartHook JS) --%>
       <div id="cart-drawer-items" class="flex-1 overflow-y-auto px-5 py-4">
         <div id="cart-drawer-empty" class="flex flex-col items-center justify-center py-16 text-center">
-          <svg
-            class="h-14 w-14 text-gray-200"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-            />
+          <svg class="h-14 w-14 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           <p class="mt-4 text-sm font-medium text-gray-600">Your cart is empty</p>
           <p class="mt-1 text-xs text-gray-400">Add some items to get started</p>
@@ -86,216 +175,162 @@ defmodule KulolaWeb.HomeComponents do
         <div id="cart-drawer-list" class="hidden space-y-4"></div>
       </div>
 
-      <%!-- Drawer Footer --%>
       <div id="cart-drawer-footer" class="hidden border-t border-gray-100 px-5 py-5">
         <div class="mb-4 flex justify-between text-sm">
           <span class="text-gray-500">Subtotal</span>
-          <span class="font-semibold text-gray-900">
-            KSH <span id="drawer-total">0</span>
-          </span>
+          <span class="font-semibold text-gray-900">KSH <span id="drawer-total">0</span></span>
         </div>
-        <a
-          href="/checkout"
-          class="block w-full rounded-full bg-black py-3 text-center text-sm font-semibold text-white transition hover:bg-gray-800"
-        >
+        <a href="/checkout" class="block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800">
           Checkout →
         </a>
-        <a
-          href="/cart"
-          class="mt-2 block w-full rounded-full border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 transition hover:border-black hover:text-black"
-        >
+        <a href="/cart" class="mt-2 block w-full rounded-full border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 transition hover:border-black hover:text-black">
           View Cart
         </a>
       </div>
     </div>
 
-    <header class="border-b border-gray-200 bg-white">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-        <a href="/" class="brand-logo text-2xl font-bold text-black sm:text-3xl">Dojeen.</a>
+    <%!-- ── Main Navbar ── --%>
+    <header
+      id="main-navbar"
+      class="sticky top-0 z-30 border-b border-gray-100 bg-white/95 backdrop-blur-md transition-shadow duration-300"
+    >
+      <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
 
-        <nav class="hidden items-center gap-6 lg:flex lg:gap-8">
-          <a href="/" class="text-base font-medium text-gray-900 hover:text-gray-600">Home</a>
+        <%!-- Hamburger (mobile only) --%>
+        <button
+          onclick="openMobileMenu()"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition lg:hidden"
+          aria-label="Open menu"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
 
-          <div class="relative">
-            <button class="flex items-center gap-1 text-base font-medium text-gray-600 hover:text-black">
+        <%!-- Logo --%>
+        <a href="/" class="flex items-center gap-2.5">
+          <img src="/images/kulola-logo.png" alt="Kulola" class="h-9 w-9 rounded-full object-cover shadow-sm ring-1 ring-black/5" />
+          <span class="brand-logo text-2xl text-gray-900 sm:text-3xl">
+            Kulola's Closet<span class="text-[#C8001F]">.</span>
+          </span>
+        </a>
+
+        <%!-- Desktop nav --%>
+        <nav class="hidden flex-1 items-center gap-1 lg:flex lg:ml-6">
+          <a href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition">
+            Home
+          </a>
+
+          <%!-- Shop dropdown --%>
+          <div class="group relative">
+            <button class="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition">
               Shop
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
+              <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
+            <%!-- Dropdown panel --%>
+            <div class="invisible absolute left-0 top-full z-20 mt-1 w-52 origin-top scale-95 rounded-2xl border border-gray-100 bg-white p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+              <a href="/" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+                <span class="text-base">✨</span> New Arrivals
+              </a>
+              <a href="/" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+                <span class="text-base">🔥</span> Bestsellers
+              </a>
+              <%= if @collections != [] do %>
+                <div class="my-1.5 border-t border-gray-100"></div>
+                <%= for col <- @collections do %>
+                  <a href={"/collections/#{col.slug}"} class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+                    <span class="h-2 w-2 rounded-full bg-gray-300"></span>
+                    {col[:title] || col[:name] || col.slug}
+                  </a>
+                <% end %>
+              <% end %>
+            </div>
           </div>
 
-          <div class="relative">
-            <button class="flex items-center gap-1 text-base font-medium text-gray-600 hover:text-black">
-              Pages
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <a href="/contact" class="text-base font-medium text-gray-600 hover:text-black">Contact</a>
+          <a href="/#new-arrivals" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition">
+            New Arrivals
+          </a>
+          <a href="/#contact" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition">
+            Contact
+          </a>
         </nav>
-        
-    <!-- Right side: Search, Account, Cart -->
-        <div class="flex items-center gap-2 sm:gap-4">
-          <!-- Search - Icon on mobile, full input on desktop -->
-          <button class="text-gray-600 hover:text-black lg:hidden">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
 
+        <%!-- Spacer on mobile --%>
+        <div class="flex-1 lg:hidden"></div>
+
+        <%!-- Right actions --%>
+        <div class="flex items-center gap-1">
+
+          <%!-- Search (desktop only) --%>
           <div class="relative hidden lg:block">
+            <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
             <input
               type="text"
-              placeholder="Search products....."
-              class="w-48 rounded-full border border-gray-300 bg-gray-50 py-2 pl-4 pr-10 text-base placeholder-gray-400 focus:border-gray-400 focus:outline-none xl:w-64"
+              placeholder="Search…"
+              class="w-44 rounded-full border border-gray-200 bg-gray-50 py-2 pl-9 pr-4 text-sm placeholder-gray-400 focus:border-gray-400 focus:bg-white focus:outline-none xl:w-52"
             />
-            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
           </div>
-          
-    <!-- Account -->
-          <button class="text-gray-600 hover:text-black">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
+
+          <%!-- Search icon (mobile only) --%>
+          <button class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition lg:hidden">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
-          
-          <!-- Cart — opens drawer on shop pages, navigates to /cart on cart/checkout -->
+
+          <%!-- Account --%>
+          <button class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition" aria-label="Account">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </button>
+
+          <%!-- Cart --%>
           <button
             onclick="(window.location.pathname==='/cart'||window.location.pathname==='/checkout') ? window.location='/cart' : window.CartDrawer && window.CartDrawer.open()"
-            class="relative flex items-center gap-1 text-gray-600 hover:text-black sm:gap-2"
+            class="relative flex h-9 items-center gap-2 rounded-lg pl-2.5 pr-3 text-gray-600 hover:bg-gray-100 hover:text-black transition"
+            aria-label="Cart"
           >
             <span class="relative">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1.5"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               <span
                 id="cart-count-badge"
                 style="display:none;"
-                class="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white"
-              >
-                0
-              </span>
+                class="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#C8001F] text-[10px] font-bold text-white"
+              >0</span>
             </span>
-            <span class="hidden text-base font-medium sm:inline">Cart</span>
-          </button>
-          
-    <!-- Mobile Menu Button -->
-          <button
-            class="ml-2 text-gray-600 hover:text-black lg:hidden"
-            phx-click={JS.toggle(to: "#mobile-menu")}
-          >
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      
-    <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden border-t border-gray-200 lg:hidden">
-        <div class="space-y-1 px-4 py-4">
-          <!-- Mobile Search -->
-          <div class="relative mb-4">
-            <input
-              type="text"
-              placeholder="Search products....."
-              class="w-full rounded-full border border-gray-300 bg-gray-50 py-2 pl-4 pr-10 text-sm placeholder-gray-400 focus:border-gray-400 focus:outline-none"
-            />
-            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </button>
-          </div>
-          
-    <!-- Mobile Nav Links -->
-          <a
-            href="/"
-            class="block rounded-lg px-3 py-2 text-base font-medium text-black hover:bg-gray-100"
-          >
-            Home
-          </a>
-
-          <button class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100">
-            Shop
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
+            <span class="hidden text-sm font-medium sm:inline">Cart</span>
           </button>
 
-          <button class="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100">
-            Pages
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-
-          <a
-            href="/contact"
-            class="block rounded-lg px-3 py-2 text-base font-medium text-gray-600 hover:bg-gray-100"
-          >
-            Contact
-          </a>
         </div>
       </div>
     </header>
+
+    <%!-- Mobile menu JS --%>
+    <script>
+      function openMobileMenu() {
+        const panel = document.getElementById('mobile-menu-panel');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+        panel.style.transform = 'translateX(0)';
+        backdrop.style.opacity = '1';
+        backdrop.style.pointerEvents = 'auto';
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMobileMenu() {
+        const panel = document.getElementById('mobile-menu-panel');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+        panel.style.transform = 'translateX(-100%)';
+        backdrop.style.opacity = '0';
+        backdrop.style.pointerEvents = 'none';
+        document.body.style.overflow = '';
+      }
+    </script>
     """
   end
 
@@ -336,7 +371,9 @@ defmodule KulolaWeb.HomeComponents do
               <span class="h-px w-8 bg-gray-500"></span> SPRING 2025
             </div>
 
-            <h1 class="mt-6 text-5xl font-bold leading-tight text-gray-900 sm:text-6xl lg:text-7xl">
+            <p class="font-tagline mt-3 text-2xl">Fashion &amp; Function</p>
+
+            <h1 class="mt-3 text-5xl font-bold leading-tight text-gray-900 sm:text-6xl lg:text-7xl">
               Quiet Luxury!<br />Timeless Form.
             </h1>
 
@@ -360,7 +397,7 @@ defmodule KulolaWeb.HomeComponents do
             <div class="mt-8 flex flex-wrap gap-4">
               <a
                 href="/shop"
-                class="rounded-full bg-gray-900 px-8 py-3 text-base font-medium text-white transition hover:bg-gray-800"
+                class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
               >
                 Shop Now
               </a>
@@ -507,7 +544,7 @@ defmodule KulolaWeb.HomeComponents do
 
           <a
             href="/shop"
-            class="mt-8 w-fit rounded-full bg-gray-900 px-8 py-3 text-base font-medium text-white transition hover:bg-gray-800"
+            class="mt-8 w-fit rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
           >
             Shop Now
           </a>
@@ -895,7 +932,7 @@ defmodule KulolaWeb.HomeComponents do
               <div class="border-t border-gray-200 bg-white p-6 text-center">
                 <a
                   href="/shop/bundles"
-                  class="inline-block rounded-full bg-black px-10 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+                  class="inline-block rounded-full bg-[#C8001F] px-10 py-3 text-sm font-medium text-white transition hover:bg-red-800"
                 >
                   Shop Now
                 </a>
@@ -1023,7 +1060,7 @@ defmodule KulolaWeb.HomeComponents do
 
               <a
                 href="/bestsellers"
-                class="mt-8 inline-block rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+                class="mt-8 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
               >
                 Shop Now
               </a>
@@ -1357,7 +1394,7 @@ defmodule KulolaWeb.HomeComponents do
             </textarea>
             <button
               type="submit"
-              class="rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+              class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
             >
               Send Message
             </button>
@@ -1402,6 +1439,21 @@ defmodule KulolaWeb.HomeComponents do
   def footer(assigns) do
     ~H"""
     <footer class="bg-black">
+      <!-- Brand strip -->
+      <div class="border-b border-white/10 px-4 py-8">
+        <div class="mx-auto flex max-w-7xl flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <a href="/" class="flex items-center gap-3">
+            <img src="/images/kulola-logo.png" alt="Kulola" class="h-10 w-10 rounded-full object-cover ring-2 ring-[#C8001F]" />
+            <div>
+              <span class="brand-logo text-3xl text-white">Kulola's Closet<span class="text-[#C8001F]">.</span></span>
+              <p class="text-[10px] uppercase tracking-widest text-gray-500">Fashion &amp; Function</p>
+            </div>
+          </a>
+          <p class="text-sm text-gray-400 text-center sm:text-right">
+            Premium fashion curated for the bold &amp; expressive.
+          </p>
+        </div>
+      </div>
       <!-- Main Footer Content -->
       <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
