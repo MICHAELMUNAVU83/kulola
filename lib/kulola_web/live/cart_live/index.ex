@@ -74,7 +74,7 @@ defmodule KulolaWeb.CartLive.Index do
               <h2 class="mt-6 text-xl font-semibold text-gray-800">Your cart is empty</h2>
               <p class="mt-2 text-gray-500">Start adding some beautiful pieces to your cart.</p>
               <a
-                href="/shop"
+                href="/"
                 class="mt-8 rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
               >
                 Shop Now
@@ -198,7 +198,7 @@ defmodule KulolaWeb.CartLive.Index do
                   Proceed to Checkout
                 </a>
                 <a
-                  href="/shop"
+                  href="/"
                   class="mt-3 block text-center text-sm text-gray-500 underline-offset-2 hover:underline"
                 >
                   Continue Shopping

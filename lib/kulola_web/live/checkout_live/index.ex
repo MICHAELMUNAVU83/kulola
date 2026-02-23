@@ -367,7 +367,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                 <%= if @cart_items == [] do %>
                   <div class="py-10 text-center">
                     <p class="text-sm text-gray-400">No items in your cart.</p>
-                    <a href="/shop" class="mt-3 inline-block text-sm font-medium text-[#C8001F] underline underline-offset-2">
+                    <a href="/" class="mt-3 inline-block text-sm font-medium text-[#C8001F] underline underline-offset-2">
                       Keep shopping
                     </a>
                   </div>

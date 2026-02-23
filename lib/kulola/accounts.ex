@@ -8,6 +8,42 @@ defmodule Kulola.Accounts do
 
   alias Kulola.Accounts.{User, UserToken, UserNotifier}
 
+  ## Admin helpers
+
+  def list_users do
+    from(u in User, order_by: [asc: u.inserted_at])
+    |> Repo.all()
+  end
+
+  def invite_user(attrs) do
+    %User{}
+    |> User.admin_invite_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def admin_update_user(%User{} = user, attrs) do
+    user
+    |> User.admin_update_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_user(%User{} = user), do: Repo.delete(user)
+
+  def record_sign_in(%User{} = user) do
+    now = DateTime.utc_now() |> DateTime.truncate(:second)
+    Repo.update_all(from(u in User, where: u.id == ^user.id), set: [last_signed_in_at: now])
+  end
+
+  def change_invite(%User{} = user \\ %User{}, attrs \\ %{}) do
+    User.admin_invite_changeset(user, attrs)
+  end
+
+  def change_admin_user(%User{} = user, attrs \\ %{}) do
+    User.admin_update_changeset(user, attrs)
+  end
+
+  def count_users, do: Repo.aggregate(User, :count)
+
   ## Database getters
 
   @doc """

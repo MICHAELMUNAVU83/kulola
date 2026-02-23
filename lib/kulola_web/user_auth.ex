@@ -28,6 +28,7 @@ defmodule KulolaWeb.UserAuth do
   def log_in_user(conn, user, params \\ %{}) do
     token = Accounts.generate_user_session_token(user)
     user_return_to = get_session(conn, :user_return_to)
+    Accounts.record_sign_in(user)
 
     conn
     |> renew_session()
@@ -164,6 +165,31 @@ defmodule KulolaWeb.UserAuth do
     end
   end
 
+  def on_mount(:require_admin, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    cond do
+      is_nil(socket.assigns.current_user) ->
+        socket =
+          socket
+          |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
+          |> Phoenix.LiveView.redirect(to: ~p"/users/log_in")
+
+        {:halt, socket}
+
+      socket.assigns.current_user.role not in ["admin", "super_admin"] ->
+        socket =
+          socket
+          |> Phoenix.LiveView.put_flash(:error, "You don't have permission to access this page.")
+          |> Phoenix.LiveView.redirect(to: ~p"/")
+
+        {:halt, socket}
+
+      true ->
+        {:cont, socket}
+    end
+  end
+
   def on_mount(:redirect_if_user_is_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
 
@@ -225,5 +251,5 @@ defmodule KulolaWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
-  defp signed_in_path(_conn), do: ~p"/"
+  defp signed_in_path(_conn), do: ~p"/admin"
 end

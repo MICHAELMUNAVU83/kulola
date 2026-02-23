@@ -24,7 +24,8 @@ defmodule KulolaWeb.HomeLive.Index do
      |> assign(:instagram_images, DummyData.instagram_images())
      |> assign(:sale_banner, Shop.get_sale_banner_data())
      |> assign(:sale_banner_index, 0)
-     |> assign(:marquee_items, DummyData.marquee_items())}
+     |> assign(:marquee_items, DummyData.marquee_items())
+     |> assign(:countdown_collection, Enum.random(collections))}
   end
 
   @impl true
@@ -59,7 +60,7 @@ defmodule KulolaWeb.HomeLive.Index do
       <.bundle_and_save bundle_products={@bundle_products} active_bundle={@active_bundle} />
       <.testimonials testimonials={@testimonials} />
       <.best_sellers bestsellers={@bestsellers} />
-      <.countdown />
+      <.countdown collection={@countdown_collection} />
       <.features />
       <.contact_section contact_images={@contact_images} />
       <.footer />

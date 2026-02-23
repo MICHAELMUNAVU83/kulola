@@ -309,12 +309,23 @@ defmodule Kulola.Shop do
   """
   def get_sale_banner_data do
     featured =
-      from(p in Product,
+      (from(p in Product,
         where: p.is_featured == true and p.status == "active",
-        order_by: p.position,
-        limit: 1
+        order_by: p.position
       )
-      |> Repo.one()
+      |> Repo.all()
+      |> case do
+        [] ->
+          from(p in Product, where: p.status == "active", order_by: p.position)
+          |> Repo.all()
+
+        products ->
+          products
+      end)
+      |> case do
+        [] -> nil
+        products -> Enum.random(products)
+      end
 
     {featured_product_map, slides} =
       if featured do
@@ -348,6 +359,7 @@ defmodule Kulola.Shop do
 
         fp = %{
           id: featured.id,
+          slug: featured.slug,
           name: featured.name,
           price: Decimal.new(to_string(featured.base_price || 0)),
           original_price: nil,

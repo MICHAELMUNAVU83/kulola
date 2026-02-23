@@ -59,14 +59,7 @@ defmodule KulolaWeb.UserRegistrationLive do
   end
 
   def mount(_params, _session, socket) do
-    changeset = Accounts.change_user_registration(%User{})
-
-    socket =
-      socket
-      |> assign(trigger_submit: false, check_errors: false)
-      |> assign_form(changeset)
-
-    {:ok, socket, temporary_assigns: [form: nil]}
+    {:ok, push_navigate(socket, to: ~p"/users/log_in")}
   end
 
   def handle_event("save", %{"user" => user_params}, socket) do
@@ -75,7 +68,7 @@ defmodule KulolaWeb.UserRegistrationLive do
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(
             user,
-            &url(~p"/users/confirm/#{&1}")
+            &(Kulola.AppConfig.site_url() <> ~p"/users/confirm/#{&1}")
           )
 
         changeset = Accounts.change_user_registration(user)

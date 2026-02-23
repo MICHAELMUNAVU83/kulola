@@ -16,11 +16,7 @@ defmodule KulolaWeb.UserLoginLive do
                   Log in to account
                 </h1>
                 <p class="mt-2 text-sm leading-6 text-gray-600">
-                  Don't have an account?
-                  <.link navigate={~p"/users/register"} class="font-semibold text-gray-900 underline hover:no-underline">
-                    Sign up
-                  </.link>
-                  for an account now.
+                  Admin access only. Contact the team owner to get an account.
                 </p>
               </header>
 

@@ -13,6 +13,7 @@ defmodule KulolaWeb.SidebarComponents do
       assigns
       |> assign_new(:counts, fn -> %{} end)
       |> assign_new(:current_path, fn -> "/" end)
+      |> assign_new(:current_user, fn -> nil end)
 
     ~H"""
     <aside class="flex h-screen w-[220px] flex-shrink-0 flex-col border-r border-gray-200 bg-white xl:w-[240px]">
@@ -96,6 +97,13 @@ defmodule KulolaWeb.SidebarComponents do
         <.nav_section label="System" />
 
         <.nav_item
+          label="Team"
+          path={~p"/admin/team"}
+          active={String.starts_with?(@current_path, "/admin/team")}
+          icon="users"
+        />
+
+        <.nav_item
           label="Info Pages"
           path={~p"/admin/pages"}
           active={String.starts_with?(@current_path, "/admin/pages")}
@@ -110,7 +118,7 @@ defmodule KulolaWeb.SidebarComponents do
         />
       </nav>
 
-      <.sidebar_footer />
+      <.sidebar_footer current_user={@current_user} />
     </aside>
     """
   end
@@ -218,18 +226,28 @@ defmodule KulolaWeb.SidebarComponents do
   # ── Footer / User ─────────────────────────────────────────────────
 
   defp sidebar_footer(assigns) do
+    assigns = assign_new(assigns, :current_user, fn -> nil end)
+
     ~H"""
     <div class="border-t border-gray-100 p-3 space-y-1">
       <!-- User row -->
-      <div class="flex items-center gap-2.5 rounded-xl px-2 py-2">
-        <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#C8001F] text-xs font-bold text-white shadow-sm">
-          MM
+      <a
+        href={~p"/admin/team"}
+        class="group flex items-center gap-2.5 rounded-xl px-2 py-2 transition hover:bg-gray-50"
+      >
+        <div class={"flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-sm #{user_avatar_color(@current_user)}"}>
+          {user_initials(@current_user)}
         </div>
         <div class="min-w-0 flex-1">
-          <p class="truncate text-[13px] font-semibold text-gray-900">Michael Munavu</p>
-          <p class="text-[11px] text-gray-400">Super Admin</p>
+          <p class="truncate text-[13px] font-semibold text-gray-900">
+            {user_display_name(@current_user)}
+          </p>
+          <p class="text-[11px] text-gray-400">{user_role_label(@current_user)}</p>
         </div>
-      </div>
+        <svg class="h-3.5 w-3.5 flex-shrink-0 text-gray-300 group-hover:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
 
       <!-- Back to website -->
       <a
@@ -258,6 +276,34 @@ defmodule KulolaWeb.SidebarComponents do
       </form>
     </div>
     """
+  end
+
+  defp user_display_name(nil), do: "Admin"
+  defp user_display_name(%{name: name}) when is_binary(name) and name != "", do: name
+  defp user_display_name(%{email: email}), do: email |> String.split("@") |> List.first()
+
+  defp user_role_label(nil), do: "Admin"
+  defp user_role_label(%{role: "super_admin"}), do: "Super Admin"
+  defp user_role_label(%{role: "admin"}), do: "Admin"
+  defp user_role_label(_), do: "Member"
+
+  defp user_initials(nil), do: "A"
+  defp user_initials(%{name: name}) when is_binary(name) and name != "" do
+    name
+    |> String.split()
+    |> Enum.take(2)
+    |> Enum.map(&String.first/1)
+    |> Enum.join()
+    |> String.upcase()
+  end
+  defp user_initials(%{email: email}) do
+    email |> String.slice(0, 2) |> String.upcase()
+  end
+
+  defp user_avatar_color(nil), do: "bg-[#C8001F]"
+  defp user_avatar_color(%{id: id}) do
+    colors = ["bg-[#C8001F]", "bg-blue-500", "bg-violet-500", "bg-teal-500", "bg-amber-500", "bg-pink-500"]
+    Enum.at(colors, rem(id, length(colors)))
   end
 
   # ── Icons ─────────────────────────────────────────────────────────

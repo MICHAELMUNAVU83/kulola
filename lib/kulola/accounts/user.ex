@@ -2,8 +2,13 @@ defmodule Kulola.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @roles ["super_admin", "admin", "member"]
+
   schema "users" do
     field :email, :string
+    field :name, :string
+    field :role, :string, default: "member"
+    field :last_signed_in_at, :utc_datetime
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
@@ -11,6 +16,8 @@ defmodule Kulola.Accounts.User do
 
     timestamps(type: :utc_datetime)
   end
+
+  def roles, do: @roles
 
   @doc """
   A user changeset for registration.
@@ -37,9 +44,31 @@ defmodule Kulola.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :name, :password, :role])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_role()
+  end
+
+  def admin_invite_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :name, :password, :role])
+    |> validate_email([])
+    |> validate_password([])
+    |> validate_role()
+    |> put_change(:confirmed_at, DateTime.utc_now() |> DateTime.truncate(:second))
+  end
+
+  def admin_update_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name, :role])
+    |> validate_required([:name])
+    |> validate_role()
+  end
+
+  defp validate_role(changeset) do
+    changeset
+    |> validate_inclusion(:role, @roles, message: "must be one of: #{Enum.join(@roles, ", ")}")
   end
 
   defp validate_email(changeset, opts) do

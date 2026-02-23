@@ -192,7 +192,7 @@ defmodule KulolaWeb.HomeComponents do
         </a>
       </nav>
 
-      <%!-- Mobile bottom: cart + checkout --%>
+      <%!-- Mobile bottom: cart + checkout + admin --%>
       <div class="border-t border-gray-100 px-5 py-4 space-y-2">
         <a
           href="/cart"
@@ -213,6 +213,15 @@ defmodule KulolaWeb.HomeComponents do
           class="flex items-center justify-center gap-2 rounded-full bg-[#C8001F] py-3 text-sm font-semibold text-white transition hover:bg-red-800"
         >
           Checkout →
+        </a>
+        <a
+          href="/admin"
+          class="flex items-center justify-center gap-2 rounded-full border border-gray-200 py-2.5 text-xs font-medium text-gray-400 transition hover:border-[#C8001F]/30 hover:text-[#C8001F]"
+        >
+          <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          Admin Panel
         </a>
       </div>
     </div>
@@ -441,10 +450,12 @@ defmodule KulolaWeb.HomeComponents do
             </svg>
           </button>
 
-          <%!-- Account --%>
-          <button
-            class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
-            aria-label="Account"
+          <%!-- Admin entry --%>
+          <a
+            href="/admin"
+            title="Admin Panel"
+            class="group relative flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-[#C8001F]/10 hover:text-[#C8001F] transition"
+            aria-label="Admin Panel"
           >
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -454,7 +465,10 @@ defmodule KulolaWeb.HomeComponents do
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-          </button>
+            <span class="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-900 px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
+              Admin
+            </span>
+          </a>
 
           <%!-- Cart --%>
           <button
@@ -554,7 +568,7 @@ defmodule KulolaWeb.HomeComponents do
             <p class="mt-6 max-w-md text-base text-gray-700 sm:text-lg">
               Discover our latest collection where fluid design meets architectural precision. Each piece is crafted to move with you.
             </p>
-            
+
             <%!-- Stats --%>
             <div class="mt-8 flex gap-8 divide-x divide-gray-300">
               <div class="pr-8">
@@ -722,8 +736,9 @@ defmodule KulolaWeb.HomeComponents do
             New & Modern Products<br class="hidden sm:block" /> in Our Online Store
           </h2>
 
+          <% fp = Map.get(@sale_banner, :featured_product, %{}) %>
           <a
-            href="/#collections"
+            href={if fp[:slug], do: "/products/#{fp[:slug]}", else: "/#collections"}
             class="mt-8 w-fit rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
           >
             Shop Now
@@ -740,8 +755,11 @@ defmodule KulolaWeb.HomeComponents do
           
     <!-- Floating Product Card -->
           <div class="relative z-10 mt-8 lg:absolute lg:left-1/2 lg:top-1/2 lg:mt-0 lg:-translate-y-1/2 lg:translate-x-[-20%]">
-            <div class="w-full max-w-xs rounded-xl bg-white p-4 shadow-xl sm:max-w-sm">
-              <% product = Map.get(@sale_banner, :featured_product, %{}) %>
+            <% product = Map.get(@sale_banner, :featured_product, %{}) %>
+            <a
+              href={if product[:slug], do: "/products/#{product[:slug]}", else: "#"}
+              class="block w-full max-w-xs rounded-xl bg-white p-4 shadow-xl transition hover:shadow-2xl sm:max-w-sm"
+            >
               <!-- Discount Badge -->
               <div class="relative">
                 <%= if product[:badge] do %>
@@ -780,16 +798,16 @@ defmodule KulolaWeb.HomeComponents do
                   </span>
                 <% end %>
               </div>
-            </div>
+            </a>
           </div>
         </div>
-        
+
     <!-- Right Image (current slide) -->
         <div class="relative z-0 hidden min-h-[500px] lg:block">
           <img
             src={current_slide[:image]}
             alt={current_slide[:alt]}
-            class="absolute inset-0 h-full w-full object-cover"
+            class="absolute inset-0 h-full w-full object-top object-cover"
           />
           <!-- Slider Dots -->
           <div class="absolute right-6 top-1/2 flex -translate-y-1/2 flex-col gap-3">
@@ -890,7 +908,9 @@ defmodule KulolaWeb.HomeComponents do
                       <% end %>
                     </div>
                     <%!-- Product Info --%>
-                    <h3 class="mt-3 text-sm font-medium text-black group-hover:text-[#C8001F] transition-colors">{product.name}</h3>
+                    <h3 class="mt-3 text-sm font-medium text-black group-hover:text-[#C8001F] transition-colors">
+                      {product.name}
+                    </h3>
                     <div class="mt-1 flex items-center gap-2">
                       <span class={"font-semibold #{if product.original_price, do: "text-red-500", else: "text-black"}"}>
                         KES {KulolaWeb.Format.price(product.price)}
@@ -1251,7 +1271,7 @@ defmodule KulolaWeb.HomeComponents do
             </div>
             <div class="mt-auto pt-8">
               <video
-                src="/images/video.mp4"
+                src="/images/bestseller.mp4"
                 alt="Bestsellers"
                 class="aspect-[4/3] w-full rounded-lg object-top object-cover"
                 autoplay
@@ -1284,7 +1304,9 @@ defmodule KulolaWeb.HomeComponents do
                   <% end %>
                 </div>
 
-                <h3 class="mt-3 text-sm font-medium text-black group-hover:text-[#C8001F] transition-colors">{product.name}</h3>
+                <h3 class="mt-3 text-sm font-medium text-black group-hover:text-[#C8001F] transition-colors">
+                  {product.name}
+                </h3>
                 <p class="mt-1 font-semibold text-black">
                   KES {KulolaWeb.Format.price(product.price)}
                 </p>
@@ -1331,14 +1353,18 @@ defmodule KulolaWeb.HomeComponents do
     """
   end
 
+  attr :collection, :map, default: nil
+
   def countdown(assigns) do
+    assigns = assign_new(assigns, :collection, fn -> nil end)
+
     ~H"""
     <section class="px-4 py-8 sm:px-6 lg:px-8" id="countdown-section" phx-hook="CountdownTimer">
-      <div class="mx-auto max-w-7xl overflow-hidden rounded-3xl bg-gray-950 relative">
-        <!-- Dot Pattern Background -->
+      <div class="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-[#C8001F]">
+        <%!-- Dot pattern overlay --%>
         <div class="absolute inset-0 overflow-hidden">
           <svg
-            class="absolute bottom-0 left-0 w-full h-1/2 opacity-20"
+            class="absolute bottom-0 left-0 h-full w-full opacity-10"
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
@@ -1352,27 +1378,17 @@ defmodule KulolaWeb.HomeComponents do
               >
                 <circle cx="2" cy="2" r="1.5" fill="white" />
               </pattern>
-              <mask id="fade-mask">
-                <linearGradient id="fade-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="black" />
-                  <stop offset="40%" stop-color="white" />
-                  <stop offset="100%" stop-color="white" />
-                </linearGradient>
-                <rect width="100%" height="100%" fill="url(#fade-gradient)" />
-              </mask>
             </defs>
-            <rect width="100%" height="100%" fill="url(#dot-pattern)" mask="url(#fade-mask)" />
+            <rect width="100%" height="100%" fill="url(#dot-pattern)" />
           </svg>
         </div>
 
         <div class="relative z-10 grid lg:grid-cols-2">
-          <!-- Countdown Side -->
-          <div class="relative flex flex-col items-center justify-center px-6 py-16 sm:px-12 lg:border-r lg:border-gray-800 lg:py-24">
-            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-gray-400">
-              Up to 25% Off Sale
+          <%!-- Countdown side --%>
+          <div class="flex flex-col items-center justify-center px-6 py-16 sm:px-12 lg:border-r lg:border-white/20 lg:py-24">
+            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-red-200">
+              Limited Time — Up to 25% Off
             </p>
-            
-    <!-- Timer -->
             <div class="mt-10 flex items-baseline gap-3 sm:gap-5">
               <div class="text-center">
                 <span
@@ -1381,11 +1397,9 @@ defmodule KulolaWeb.HomeComponents do
                 >
                   9
                 </span>
-                <p class="mt-3 text-sm font-medium text-gray-500">Days</p>
+                <p class="mt-3 text-sm font-medium text-red-200">Days</p>
               </div>
-
-              <span class="text-4xl font-light text-gray-600 sm:text-5xl lg:text-6xl">:</span>
-
+              <span class="text-4xl font-light text-white/50 sm:text-5xl lg:text-6xl">:</span>
               <div class="text-center">
                 <span
                   class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
@@ -1393,11 +1407,9 @@ defmodule KulolaWeb.HomeComponents do
                 >
                   19
                 </span>
-                <p class="mt-3 text-sm font-medium text-gray-500">Hours</p>
+                <p class="mt-3 text-sm font-medium text-red-200">Hours</p>
               </div>
-
-              <span class="text-4xl font-light text-gray-600 sm:text-5xl lg:text-6xl">:</span>
-
+              <span class="text-4xl font-light text-white/50 sm:text-5xl lg:text-6xl">:</span>
               <div class="text-center">
                 <span
                   class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
@@ -1405,11 +1417,9 @@ defmodule KulolaWeb.HomeComponents do
                 >
                   23
                 </span>
-                <p class="mt-3 text-sm font-medium text-gray-500">Minutes</p>
+                <p class="mt-3 text-sm font-medium text-red-200">Minutes</p>
               </div>
-
-              <span class="text-4xl font-light text-gray-600 sm:text-5xl lg:text-6xl">:</span>
-
+              <span class="text-4xl font-light text-white/50 sm:text-5xl lg:text-6xl">:</span>
               <div class="text-center">
                 <span
                   class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
@@ -1417,25 +1427,56 @@ defmodule KulolaWeb.HomeComponents do
                 >
                   59
                 </span>
-                <p class="mt-3 text-sm font-medium text-gray-500">Seconds</p>
+                <p class="mt-3 text-sm font-medium text-red-200">Seconds</p>
               </div>
             </div>
           </div>
-          
-    <!-- CTA Side -->
+
+          <%!-- CTA side — dynamic collection --%>
           <div class="flex flex-col items-center justify-center px-6 py-16 text-center sm:px-12 lg:items-start lg:py-24 lg:text-left">
-            <h2 class="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-              Get Your Dress Look Today
-            </h2>
-            <p class="mt-5 max-w-md text-base text-gray-400 lg:text-lg">
-              We checked out a bunch of stores and finally found the perfect dress!
-            </p>
-            <a
-              href="/sale"
-              class="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-sm font-semibold text-black transition-all hover:bg-gray-100 hover:shadow-lg"
-            >
-              Shop The Sale
-            </a>
+            <%= if @collection do %>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-200">
+                Featured Collection
+              </p>
+              <h2 class="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                Shop the {@collection.name}
+              </h2>
+              <p class="mt-4 max-w-md text-base text-red-100/80 lg:text-lg">
+                {if @collection[:description] && @collection.description != "",
+                  do:
+                    String.slice(@collection.description, 0, 100) <>
+                      if(String.length(@collection.description) > 100, do: "…", else: ""),
+                  else: "Discover our latest curated pieces — effortlessly styled for every occasion."}
+              </p>
+              <a
+                href={"/collections/#{@collection.slug}"}
+                class="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-10 py-4 text-sm font-semibold text-[#C8001F] transition-all hover:bg-red-50 hover:shadow-lg"
+              >
+                Shop the Collection
+                <svg
+                  class="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            <% else %>
+              <h2 class="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                Shop the Sale Today
+              </h2>
+              <p class="mt-5 max-w-md text-base text-red-100/80 lg:text-lg">
+                Discover our latest curated pieces — effortlessly styled for every occasion.
+              </p>
+              <a
+                href="/#collections"
+                class="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-sm font-semibold text-[#C8001F] transition-all hover:bg-red-50 hover:shadow-lg"
+              >
+                Browse Collections
+              </a>
+            <% end %>
           </div>
         </div>
       </div>

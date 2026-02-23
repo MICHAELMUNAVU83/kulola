@@ -88,6 +88,8 @@ products = [
     is_new_arrival: false,
     position: 1,
     status: "active",
+    size_advice: "Runs true to size. The trousers have a drawstring waist for a flexible fit. If between sizes, size up for comfort. Model is 5'6\" wearing a size M. Measure your bust and hips before ordering.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Red", "#CC2936"}, {"Denim Blue", "#4A7FB5"}]
   },
@@ -105,6 +107,8 @@ products = [
     is_new_arrival: true,
     position: 2,
     status: "active",
+    size_advice: "Runs true to size. Bold, relaxed silhouette — if you prefer a more fitted look, size down. Drawstring trousers adjust easily. Measure your waist and hips for the best fit.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Orange", "#F97316"}, {"Denim Blue", "#4A7FB5"}]
   },
@@ -122,6 +126,8 @@ products = [
     is_new_arrival: true,
     position: 3,
     status: "active",
+    size_advice: "This oversized knit set runs generously. For a cosy relaxed fit, take your usual size. For a more structured look, size down one. The sweater has a deep drop-shoulder so measure your bust width.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Chocolate", "#7B3F00"}, {"Cream", "#F5F0E8"}]
   },
@@ -139,6 +145,8 @@ products = [
     is_new_arrival: false,
     position: 4,
     status: "active",
+    size_advice: "Runs true to size. Linen has a natural relaxed drape. The frilled shoulder top suits a range of bust sizes and the drawstring trousers give flexibility. Model is 5'6\" in a size M.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Sage Green", "#8FAF7E"}, {"Olive", "#6B7C4A"}]
   },
@@ -156,6 +164,8 @@ products = [
     is_new_arrival: false,
     position: 5,
     status: "active",
+    size_advice: "Runs true to size. The V-neck button-front top has a relaxed fit — measure your bust for the best button closure. Trousers have an elasticated drawstring waist for a comfortable, adjustable fit.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Olive", "#6B7C4A"}, {"Cream", "#F5F0E8"}]
   },
@@ -175,6 +185,8 @@ products = [
     is_new_arrival: false,
     position: 6,
     status: "active",
+    size_advice: "High-waisted fit — measure your natural waist. These run true to size with no stretch. The belt is included and fully adjustable. Model wears a size M. If between sizes, size up for the waist.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Black", "#1A1A1A"}, {"White", "#F5F5F5"}]
   },
@@ -192,6 +204,8 @@ products = [
     is_new_arrival: false,
     position: 7,
     status: "active",
+    size_advice: "High-waisted structured fit — runs true to size. These do not have stretch, so measure your natural waist carefully. The front pleats add ease around the hips. Belt included and adjustable.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Navy", "#1B2A6B"}, {"Black", "#1A1A1A"}]
   },
@@ -209,6 +223,8 @@ products = [
     is_new_arrival: false,
     position: 8,
     status: "active",
+    size_advice: "Tailored structured waist — no stretch, so measure your waist exactly. Runs true to size. The front button detail sits flat when the correct size is chosen. Size up if you're between sizes.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Olive", "#6B7C4A"}, {"Camel", "#C9A882"}]
   },
@@ -226,6 +242,8 @@ products = [
     is_new_arrival: true,
     position: 9,
     status: "active",
+    size_advice: "High-rise denim runs slightly small in the waist — size up if you're between sizes. Denim has minimal stretch. Measure your waist and hips. The wide leg gives a relaxed, flattering silhouette on most body types.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Light Wash", "#B8D4E8"}, {"Dark Wash", "#2C4F7C"}]
   },
@@ -243,6 +261,8 @@ products = [
     is_new_arrival: false,
     position: 10,
     status: "active",
+    size_advice: "Part of a co-ord set — size up slightly for a tailored blazer-and-trouser look with room to layer. Waistband is structured with no stretch. We recommend ordering both pieces in the same size.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Navy", "#1B2A6B"}]
   },
@@ -262,6 +282,8 @@ products = [
     is_new_arrival: false,
     position: 11,
     status: "active",
+    size_advice: "Elasticated drawstring waist means this fits a range of sizes. Runs true to size. Maxi length sits at the ankle — ideal for heights 5'3\" and above. Pair with heels or flats.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "skirts",
     colors: [{"Mid-Wash Denim", "#7BA4C7"}, {"Dark Denim", "#2C4F7C"}]
   },
@@ -279,6 +301,8 @@ products = [
     is_new_arrival: false,
     position: 12,
     status: "active",
+    size_advice: "Runs true to size with a structured waistband — measure your waist carefully. Full-length with a front split for ease of movement. Best for heights 5'4\" and above. Size up if unsure.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "skirts",
     colors: [{"Burgundy", "#800020"}, {"Black", "#1A1A1A"}]
   },
@@ -298,6 +322,8 @@ products = [
     is_new_arrival: false,
     position: 13,
     status: "active",
+    size_advice: "Runs true to size. Drawstring waist is fully adjustable. For petite heights (under 5'3\"), the leg length may be slightly long — easy to hem. Model is 5'6\" wearing size M. Measure bust and waist.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "jumpsuits",
     colors: [{"Sage Green", "#8FAF7E"}, {"Blush", "#F5C4C4"}]
   },
@@ -317,6 +343,8 @@ products = [
     is_new_arrival: false,
     position: 14,
     status: "active",
+    size_advice: "Runs true to size. The layered knit-over-shirt effect is built into the design — no separate styling needed. Measure your bust for the best fit. Relaxed drop-shoulder cut.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Grey", "#9CA3AF"}, {"Black", "#1A1A1A"}]
   },
@@ -334,6 +362,8 @@ products = [
     is_new_arrival: false,
     position: 15,
     status: "active",
+    size_advice: "Runs true to size. Same relaxed drop-shoulder construction as the grey version. Measure your bust for the best fit. The contrast button detailing is fixed — no adjustments needed.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Black", "#1A1A1A"}, {"Charcoal", "#374151"}]
   },
@@ -351,6 +381,8 @@ products = [
     is_new_arrival: true,
     position: 16,
     status: "active",
+    size_advice: "Structured cut runs slightly small — size up if between sizes. Best worn tucked into high-waisted bottoms. Measure your bust for the button fit. The split hem adds length in the back.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Navy", "#1B2A6B"}, {"Black", "#1A1A1A"}]
   },
@@ -368,6 +400,8 @@ products = [
     is_new_arrival: false,
     position: 17,
     status: "active",
+    size_advice: "Cropped fit runs true to size. Pearl jewelled buttons — measure your bust for the best closure. Pairs best with high-waisted trousers or skirts. Knit fabric has a gentle natural stretch.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Red", "#CC2936"}, {"Black", "#1A1A1A"}]
   },
@@ -385,6 +419,8 @@ products = [
     is_new_arrival: false,
     position: 18,
     status: "active",
+    size_advice: "Relaxed open-front blazer runs slightly oversized. Size down if you prefer a more fitted look. Great as part of the pinstripe co-ord set or layered solo. Measure your shoulders for the best fit.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Navy", "#1B2A6B"}, {"Black", "#1A1A1A"}]
   },
@@ -402,6 +438,8 @@ products = [
     is_new_arrival: false,
     position: 19,
     status: "active",
+    size_advice: "Runs true to size. Puff sleeves are structured and fixed. Measure your bust — the elastic hem gives flexibility around the waist. Cropped length sits above the high waist for a flattering look.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"White", "#F5F5F5"}, {"Blush", "#F5C4C4"}]
   },
@@ -419,6 +457,8 @@ products = [
     is_new_arrival: false,
     position: 20,
     status: "active",
+    size_advice: "Runs true to size with a light stretch. Measure your bust for the best fit. The single adjustable shoulder strap gives flexibility. A versatile summer staple — pairs with anything high-waisted.",
+    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Black/White", "#1A1A1A"}, {"Beige", "#D4B896"}]
   }
@@ -568,165 +608,169 @@ info_pages = [
     title: "How to Order",
     icon: "🛍️",
     position: 1,
-    meta_description: "Step-by-step guide on how to place an order at Kulola's Closet — shop online or via WhatsApp.",
+    meta_description:
+      "Step-by-step guide on how to place an order at Kulola's Closet — shop online or via WhatsApp.",
     content: """
-## How to Place Your Order
+    ## How to Place Your Order
 
-Ordering from Kulola's Closet is simple and straightforward. Here's how:
+    Ordering from Kulola's Closet is simple and straightforward. Here's how:
 
-### Option 1 — Order via WhatsApp (Recommended)
+    ### Option 1 — Order via WhatsApp (Recommended)
 
-- Screenshot or share the product you love from our Instagram or website.
-- Send us a message on **WhatsApp: 0796 770 862**.
-- Let us know your **size**, preferred **colour**, and **delivery location**.
-- We'll confirm availability and send you the total including delivery.
-- Make payment via **M-Pesa Till No. 5894819**.
-- Send us the M-Pesa confirmation message.
-- Your order will be dispatched within 24 hours!
+    - Screenshot or share the product you love from our Instagram or website.
+    - Send us a message on **WhatsApp: 0796 770 862**.
+    - Let us know your **size**, preferred **colour**, and **delivery location**.
+    - We'll confirm availability and send you the total including delivery.
+    - Make payment via **M-Pesa Till No. 5894819**.
+    - Send us the M-Pesa confirmation message.
+    - Your order will be dispatched within 24 hours!
 
-### Option 2 — Order via the Website
+    ### Option 2 — Order via the Website
 
-- Browse our collections and add items to your cart.
-- Proceed to **Checkout** and fill in your delivery details.
-- Complete payment via M-Pesa.
-- You'll receive an order confirmation via email or WhatsApp.
+    - Browse our collections and add items to your cart.
+    - Proceed to **Checkout** and fill in your delivery details.
+    - Complete payment via M-Pesa.
+    - You'll receive an order confirmation via email or WhatsApp.
 
-## Payment Methods
+    ## Payment Methods
 
-- **M-Pesa Till No. 5894819** (Kulola's Closet)
-- Bank transfer (available on request)
+    - **M-Pesa Till No. 5894819** (Kulola's Closet)
+    - Bank transfer (available on request)
 
-## Need Help?
+    ## Need Help?
 
-If you have any trouble placing an order, don't hesitate to reach out on WhatsApp and we'll assist you immediately.
-"""
+    If you have any trouble placing an order, don't hesitate to reach out on WhatsApp and we'll assist you immediately.
+    """
   },
   %{
     slug: "size-guide",
     title: "Size Guide",
     icon: "📐",
     position: 2,
-    meta_description: "Find your perfect fit with Kulola's Closet size guide — measurements for tops, bottoms, dresses, and coord sets.",
+    meta_description:
+      "Find your perfect fit with Kulola's Closet size guide — measurements for tops, bottoms, dresses, and coord sets.",
     content: """
-## Finding Your Perfect Fit
+    ## Finding Your Perfect Fit
 
-All our garments are made with Kenyan bodies in mind. We recommend taking your measurements before ordering.
+    All our garments are made with Kenyan bodies in mind. We recommend taking your measurements before ordering.
 
-### How to Measure Yourself
+    ### How to Measure Yourself
 
-- **Bust** — Measure around the fullest part of your chest, keeping the tape parallel to the floor.
-- **Waist** — Measure around your natural waistline, the narrowest part of your torso.
-- **Hips** — Measure around the fullest part of your hips, about 20 cm below your waist.
-- **Length** — Measure from the top of your shoulder to wherever you'd like the garment to end.
+    - **Bust** — Measure around the fullest part of your chest, keeping the tape parallel to the floor.
+    - **Waist** — Measure around your natural waistline, the narrowest part of your torso.
+    - **Hips** — Measure around the fullest part of your hips, about 20 cm below your waist.
+    - **Length** — Measure from the top of your shoulder to wherever you'd like the garment to end.
 
-### Women's Size Chart
+    ### Women's Size Chart
 
-### Tops & Dresses
+    ### Tops & Dresses
 
-- **XS** — Bust 80–84 cm | Waist 60–64 cm | Hips 86–90 cm
-- **S** — Bust 84–88 cm | Waist 64–68 cm | Hips 90–94 cm
-- **M** — Bust 88–94 cm | Waist 68–74 cm | Hips 94–100 cm
-- **L** — Bust 94–100 cm | Waist 74–80 cm | Hips 100–106 cm
-- **XL** — Bust 100–106 cm | Waist 80–86 cm | Hips 106–112 cm
-- **XXL** — Bust 106–114 cm | Waist 86–94 cm | Hips 112–120 cm
+    - **XS** — Bust 80–84 cm | Waist 60–64 cm | Hips 86–90 cm
+    - **S** — Bust 84–88 cm | Waist 64–68 cm | Hips 90–94 cm
+    - **M** — Bust 88–94 cm | Waist 68–74 cm | Hips 94–100 cm
+    - **L** — Bust 94–100 cm | Waist 74–80 cm | Hips 100–106 cm
+    - **XL** — Bust 100–106 cm | Waist 80–86 cm | Hips 106–112 cm
+    - **XXL** — Bust 106–114 cm | Waist 86–94 cm | Hips 112–120 cm
 
-### Coord Sets & Bottoms
+    ### Coord Sets & Bottoms
 
-- **S** — Waist 64–68 cm | Hips 90–96 cm
-- **M** — Waist 68–74 cm | Hips 96–102 cm
-- **L** — Waist 74–80 cm | Hips 102–108 cm
-- **XL** — Waist 80–86 cm | Hips 108–114 cm
+    - **S** — Waist 64–68 cm | Hips 90–96 cm
+    - **M** — Waist 68–74 cm | Hips 96–102 cm
+    - **L** — Waist 74–80 cm | Hips 102–108 cm
+    - **XL** — Waist 80–86 cm | Hips 108–114 cm
 
-## Not Sure About Your Size?
+    ## Not Sure About Your Size?
 
-Every product page includes specific measurements. You can also **WhatsApp us** with your measurements and we'll recommend the best fit for you.
-"""
+    Every product page includes specific measurements. You can also **WhatsApp us** with your measurements and we'll recommend the best fit for you.
+    """
   },
   %{
     slug: "shipping-delivery",
     title: "Shipping & Delivery",
     icon: "🚚",
     position: 3,
-    meta_description: "Kulola's Closet shipping and delivery information — Nairobi same-day delivery and countrywide shipping across Kenya.",
+    meta_description:
+      "Kulola's Closet shipping and delivery information — Nairobi same-day delivery and countrywide shipping across Kenya.",
     content: """
-## Shipping & Delivery
+    ## Shipping & Delivery
 
-We deliver across Kenya! Here's everything you need to know about getting your Kulola order to your door.
+    We deliver across Kenya! Here's everything you need to know about getting your Kulola order to your door.
 
-### Nairobi Deliveries
+    ### Nairobi Deliveries
 
-- **Standard Delivery** — 1–2 business days | **KES 200–300**
-- **Same-Day Delivery** — Available for orders placed before 12 PM | **KES 300–500** (select locations)
-- **Pick-Up** — Contact us on WhatsApp to arrange a convenient pick-up point.
+    - **Standard Delivery** — 1–2 business days | **KES 200–300**
+    - **Same-Day Delivery** — Available for orders placed before 12 PM | **KES 300–500** (select locations)
+    - **Pick-Up** — Contact us on WhatsApp to arrange a convenient pick-up point.
 
-### Countrywide Deliveries
+    ### Countrywide Deliveries
 
-- **Courier (G4S / Wells Fargo)** — 2–4 business days | **KES 400–600**
-- **Bus / Matatu Services** — 1–2 business days | Cost varies by distance
-- Delivery fees for upcountry orders are confirmed at checkout or via WhatsApp.
+    - **Courier (G4S / Wells Fargo)** — 2–4 business days | **KES 400–600**
+    - **Bus / Matatu Services** — 1–2 business days | Cost varies by distance
+    - Delivery fees for upcountry orders are confirmed at checkout or via WhatsApp.
 
-### How Delivery Works
+    ### How Delivery Works
 
-- Once your order is confirmed and payment received, we process and pack within **24 hours**.
-- You'll receive a **WhatsApp notification** when your parcel is dispatched, including tracking details where applicable.
-- For bus deliveries, the bus ticket/tracking number will be shared with you.
+    - Once your order is confirmed and payment received, we process and pack within **24 hours**.
+    - You'll receive a **WhatsApp notification** when your parcel is dispatched, including tracking details where applicable.
+    - For bus deliveries, the bus ticket/tracking number will be shared with you.
 
-### Important Notes
+    ### Important Notes
 
-- Delivery timelines exclude weekends and public holidays.
-- Kulola's Closet is not responsible for delays caused by third-party courier services once the parcel is dispatched.
-- Please ensure your **delivery address and phone number** are accurate when ordering.
+    - Delivery timelines exclude weekends and public holidays.
+    - Kulola's Closet is not responsible for delays caused by third-party courier services once the parcel is dispatched.
+    - Please ensure your **delivery address and phone number** are accurate when ordering.
 
-## Questions?
+    ## Questions?
 
-Reach us on **WhatsApp: 0796 770 862** for any delivery enquiries.
-"""
+    Reach us on **WhatsApp: 0796 770 862** for any delivery enquiries.
+    """
   },
   %{
     slug: "returns-exchanges",
     title: "Returns & Exchanges",
     icon: "🔄",
     position: 4,
-    meta_description: "Kulola's Closet returns and exchanges policy — we want you to love every piece.",
+    meta_description:
+      "Kulola's Closet returns and exchanges policy — we want you to love every piece.",
     content: """
-## Returns & Exchanges
+    ## Returns & Exchanges
 
-We want you to love every piece from Kulola's Closet. If something isn't right, here's what you can do.
+    We want you to love every piece from Kulola's Closet. If something isn't right, here's what you can do.
 
-### Our Policy
+    ### Our Policy
 
-- We accept **exchange requests** within **48 hours** of receiving your order.
-- Items must be **unworn, unwashed, and in original condition** with tags intact.
-- **Sale items** are final sale and cannot be exchanged or returned.
+    - We accept **exchange requests** within **48 hours** of receiving your order.
+    - Items must be **unworn, unwashed, and in original condition** with tags intact.
+    - **Sale items** are final sale and cannot be exchanged or returned.
 
-### Valid Reasons for Exchange
+    ### Valid Reasons for Exchange
 
-- Wrong size sent (our error)
-- Wrong item sent (our error)
-- Item has a manufacturing defect
+    - Wrong size sent (our error)
+    - Wrong item sent (our error)
+    - Item has a manufacturing defect
 
-### How to Request an Exchange
+    ### How to Request an Exchange
 
-- Contact us on **WhatsApp: 0796 770 862** within 48 hours of delivery.
-- Share your order details and clear photos of the item(s).
-- Our team will review and respond within 24 hours.
-- If approved, we'll arrange collection and dispatch the replacement.
+    - Contact us on **WhatsApp: 0796 770 862** within 48 hours of delivery.
+    - Share your order details and clear photos of the item(s).
+    - Our team will review and respond within 24 hours.
+    - If approved, we'll arrange collection and dispatch the replacement.
 
-### Exchanges — Size or Style
+    ### Exchanges — Size or Style
 
-- If you'd like to exchange for a different size or style (your preference), this is subject to stock availability.
-- The customer is responsible for return delivery costs in this case.
-- Any price difference will be charged or refunded accordingly.
+    - If you'd like to exchange for a different size or style (your preference), this is subject to stock availability.
+    - The customer is responsible for return delivery costs in this case.
+    - Any price difference will be charged or refunded accordingly.
 
-### Refunds
+    ### Refunds
 
-- We do not offer cash refunds except in cases where the item is out of stock and no suitable replacement is available.
-- Refunds, where applicable, are processed within **5–7 business days** via M-Pesa.
+    - We do not offer cash refunds except in cases where the item is out of stock and no suitable replacement is available.
+    - Refunds, where applicable, are processed within **5–7 business days** via M-Pesa.
 
-## Contact Us
+    ## Contact Us
 
-If you have any concerns about your order, please reach out promptly on **WhatsApp: 0796 770 862**. We're here to help!
-"""
+    If you have any concerns about your order, please reach out promptly on **WhatsApp: 0796 770 862**. We're here to help!
+    """
   }
 ]
 
@@ -738,6 +782,7 @@ inserted_info_pages =
           %InfoPage{}
           |> InfoPage.changeset(attrs)
           |> Repo.insert()
+
         count + 1
 
       _existing ->
@@ -745,4 +790,6 @@ inserted_info_pages =
     end
   end)
 
-IO.puts("✅  Seeded #{inserted_info_pages} info pages (#{length(info_pages) - inserted_info_pages} already existed).")
+IO.puts(
+  "✅  Seeded #{inserted_info_pages} info pages (#{length(info_pages) - inserted_info_pages} already existed)."
+)

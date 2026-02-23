@@ -1,6 +1,7 @@
 <div class="flex h-screen overflow-hidden">
   <.admin_sidebar
     current_path={@current_path}
+    current_user={Map.get(assigns, :current_user)}
     counts={
       Map.merge(
         %{

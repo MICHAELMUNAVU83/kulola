@@ -1,6 +1,7 @@
 defmodule KulolaWeb.SuccessLive.Index do
   use KulolaWeb, :live_view
   import KulolaWeb.HomeComponents
+  require Logger
 
   alias Kulola.Orders
   alias Kulola.Paystack
@@ -46,8 +47,26 @@ defmodule KulolaWeb.SuccessLive.Index do
           {:ok, _data} ->
             {:ok, paid_order} = Orders.mark_paid(order)
 
-            # Fire and forget email
-            Task.start(fn -> OrderNotifier.send_confirmation(paid_order) end)
+            # Fire-and-forget emails
+            Task.start(fn ->
+              try do
+                case OrderNotifier.send_confirmation(paid_order) do
+                  {:ok, _} ->
+                    Logger.info("[Email] Order confirmation sent to #{paid_order.email} for #{paid_order.reference}")
+                  {:error, reason} ->
+                    Logger.error("[Email] Failed to send confirmation to #{paid_order.email}: #{inspect(reason)}")
+                end
+
+                case OrderNotifier.send_admin_notification(paid_order) do
+                  {:ok, _} -> :ok
+                  {:error, reason} ->
+                    Logger.error("[Email] Failed to send admin notification: #{inspect(reason)}")
+                end
+              rescue
+                e ->
+                  Logger.error("[Email] Exception sending order emails for #{paid_order.reference}: #{Exception.message(e)}\n#{Exception.format_stacktrace(__STACKTRACE__)}")
+              end
+            end)
 
             {:noreply,
              socket

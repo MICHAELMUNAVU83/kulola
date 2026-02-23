@@ -48,10 +48,16 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "kulolascloset.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :kulola, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+
+  # Site URL used in transactional emails. Defaults to https://<PHX_HOST>.
+  # Override by setting the SITE_URL environment variable.
+  config :kulola,
+    site_url: System.get_env("SITE_URL") || "https://#{host}",
+    admin_email: System.get_env("ADMIN_EMAIL") || "kulolacloset@gmail.com"
 
   config :kulola, KulolaWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],

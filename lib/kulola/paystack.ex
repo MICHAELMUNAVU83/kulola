@@ -82,7 +82,7 @@ defmodule Kulola.Paystack do
   end
 
   def callback_url do
-    base = Application.get_env(:kulola, :base_url, "https://asakekenya.com")
+    base = Application.get_env(:kulola, :site_url)
     "#{base}/success"
   end
 end
