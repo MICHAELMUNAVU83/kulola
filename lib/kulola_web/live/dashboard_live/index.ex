@@ -34,13 +34,13 @@ defmodule KulolaWeb.DashboardLive.Index do
   end
 
   defp load_charts(socket) do
-    daily        = Orders.daily_revenue(30)
+    daily = Orders.daily_revenue(30)
     top_products = Orders.top_products_by_revenue(6)
     status_counts = socket.assigns.status_counts
 
     socket
-    |> assign(:revenue_chart,      build_revenue_chart(daily))
-    |> assign(:status_chart,       build_status_chart(status_counts))
+    |> assign(:revenue_chart, build_revenue_chart(daily))
+    |> assign(:status_chart, build_status_chart(status_counts))
     |> assign(:top_products_chart, build_top_products_chart(top_products))
   end
 
@@ -102,16 +102,16 @@ defmodule KulolaWeb.DashboardLive.Index do
 
   defp build_status_chart(status_counts) do
     statuses = ~w(paid processing shipped delivered cancelled failed)
-    labels   = Enum.map(statuses, &String.capitalize/1)
-    values   = Enum.map(statuses, &Map.get(status_counts, &1, 0))
+    labels = Enum.map(statuses, &String.capitalize/1)
+    values = Enum.map(statuses, &Map.get(status_counts, &1, 0))
 
     colors = %{
-      "paid"       => "#C8001F",
+      "paid" => "#C8001F",
       "processing" => "#e879a0",
-      "shipped"    => "#f9a8c9",
-      "delivered"  => "#86efac",
-      "cancelled"  => "#d1d5db",
-      "failed"     => "#fca5a5"
+      "shipped" => "#f9a8c9",
+      "delivered" => "#86efac",
+      "cancelled" => "#d1d5db",
+      "failed" => "#fca5a5"
     }
 
     %{
@@ -160,8 +160,14 @@ defmodule KulolaWeb.DashboardLive.Index do
             label: "Revenue",
             data: values,
             backgroundColor: [
-              "#C8001F", "#d4174e", "#e03070", "#e8588e",
-              "#ef7faa", "#f5a6c5", "#f9c9de", "#fde8f0"
+              "#C8001F",
+              "#d4174e",
+              "#e03070",
+              "#e8588e",
+              "#ef7faa",
+              "#f5a6c5",
+              "#f9c9de",
+              "#fde8f0"
             ],
             borderRadius: 6,
             barThickness: 16
@@ -203,36 +209,38 @@ defmodule KulolaWeb.DashboardLive.Index do
 
   defp status_pill(status) do
     case status do
-      "paid"       -> "bg-red-50 text-[#C8001F]"
+      "paid" -> "bg-red-50 text-[#C8001F]"
       "processing" -> "bg-pink-50 text-pink-700"
-      "shipped"    -> "bg-indigo-50 text-indigo-600"
-      "delivered"  -> "bg-green-50 text-green-700"
-      "cancelled"  -> "bg-gray-100 text-gray-500"
-      "failed"     -> "bg-red-50 text-red-400"
-      _            -> "bg-gray-100 text-gray-500"
+      "shipped" -> "bg-indigo-50 text-indigo-600"
+      "delivered" -> "bg-green-50 text-green-700"
+      "cancelled" -> "bg-gray-100 text-gray-500"
+      "failed" -> "bg-red-50 text-red-400"
+      _ -> "bg-gray-100 text-gray-500"
     end
   end
 
   defp status_dot(status) do
     case status do
-      "paid"       -> "bg-[#C8001F]"
+      "paid" -> "bg-[#C8001F]"
       "processing" -> "bg-pink-500"
-      "shipped"    -> "bg-indigo-500"
-      "delivered"  -> "bg-green-500"
-      "cancelled"  -> "bg-gray-400"
-      "failed"     -> "bg-red-400"
-      _            -> "bg-gray-400"
+      "shipped" -> "bg-indigo-500"
+      "delivered" -> "bg-green-500"
+      "cancelled" -> "bg-gray-400"
+      "failed" -> "bg-red-400"
+      _ -> "bg-gray-400"
     end
   end
 
   defp format_date(dt), do: Calendar.strftime(dt, "%d %b %Y, %H:%M")
 
   defp greeting do
-    hour = DateTime.utc_now().hour + 3  # rough EAT offset
+    # rough EAT offset
+    hour = DateTime.utc_now().hour + 3
+
     cond do
       hour < 12 -> "Good morning"
       hour < 17 -> "Good afternoon"
-      true      -> "Good evening"
+      true -> "Good evening"
     end
   end
 
@@ -240,13 +248,16 @@ defmodule KulolaWeb.DashboardLive.Index do
   def render(assigns) do
     ~H"""
     <div class="space-y-7">
-
-      <!-- ── Hero greeting banner ── -->
+      
+    <!-- ── Hero greeting banner ── -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#C8001F] via-[#a8001a] to-[#6b0010] p-7 text-white shadow-lg">
         <!-- Decorative circles -->
-        <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/5"></div>
-        <div class="pointer-events-none absolute -bottom-10 -right-4 h-32 w-32 rounded-full bg-white/5"></div>
-        <div class="pointer-events-none absolute bottom-4 right-40 h-16 w-16 rounded-full bg-white/8"></div>
+        <div class="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/5">
+        </div>
+        <div class="pointer-events-none absolute -bottom-10 -right-4 h-32 w-32 rounded-full bg-white/5">
+        </div>
+        <div class="pointer-events-none absolute bottom-4 right-40 h-16 w-16 rounded-full bg-white/8">
+        </div>
 
         <div class="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -255,20 +266,24 @@ defmodule KulolaWeb.DashboardLive.Index do
               Kulola's Closet
             </h1>
             <p class="mt-2 text-sm text-red-200 max-w-xs">
-              Here's what's happening in your store today. Fashion & Function.
+              Here's what's happening in your store today. Fashion .
             </p>
           </div>
-
-          <!-- Revenue highlight -->
+          
+    <!-- Revenue highlight -->
           <div class="flex-shrink-0 rounded-2xl bg-white/10 px-6 py-4 backdrop-blur-sm border border-white/20">
             <p class="text-xs font-semibold uppercase tracking-widest text-red-200">Total Revenue</p>
-            <p class="mt-1 font-serif text-3xl font-bold tabular-nums">KES {@total_revenue |> fmt()}</p>
-            <p class="mt-1 text-xs text-red-200">{@total_orders} confirmed {if @total_orders == 1, do: "order", else: "orders"}</p>
+            <p class="mt-1 font-serif text-3xl font-bold tabular-nums">
+              KES {@total_revenue |> fmt()}
+            </p>
+            <p class="mt-1 text-xs text-red-200">
+              {@total_orders} confirmed {if @total_orders == 1, do: "order", else: "orders"}
+            </p>
           </div>
         </div>
       </div>
-
-      <!-- ── KPI cards ── -->
+      
+    <!-- ── KPI cards ── -->
       <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <.kpi_card
           label="Orders"
@@ -303,11 +318,11 @@ defmodule KulolaWeb.DashboardLive.Index do
           value_class="text-pink-600"
         />
       </div>
-
-      <!-- ── Charts row ── -->
+      
+    <!-- ── Charts row ── -->
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-
-        <!-- Revenue chart — 2/3 -->
+        
+    <!-- Revenue chart — 2/3 -->
         <div class="lg:col-span-2 overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
           <div class="flex items-center justify-between border-b border-gray-50 px-6 py-5">
             <div>
@@ -320,12 +335,17 @@ defmodule KulolaWeb.DashboardLive.Index do
           </div>
           <div class="px-6 pb-6 pt-2">
             <div class="h-52">
-              <canvas id="revenue-chart" phx-hook="ChartHook" data-type="line" data-chart={@revenue_chart} />
+              <canvas
+                id="revenue-chart"
+                phx-hook="ChartHook"
+                data-type="line"
+                data-chart={@revenue_chart}
+              />
             </div>
           </div>
         </div>
-
-        <!-- Status doughnut — 1/3 -->
+        
+    <!-- Status doughnut — 1/3 -->
         <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
           <div class="border-b border-gray-50 px-6 py-5">
             <h2 class="font-serif text-base font-semibold text-gray-900">Orders by Status</h2>
@@ -333,39 +353,54 @@ defmodule KulolaWeb.DashboardLive.Index do
           </div>
           <div class="px-6 pb-4 pt-2">
             <div class="h-52">
-              <canvas id="status-chart" phx-hook="ChartHook" data-type="doughnut" data-chart={@status_chart} />
+              <canvas
+                id="status-chart"
+                phx-hook="ChartHook"
+                data-type="doughnut"
+                data-chart={@status_chart}
+              />
             </div>
           </div>
         </div>
-
       </div>
-
-      <!-- ── Bottom row ── -->
+      
+    <!-- ── Bottom row ── -->
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
-
-        <!-- Top products — 2/3 -->
+        
+    <!-- Top products — 2/3 -->
         <div class="lg:col-span-2 overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
           <div class="flex items-center justify-between border-b border-gray-50 px-6 py-5">
             <div>
               <h2 class="font-serif text-base font-semibold text-gray-900">Best-Selling Products</h2>
               <p class="text-xs text-gray-400">By total revenue across all orders</p>
             </div>
-            <.link navigate="/admin/products" class="text-xs font-semibold text-[#C8001F] hover:underline">
+            <.link
+              navigate="/admin/products"
+              class="text-xs font-semibold text-[#C8001F] hover:underline"
+            >
               Browse all →
             </.link>
           </div>
           <div class="px-6 pb-6 pt-2">
             <div class="h-56">
-              <canvas id="top-products-chart" phx-hook="ChartHook" data-type="bar" data-chart={@top_products_chart} />
+              <canvas
+                id="top-products-chart"
+                phx-hook="ChartHook"
+                data-type="bar"
+                data-chart={@top_products_chart}
+              />
             </div>
           </div>
         </div>
-
-        <!-- Recent orders — 1/3 -->
+        
+    <!-- Recent orders — 1/3 -->
         <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
           <div class="flex items-center justify-between border-b border-gray-50 px-5 py-5">
             <h2 class="font-serif text-base font-semibold text-gray-900">Recent Orders</h2>
-            <.link navigate="/admin/orders" class="text-xs font-semibold text-[#C8001F] hover:underline">
+            <.link
+              navigate="/admin/orders"
+              class="text-xs font-semibold text-[#C8001F] hover:underline"
+            >
               View all →
             </.link>
           </div>
@@ -378,10 +413,17 @@ defmodule KulolaWeb.DashboardLive.Index do
               </div>
             <% else %>
               <%= for order <- @recent_orders do %>
-                <.link navigate={"/admin/orders/#{order.id}"} class="flex items-center gap-3 px-5 py-3.5 transition hover:bg-gray-50/80">
+                <.link
+                  navigate={"/admin/orders/#{order.id}"}
+                  class="flex items-center gap-3 px-5 py-3.5 transition hover:bg-gray-50/80"
+                >
                   <!-- Avatar initials -->
                   <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#C8001F]/10 text-xs font-bold text-[#C8001F]">
-                    {order.name |> String.split() |> Enum.take(2) |> Enum.map(&String.first/1) |> Enum.join()}
+                    {order.name
+                    |> String.split()
+                    |> Enum.take(2)
+                    |> Enum.map(&String.first/1)
+                    |> Enum.join()}
                   </div>
                   <div class="min-w-0 flex-1">
                     <p class="truncate text-xs font-semibold text-gray-900">{order.name}</p>
@@ -410,13 +452,12 @@ defmodule KulolaWeb.DashboardLive.Index do
             </div>
           <% end %>
         </div>
-
       </div>
-
-      <!-- ── Status pills + Quick actions ── -->
+      
+    <!-- ── Status pills + Quick actions ── -->
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-        <!-- Status mini-tiles -->
+        
+    <!-- Status mini-tiles -->
         <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
           <h2 class="mb-4 font-serif text-base font-semibold text-gray-900">Order Pipeline</h2>
           <div class="grid grid-cols-3 gap-3">
@@ -436,46 +477,64 @@ defmodule KulolaWeb.DashboardLive.Index do
                 <span class="mt-1 text-lg font-bold tabular-nums text-gray-900">
                   {Map.get(@status_counts, status, 0)}
                 </span>
-                <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">{label}</span>
+                <span class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">
+                  {label}
+                </span>
               </.link>
             <% end %>
           </div>
         </div>
-
-        <!-- Quick actions -->
+        
+    <!-- Quick actions -->
         <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
           <h2 class="mb-4 font-serif text-base font-semibold text-gray-900">Quick Actions</h2>
           <div class="grid grid-cols-2 gap-3">
-            <.link navigate="/admin/orders"
-              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5">
-              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#C8001F]/10 text-lg group-hover:bg-[#C8001F]/20 transition">🛍️</span>
+            <.link
+              navigate="/admin/orders"
+              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5"
+            >
+              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#C8001F]/10 text-lg group-hover:bg-[#C8001F]/20 transition">
+                🛍️
+              </span>
               <div>
                 <p class="text-sm font-semibold text-gray-900">Orders</p>
                 <p class="text-xs text-gray-400">{Map.get(@status_counts, "all", 0)} total</p>
               </div>
             </.link>
 
-            <.link navigate="/admin/customers"
-              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5">
-              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-violet-100 text-lg group-hover:bg-violet-200 transition">👥</span>
+            <.link
+              navigate="/admin/customers"
+              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5"
+            >
+              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-violet-100 text-lg group-hover:bg-violet-200 transition">
+                👥
+              </span>
               <div>
                 <p class="text-sm font-semibold text-gray-900">Customers</p>
                 <p class="text-xs text-gray-400">{@total_customers} buyers</p>
               </div>
             </.link>
 
-            <.link navigate="/admin/products"
-              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5">
-              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-pink-100 text-lg group-hover:bg-pink-200 transition">👗</span>
+            <.link
+              navigate="/admin/products"
+              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5"
+            >
+              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-pink-100 text-lg group-hover:bg-pink-200 transition">
+                👗
+              </span>
               <div>
                 <p class="text-sm font-semibold text-gray-900">Products</p>
                 <p class="text-xs text-gray-400">{@total_products} items</p>
               </div>
             </.link>
 
-            <.link navigate="/admin/promotions"
-              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5">
-              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-amber-100 text-lg group-hover:bg-amber-200 transition">🏷️</span>
+            <.link
+              navigate="/admin/promotions"
+              class="group flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 p-4 transition hover:border-[#C8001F]/30 hover:bg-[#C8001F]/5"
+            >
+              <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-amber-100 text-lg group-hover:bg-amber-200 transition">
+                🏷️
+              </span>
               <div>
                 <p class="text-sm font-semibold text-gray-900">Promo Codes</p>
                 <p class="text-xs text-gray-400">Influencer campaigns</p>
@@ -483,20 +542,18 @@ defmodule KulolaWeb.DashboardLive.Index do
             </.link>
           </div>
         </div>
-
       </div>
-
     </div>
     """
   end
 
   # ── Sub-components ────────────────────────────────────────────────────────
 
-  attr :label,       :string, required: true
-  attr :value,       :string, required: true
-  attr :sub,         :string, default: ""
-  attr :icon,        :string, default: "✦"
-  attr :accent,      :string, default: "bg-gray-50 border-gray-100"
+  attr :label, :string, required: true
+  attr :value, :string, required: true
+  attr :sub, :string, default: ""
+  attr :icon, :string, default: "✦"
+  attr :accent, :string, default: "bg-gray-50 border-gray-100"
   attr :value_class, :string, default: "text-gray-900"
 
   defp kpi_card(assigns) do
