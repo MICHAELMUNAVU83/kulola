@@ -52,25 +52,28 @@ defmodule KulolaWeb.BundleLive.Index do
   def render(assigns) do
     ~H"""
     <%!-- Page Header --%>
-    <div class="mb-8 flex items-center justify-between">
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Catalogue</p>
-        <h1 class="mt-1 text-2xl font-bold text-gray-900">Bundles</h1>
+    <div class="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-r from-[#C8001F] to-[#8b0014] px-7 py-6 text-white shadow-md">
+      <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-red-200">Catalogue</p>
+          <h1 class="mt-0.5 font-serif text-2xl font-bold">Bundles</h1>
+        </div>
+        <.link patch={~p"/admin/bundles/new"}>
+          <button class="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#C8001F] transition hover:bg-red-50 shadow-sm">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            New Bundle
+          </button>
+        </.link>
       </div>
-      <.link patch={~p"/admin/bundles/new"}>
-        <button class="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-700">
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-          New Bundle
-        </button>
-      </.link>
     </div>
 
     <%!-- Table card --%>
-    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white">
+    <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
       <div class="border-b border-gray-100 px-5 py-4">
-        <p class="text-sm font-semibold text-gray-700">All Bundles</p>
+        <p class="font-serif text-sm font-semibold text-gray-700">All Bundles</p>
       </div>
 
       <div class="overflow-x-auto">

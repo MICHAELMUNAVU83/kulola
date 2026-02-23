@@ -9,7 +9,9 @@ defmodule KulolaWeb.HomeComponents do
     ~H"""
     <div class="bg-[#C8001F] py-2 text-center text-xs font-medium text-white tracking-wide">
       ✨ Use Coupon Code for 20% Off — Limited Time.
-      <a href="/" class="ml-1 underline decoration-white/50 hover:decoration-white">Shop Now</a>
+      <a href="/#collections" class="ml-1 underline decoration-white/50 hover:decoration-white">
+        Shop Now
+      </a>
     </div>
     """
   end
@@ -27,7 +29,8 @@ defmodule KulolaWeb.HomeComponents do
       id="mobile-menu-backdrop"
       class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"
       onclick="closeMobileMenu()"
-    ></div>
+    >
+    </div>
 
     <%!-- Mobile slide-in panel (left) --%>
     <div
@@ -37,16 +40,23 @@ defmodule KulolaWeb.HomeComponents do
     >
       <%!-- Panel header --%>
       <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4">
-          <a href="/" class="flex items-center gap-2.5">
+        <a href="/" class="flex items-center gap-2.5">
           <img src="/images/kulola-logo.png" alt="Kulola" class="h-8 w-8 rounded-full object-cover" />
-          <span class="brand-logo text-2xl text-gray-900">Kulola's Closet<span class="text-[#C8001F]">.</span></span>
+          <span class="brand-logo text-2xl text-gray-900">
+            Kulola's Closet<span class="text-[#C8001F]">.</span>
+          </span>
         </a>
         <button
           onclick="closeMobileMenu()"
           class="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black"
         >
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
@@ -54,8 +64,18 @@ defmodule KulolaWeb.HomeComponents do
       <%!-- Mobile search --%>
       <div class="px-5 py-4 border-b border-gray-100">
         <div class="relative">
-          <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <input
             type="text"
@@ -67,9 +87,17 @@ defmodule KulolaWeb.HomeComponents do
 
       <%!-- Mobile nav links --%>
       <nav class="flex-1 overflow-y-auto px-4 py-4 space-y-1">
-        <a href="/" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition">
+        <a
+          href="/"
+          class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition"
+        >
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            />
           </svg>
           Home
         </a>
@@ -81,33 +109,84 @@ defmodule KulolaWeb.HomeComponents do
             class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50 transition"
           >
             <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
             </svg>
             <span class="flex-1 text-left">Shop</span>
-            <svg class="h-4 w-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            <svg
+              class="h-4 w-4 text-gray-400 transition-transform duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </button>
           <div class="hidden ml-7 mt-1 space-y-1 border-l border-gray-100 pl-4">
-            <a href="/" class="block py-2 text-sm text-gray-600 hover:text-black transition">All Products</a>
-            <a href="/" class="block py-2 text-sm text-gray-600 hover:text-black transition">New Arrivals</a>
-            <a href="/" class="block py-2 text-sm text-gray-600 hover:text-black transition">Bestsellers</a>
+            <a
+              href="/#collections"
+              class="block py-2 text-sm text-gray-600 hover:text-black transition"
+            >
+              All Collections
+            </a>
+            <a
+              href="/#new-arrivals"
+              class="block py-2 text-sm text-gray-600 hover:text-black transition"
+            >
+              New Arrivals
+            </a>
+            <a
+              href="/#bestsellers"
+              class="block py-2 text-sm text-gray-600 hover:text-black transition"
+            >
+              Bestsellers
+            </a>
             <%= for col <- @collections do %>
-              <a href={"/collections/#{col.slug}"} class="block py-2 text-sm text-gray-600 hover:text-black transition">{col[:title] || col[:name] || col.slug}</a>
+              <a
+                href={"/collections/#{col.slug}"}
+                class="block py-2 text-sm text-gray-600 hover:text-black transition"
+              >
+                {col[:title] || col[:name] || col.slug}
+              </a>
             <% end %>
           </div>
         </div>
 
-        <a href="/#new-arrivals" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-black transition">
+        <a
+          href="/#new-arrivals"
+          class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-black transition"
+        >
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+            />
           </svg>
           New Arrivals
         </a>
 
-        <a href="/#contact" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-black transition">
+        <a
+          href="/#contact"
+          class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-black transition"
+        >
           <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
           </svg>
           Contact
         </a>
@@ -120,7 +199,12 @@ defmodule KulolaWeb.HomeComponents do
           class="flex items-center justify-center gap-2 rounded-full border border-gray-300 py-3 text-sm font-medium text-gray-700 transition hover:border-black hover:text-black"
         >
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
           </svg>
           View Cart
         </a>
@@ -138,7 +222,8 @@ defmodule KulolaWeb.HomeComponents do
       id="cart-drawer-backdrop"
       class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none"
       onclick="window.CartDrawer && window.CartDrawer.close()"
-    ></div>
+    >
+    </div>
 
     <div
       id="cart-drawer"
@@ -148,7 +233,12 @@ defmodule KulolaWeb.HomeComponents do
       <div class="flex items-center justify-between border-b border-gray-100 px-5 py-4">
         <div class="flex items-center gap-2">
           <svg class="h-5 w-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
           </svg>
           <h2 class="text-base font-semibold text-gray-900">
             Your Cart (<span id="drawer-item-count">0</span>)
@@ -159,15 +249,28 @@ defmodule KulolaWeb.HomeComponents do
           class="rounded-lg p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-black"
         >
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
 
       <div id="cart-drawer-items" class="flex-1 overflow-y-auto px-5 py-4">
-        <div id="cart-drawer-empty" class="flex flex-col items-center justify-center py-16 text-center">
+        <div
+          id="cart-drawer-empty"
+          class="flex flex-col items-center justify-center py-16 text-center"
+        >
           <svg class="h-14 w-14 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
           </svg>
           <p class="mt-4 text-sm font-medium text-gray-600">Your cart is empty</p>
           <p class="mt-1 text-xs text-gray-400">Add some items to get started</p>
@@ -178,12 +281,18 @@ defmodule KulolaWeb.HomeComponents do
       <div id="cart-drawer-footer" class="hidden border-t border-gray-100 px-5 py-5">
         <div class="mb-4 flex justify-between text-sm">
           <span class="text-gray-500">Subtotal</span>
-          <span class="font-semibold text-gray-900">KSH <span id="drawer-total">0</span></span>
+          <span class="font-semibold text-gray-900">KES <span id="drawer-total">0</span></span>
         </div>
-        <a href="/checkout" class="block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800">
+        <a
+          href="/checkout"
+          class="block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800"
+        >
           Checkout →
         </a>
-        <a href="/cart" class="mt-2 block w-full rounded-full border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 transition hover:border-black hover:text-black">
+        <a
+          href="/cart"
+          class="mt-2 block w-full rounded-full border border-gray-300 py-3 text-center text-sm font-medium text-gray-700 transition hover:border-black hover:text-black"
+        >
           View Cart
         </a>
       </div>
@@ -195,7 +304,6 @@ defmodule KulolaWeb.HomeComponents do
       class="sticky top-0 z-30 border-b border-gray-100 bg-white/95 backdrop-blur-md transition-shadow duration-300"
     >
       <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
-
         <%!-- Hamburger (mobile only) --%>
         <button
           onclick="openMobileMenu()"
@@ -203,13 +311,22 @@ defmodule KulolaWeb.HomeComponents do
           aria-label="Open menu"
         >
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
 
         <%!-- Logo --%>
         <a href="/" class="flex items-center gap-2.5">
-          <img src="/images/kulola-logo.png" alt="Kulola" class="h-9 w-9 rounded-full object-cover shadow-sm ring-1 ring-black/5" />
+          <img
+            src="/images/kulola-logo.png"
+            alt="Kulola"
+            class="h-9 w-9 rounded-full object-cover shadow-sm ring-1 ring-black/5"
+          />
           <span class="brand-logo text-2xl text-gray-900 sm:text-3xl">
             Kulola's Closet<span class="text-[#C8001F]">.</span>
           </span>
@@ -217,7 +334,10 @@ defmodule KulolaWeb.HomeComponents do
 
         <%!-- Desktop nav --%>
         <nav class="hidden flex-1 items-center gap-1 lg:flex lg:ml-6">
-          <a href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition">
+          <a
+            href="/"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition"
+          >
             Home
           </a>
 
@@ -225,22 +345,41 @@ defmodule KulolaWeb.HomeComponents do
           <div class="group relative">
             <button class="flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition">
               Shop
-              <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              <svg
+                class="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
             <%!-- Dropdown panel --%>
             <div class="invisible absolute left-0 top-full z-20 mt-1 w-52 origin-top scale-95 rounded-2xl border border-gray-100 bg-white p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
-              <a href="/" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+              <a
+                href="/#new-arrivals"
+                class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition"
+              >
                 <span class="text-base">✨</span> New Arrivals
               </a>
-              <a href="/" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+              <a
+                href="/#bestsellers"
+                class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition"
+              >
                 <span class="text-base">🔥</span> Bestsellers
               </a>
               <%= if @collections != [] do %>
                 <div class="my-1.5 border-t border-gray-100"></div>
                 <%= for col <- @collections do %>
-                  <a href={"/collections/#{col.slug}"} class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition">
+                  <a
+                    href={"/collections/#{col.slug}"}
+                    class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition"
+                  >
                     <span class="h-2 w-2 rounded-full bg-gray-300"></span>
                     {col[:title] || col[:name] || col.slug}
                   </a>
@@ -249,10 +388,16 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
 
-          <a href="/#new-arrivals" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition">
+          <a
+            href="/#new-arrivals"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition"
+          >
             New Arrivals
           </a>
-          <a href="/#contact" class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition">
+          <a
+            href="/#contact"
+            class="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition"
+          >
             Contact
           </a>
         </nav>
@@ -262,11 +407,20 @@ defmodule KulolaWeb.HomeComponents do
 
         <%!-- Right actions --%>
         <div class="flex items-center gap-1">
-
           <%!-- Search (desktop only) --%>
           <div class="relative hidden lg:block">
-            <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg
+              class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
             <input
               type="text"
@@ -278,14 +432,27 @@ defmodule KulolaWeb.HomeComponents do
           <%!-- Search icon (mobile only) --%>
           <button class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition lg:hidden">
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
           </button>
 
           <%!-- Account --%>
-          <button class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition" aria-label="Account">
+          <button
+            class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 hover:text-black transition"
+            aria-label="Account"
+          >
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
             </svg>
           </button>
 
@@ -297,17 +464,23 @@ defmodule KulolaWeb.HomeComponents do
           >
             <span class="relative">
               <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               <span
                 id="cart-count-badge"
                 style="display:none;"
                 class="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#C8001F] text-[10px] font-bold text-white"
-              >0</span>
+              >
+                0
+              </span>
             </span>
             <span class="hidden text-sm font-medium sm:inline">Cart</span>
           </button>
-
         </div>
       </div>
     </header>
@@ -335,6 +508,7 @@ defmodule KulolaWeb.HomeComponents do
   end
 
   attr :hero_images, :list, default: []
+  attr :collections, :list, default: []
 
   def hero(assigns) do
     ~H"""
@@ -349,8 +523,8 @@ defmodule KulolaWeb.HomeComponents do
             style="transform: translateX(0%);"
           >
           </div>
-
-          <!-- Background Marquee Text -->
+          
+    <!-- Background Marquee Text -->
           <div class="pointer-events-none absolute inset-0 flex items-center overflow-hidden opacity-[0.04]">
             <div class="animate-marquee-slow flex whitespace-nowrap">
               <span class="mx-4 text-[120x] font-bold uppercase leading-none tracking-tight sm:text-[280px] lg:text-[350px]">
@@ -364,11 +538,11 @@ defmodule KulolaWeb.HomeComponents do
               </span>
             </div>
           </div>
-
-          <!-- Content -->
+          
+    <!-- Content -->
           <div class="hero-content relative z-10 opacity-0 transition-all delay-300 duration-700">
             <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-widest text-gray-700">
-              <span class="h-px w-8 bg-gray-500"></span> SPRING 2025
+              <span class="h-px w-8 bg-gray-500"></span> Everyday Fashion, Effortlessly You💫
             </div>
 
             <p class="font-tagline mt-3 text-2xl">Fashion &amp; Function</p>
@@ -380,23 +554,27 @@ defmodule KulolaWeb.HomeComponents do
             <p class="mt-6 max-w-md text-base text-gray-700 sm:text-lg">
               Discover our latest collection where fluid design meets architectural precision. Each piece is crafted to move with you.
             </p>
-
-            <!-- Stats -->
-            <div class="mt-8 flex gap-12">
-              <div>
-                <p class="text-4xl font-bold text-gray-900 sm:text-4xl">{length(@hero_images)}</p>
-                <p class="text-base text-gray-700">New Pieces</p>
+            
+            <%!-- Stats --%>
+            <div class="mt-8 flex gap-8 divide-x divide-gray-300">
+              <div class="pr-8">
+                <p class="text-4xl font-bold text-gray-900">{length(@collections)}+</p>
+                <p class="mt-0.5 text-sm font-medium text-gray-600">Collections</p>
               </div>
-              <div>
-                <p class="text-4xl font-bold text-gray-900 sm:text-4xl">100%</p>
-                <p class="text-base text-gray-700">Sustainable</p>
+              <div class="pl-8 pr-8">
+                <p class="text-4xl font-bold text-gray-900">10K+</p>
+                <p class="mt-0.5 text-sm font-medium text-gray-600">Happy Clients</p>
+              </div>
+              <div class="pl-8">
+                <p class="text-4xl font-bold text-gray-900">New</p>
+                <p class="mt-0.5 text-sm font-medium text-gray-600">Drops Monthly</p>
               </div>
             </div>
-
-            <!-- Buttons -->
+            
+    <!-- Buttons -->
             <div class="mt-8 flex flex-wrap gap-4">
               <a
-                href="/shop"
+                href="/#collections"
                 class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
               >
                 Shop Now
@@ -411,8 +589,8 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
         </div>
-
-        <!-- Right: Swiper Image Panel -->
+        
+    <!-- Right: Swiper Image Panel -->
         <div class="relative min-h-[400px] overflow-hidden lg:min-h-full">
           <!-- Black Overlay (Right) — kept for HeroReveal animation -->
           <div
@@ -421,8 +599,8 @@ defmodule KulolaWeb.HomeComponents do
             style="transform: translateX(0%);"
           >
           </div>
-
-          <!-- Swiper wrapper — id="hero-image" so HeroReveal targets the whole panel -->
+          
+    <!-- Swiper wrapper — id="hero-image" so HeroReveal targets the whole panel -->
           <div
             id="hero-image"
             class="swiper hero-swiper absolute inset-0 h-full w-full opacity-0 transition-all duration-700"
@@ -442,11 +620,7 @@ defmodule KulolaWeb.HomeComponents do
               <% else %>
                 <%= for img <- @hero_images do %>
                   <div class="swiper-slide h-full">
-                    <img
-                      src={img.image}
-                      alt={img.alt}
-                      class="h-full w-full object-cover"
-                    />
+                    <img src={img.image} alt={img.alt} class="h-full w-full object-cover" />
                   </div>
                 <% end %>
               <% end %>
@@ -460,7 +634,7 @@ defmodule KulolaWeb.HomeComponents do
 
   def collections(assigns) do
     ~H"""
-    <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section id="collections" class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-7xl">
         <div class="text-center" data-motion-reveal>
           <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
@@ -474,16 +648,20 @@ defmodule KulolaWeb.HomeComponents do
           <%= for {collection, index} <- Enum.with_index(@collections, 1) do %>
             <a
               href={collection.href}
-              class="group relative flex min-h-[220px] flex-col justify-between rounded-xl border border-gray-200 bg-white p-5 transition-all hover:border-transparent hover:bg-[#e8dfd4] hover:shadow-lg"
+              class="group relative flex min-h-[220px] flex-col justify-between rounded-xl border border-[#C8001F]/30 bg-white p-5 transition-all hover:border-[#C8001F] hover:bg-[#C8001F]/5 hover:shadow-lg hover:shadow-[#C8001F]/10"
               data-motion-reveal
             >
               <div>
-                <span class="text-sm text-gray-400">{String.pad_leading("#{index}", 2, "0")}</span>
-                <h3 class="mt-2 text-xl font-semibold text-black">{collection.name}</h3>
+                <span class="text-sm text-[#C8001F]/50 group-hover:text-[#C8001F]">
+                  {String.pad_leading("#{index}", 2, "0")}
+                </span>
+                <h3 class="mt-2 text-xl font-semibold text-black group-hover:text-[#C8001F]">
+                  {collection.name}
+                </h3>
               </div>
 
               <%= if collection.image do %>
-                <div class="my-4 opacity-0 transition-opacity  ease-in-out duration-500 group-hover:opacity-100">
+                <div class="my-4 opacity-0 transition-opacity ease-in-out duration-500 group-hover:opacity-100">
                   <img
                     src={collection.image}
                     alt={collection.name}
@@ -493,9 +671,11 @@ defmodule KulolaWeb.HomeComponents do
               <% end %>
 
               <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-700">{collection.item_count} Items</span>
+                <span class="text-sm text-gray-500 group-hover:text-[#C8001F]/70">
+                  {collection.item_count} Items
+                </span>
                 <svg
-                  class="h-5 w-5 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-black"
+                  class="h-5 w-5 text-[#C8001F]/40 transition-transform group-hover:translate-x-1 group-hover:text-[#C8001F]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -543,7 +723,7 @@ defmodule KulolaWeb.HomeComponents do
           </h2>
 
           <a
-            href="/shop"
+            href="/#collections"
             class="mt-8 w-fit rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
           >
             Shop Now
@@ -592,11 +772,11 @@ defmodule KulolaWeb.HomeComponents do
               </h3>
               <div class="mt-1 flex items-center gap-2">
                 <span class="text-base font-semibold text-red-500">
-                  $ {product[:price] && Decimal.to_string(product[:price])} USD
+                  KES {KulolaWeb.Format.price(product[:price] || 0)}
                 </span>
                 <%= if product[:original_price] do %>
                   <span class="text-sm text-gray-400 line-through">
-                    ${product[:original_price] && Decimal.to_string(product[:original_price])} USD
+                    KES {KulolaWeb.Format.price(product[:original_price] || 0)}
                   </span>
                 <% end %>
               </div>
@@ -631,7 +811,7 @@ defmodule KulolaWeb.HomeComponents do
 
   def new_arrivals(assigns) do
     ~H"""
-    <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section id="new-arrivals" class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-7xl">
         <div class="text-center" data-motion-reveal>
           <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">New Arrivals</p>
@@ -685,8 +865,8 @@ defmodule KulolaWeb.HomeComponents do
             <div class="swiper-wrapper">
               <%= for product <- @products do %>
                 <div class="swiper-slide">
-                  <div class="group">
-                    <!-- Image -->
+                  <a href={"/products/#{product.slug}"} class="group block">
+                    <%!-- Image --%>
                     <div class="relative overflow-hidden rounded-lg bg-gray-100">
                       <%= if product.badge do %>
                         <span class={"absolute left-3 top-3 z-10 rounded px-2 py-1 text-xs font-semibold text-white #{if product.badge == "Sale", do: "bg-green-600", else: "bg-red-500"}"}>
@@ -699,29 +879,29 @@ defmodule KulolaWeb.HomeComponents do
                         class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <!-- Color Swatches -->
+                    <%!-- Color Swatches --%>
                     <div class="mt-4 flex gap-2">
                       <%= for color <- product.colors do %>
-                        <button
+                        <span
                           class={"h-6 w-6 rounded-full border-2 #{if color.selected, do: "border-black", else: "border-transparent"}"}
                           style={"background-color: #{color.hex}"}
                         >
-                        </button>
-                      <% end %>
-                    </div>
-                    <!-- Product Info -->
-                    <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
-                    <div class="mt-1 flex items-center gap-2">
-                      <span class={"font-semibold #{if product.original_price, do: "text-red-500", else: "text-black"}"}>
-                        $ {product.price} USD
-                      </span>
-                      <%= if product.original_price do %>
-                        <span class="text-sm text-gray-400 line-through">
-                          ${product.original_price} USD
                         </span>
                       <% end %>
                     </div>
-                  </div>
+                    <%!-- Product Info --%>
+                    <h3 class="mt-3 text-sm font-medium text-black group-hover:text-[#C8001F] transition-colors">{product.name}</h3>
+                    <div class="mt-1 flex items-center gap-2">
+                      <span class={"font-semibold #{if product.original_price, do: "text-red-500", else: "text-black"}"}>
+                        KES {KulolaWeb.Format.price(product.price)}
+                      </span>
+                      <%= if product.original_price do %>
+                        <span class="text-sm text-gray-400 line-through">
+                          KES {KulolaWeb.Format.price(product.original_price)}
+                        </span>
+                      <% end %>
+                    </div>
+                  </a>
                 </div>
               <% end %>
             </div>
@@ -922,7 +1102,9 @@ defmodule KulolaWeb.HomeComponents do
                         <% end %>
                       </div>
                       <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
-                      <p class="mt-1 font-semibold text-black">$ {product.price} USD</p>
+                      <p class="mt-1 font-semibold text-black">
+                        KES {KulolaWeb.Format.price(product.price)}
+                      </p>
                     </div>
                   </a>
                 <% end %>
@@ -931,7 +1113,7 @@ defmodule KulolaWeb.HomeComponents do
     <!-- Shop Now Button -->
               <div class="border-t border-gray-200 bg-white p-6 text-center">
                 <a
-                  href="/shop/bundles"
+                  href="/#collections"
                   class="inline-block rounded-full bg-[#C8001F] px-10 py-3 text-sm font-medium text-white transition hover:bg-red-800"
                 >
                   Shop Now
@@ -1029,7 +1211,9 @@ defmodule KulolaWeb.HomeComponents do
                 />
                 <div>
                   <p class="text-sm font-medium text-gray-900">{testimonial.product.name}</p>
-                  <p class="text-sm text-gray-600">$ {testimonial.product.price} USD</p>
+                  <p class="text-sm text-gray-600">
+                    KES {KulolaWeb.Format.price(testimonial.product.price)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -1042,7 +1226,7 @@ defmodule KulolaWeb.HomeComponents do
 
   def best_sellers(assigns) do
     ~H"""
-    <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24" data-motion-reveal>
+    <section id="bestsellers" class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24" data-motion-reveal>
       <div class="mx-auto max-w-7xl">
         <div class="grid gap-6 lg:grid-cols-12">
           <!-- Left Promo Card - Takes 4 columns, spans full height -->
@@ -1059,7 +1243,7 @@ defmodule KulolaWeb.HomeComponents do
               </p>
 
               <a
-                href="/bestsellers"
+                href="/#bestsellers"
                 class="mt-8 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
               >
                 Shop Now
@@ -1080,7 +1264,7 @@ defmodule KulolaWeb.HomeComponents do
 
           <div class="grid grid-cols-2 gap-6 lg:col-span-5">
             <%= for product <- @bestsellers do %>
-              <div class="group">
+              <a href={"/products/#{product.slug}"} class="group block">
                 <div class="overflow-hidden rounded-lg bg-gray-100">
                   <img
                     src={product.main_image}
@@ -1091,17 +1275,19 @@ defmodule KulolaWeb.HomeComponents do
 
                 <div class="mt-4 flex gap-2">
                   <%= for color <- product.colors do %>
-                    <button
-                      class={"h-7 w-7 rounded-full border-2 transition-all hover:scale-110 #{if color.selected, do: "border-black", else: "border-gray-200 hover:border-gray-400"}"}
+                    <span
+                      class={"inline-block h-7 w-7 rounded-full border-2 #{if color.selected, do: "border-black", else: "border-gray-200"}"}
                       style={"background-color: #{color.hex}"}
-                      aria-label={"Select #{color.name}"}
+                      aria-label={"#{color.name}"}
                     >
-                    </button>
+                    </span>
                   <% end %>
                 </div>
 
-                <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
-                <p class="mt-1 font-semibold text-black">$ {product.price} USD</p>
+                <h3 class="mt-3 text-sm font-medium text-black group-hover:text-[#C8001F] transition-colors">{product.name}</h3>
+                <p class="mt-1 font-semibold text-black">
+                  KES {KulolaWeb.Format.price(product.price)}
+                </p>
 
                 <div class="mt-2 flex items-center gap-1">
                   <div class="flex text-yellow-400">
@@ -1136,7 +1322,7 @@ defmodule KulolaWeb.HomeComponents do
                   </div>
                   <span class="text-sm text-gray-500">({product.rating})</span>
                 </div>
-              </div>
+              </a>
             <% end %>
           </div>
         </div>
@@ -1347,8 +1533,10 @@ defmodule KulolaWeb.HomeComponents do
   attr :contact_images, :list, default: []
 
   def contact_section(assigns) do
+    assigns = assign_new(assigns, :contact_images, fn -> [] end)
+
     ~H"""
-    <section class="bg-gray-100">
+    <section id="contact" class="bg-gray-100">
       <div class="grid min-h-[420px] lg:grid-cols-2">
         <%!-- Left: Form --%>
         <div class="flex flex-col justify-center px-6 py-12 sm:px-10 sm:py-16 lg:px-14 lg:py-20">
@@ -1439,43 +1627,74 @@ defmodule KulolaWeb.HomeComponents do
   def footer(assigns) do
     ~H"""
     <footer class="bg-black">
-      <!-- Brand strip -->
+      <%!-- Brand strip --%>
       <div class="border-b border-white/10 px-4 py-8">
         <div class="mx-auto flex max-w-7xl flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
           <a href="/" class="flex items-center gap-3">
-            <img src="/images/kulola-logo.png" alt="Kulola" class="h-10 w-10 rounded-full object-cover ring-2 ring-[#C8001F]" />
+            <img
+              src="/images/kulola-logo.png"
+              alt="Kulola's Closet"
+              class="h-10 w-10 rounded-full object-cover ring-2 ring-[#C8001F]"
+            />
             <div>
-              <span class="brand-logo text-3xl text-white">Kulola's Closet<span class="text-[#C8001F]">.</span></span>
-              <p class="text-[10px] uppercase tracking-widest text-gray-500">Fashion &amp; Function</p>
+              <span class="brand-logo text-3xl text-white">
+                Kulola's Closet<span class="text-[#C8001F]">.</span>
+              </span>
+              <p class="text-[10px] uppercase tracking-widest text-gray-500">
+                Everyday Fashion, Effortlessly You
+              </p>
             </div>
           </a>
-          <p class="text-sm text-gray-400 text-center sm:text-right">
-            Premium fashion curated for the bold &amp; expressive.
+          <p class="text-center text-sm text-gray-400 sm:text-right">
+            Curated fits for your casual-feminine closet. New drops monthly.
           </p>
         </div>
       </div>
-      <!-- Main Footer Content -->
+      <%!-- Main Footer Content --%>
       <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <!-- Get In Touch -->
+          <%!-- Contact & Socials --%>
           <div>
             <h3 class="text-xl font-semibold text-white">Get In Touch</h3>
             <ul class="mt-6 space-y-4">
-              <li class="flex items-center gap-3 text-gray-400">
-                <svg
-                  class="h-5 w-5 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
+              <li>
+                <a
+                  href="https://wa.me/254796770862"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-3 text-gray-400 transition hover:text-white"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-                  />
-                </svg>
-                <span>(+00) 123 456 789</span>
+                  <svg class="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                  </svg>
+                  <span>WhatsApp: +254 796 770 862</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://instagram.com/kulolas_closet_page"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-3 text-gray-400 transition hover:text-white"
+                >
+                  <svg class="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                  <span>@kulolas_closet_page</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://tiktok.com/@kulolas_closet_page"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex items-center gap-3 text-gray-400 transition hover:text-white"
+                >
+                  <svg class="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                  </svg>
+                  <span>@kulolas_closet_page</span>
+                </a>
               </li>
               <li class="flex items-center gap-3 text-gray-400">
                 <svg
@@ -1488,67 +1707,51 @@ defmodule KulolaWeb.HomeComponents do
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                    d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75"
                   />
                 </svg>
-                <span>support@example.com</span>
-              </li>
-              <li class="flex items-center gap-3 text-gray-400">
-                <svg
-                  class="h-5 w-5 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-                  />
-                </svg>
-                <span>Elgin St. Celina, Delaware 10299</span>
+                <span>M-Pesa Till: <strong class="text-white">5625020</strong></span>
               </li>
             </ul>
-            
-    <!-- Social Icons -->
+            <%!-- Social icon buttons --%>
             <div class="mt-8 flex gap-3">
               <a
-                href="#"
-                class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-gray-400 transition hover:border-white hover:text-white"
+                href="https://wa.me/254796770862"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-gray-400 transition hover:border-green-500 hover:text-green-400"
               >
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                 </svg>
               </a>
               <a
-                href="#"
-                class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-gray-400 transition hover:border-white hover:text-white"
+                href="https://instagram.com/kulolas_closet_page"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-gray-400 transition hover:border-pink-500 hover:text-pink-400"
               >
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://tiktok.com/@kulolas_closet_page"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
                 class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-gray-400 transition hover:border-white hover:text-white"
               >
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
                 </svg>
               </a>
-              <a
-                href="#"
-                class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 text-gray-400 transition hover:border-white hover:text-white"
-              >
-                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
             </div>
           </div>
-          
-    <!-- Quick Links -->
+
+          <%!-- Quick Links --%>
           <div>
             <h3 class="text-xl font-semibold text-white">Quick Links</h3>
             <ul class="mt-6 space-y-3">
@@ -1556,53 +1759,71 @@ defmodule KulolaWeb.HomeComponents do
                 <a href="/" class="text-gray-400 transition hover:text-white">Home</a>
               </li>
               <li>
-                <a href="/about" class="text-gray-400 transition hover:text-white">About</a>
+                <a href="/#collections" class="text-gray-400 transition hover:text-white">
+                  Shop Collections
+                </a>
               </li>
               <li>
-                <a href="/shop" class="text-gray-400 transition hover:text-white">Shop</a>
+                <a href="/#new-arrivals" class="text-gray-400 transition hover:text-white">
+                  New Arrivals
+                </a>
               </li>
               <li>
-                <a href="/blog" class="text-gray-400 transition hover:text-white">Blog</a>
+                <a href="/#bestsellers" class="text-gray-400 transition hover:text-white">
+                  Bestsellers
+                </a>
               </li>
               <li>
-                <a href="/contact" class="text-gray-400 transition hover:text-white">Contact</a>
+                <a href="/#contact" class="text-gray-400 transition hover:text-white">
+                  Contact Us
+                </a>
               </li>
             </ul>
           </div>
-          
-    <!-- Utility Pages -->
+
+          <%!-- Customer Care --%>
           <div>
-            <h3 class="text-xl font-semibold text-white">Utility Pages</h3>
+            <h3 class="text-xl font-semibold text-white">Customer Care</h3>
             <ul class="mt-6 space-y-3">
               <li>
-                <a href="/password-protected" class="text-gray-400 transition hover:text-white">
-                  Password Protected
+                <a href="/info/how-to-order" class="text-gray-400 transition hover:text-white">
+                  🛍️ How to Order
                 </a>
               </li>
               <li>
-                <a href="/404" class="text-gray-400 transition hover:text-white">404 Not Found</a>
-              </li>
-              <li>
-                <a href="/style-guide" class="text-gray-400 transition hover:text-white">
-                  Style Guide
+                <a href="/info/size-guide" class="text-gray-400 transition hover:text-white">
+                  📐 Size Guide
                 </a>
               </li>
               <li>
-                <a href="/licenses" class="text-gray-400 transition hover:text-white">Licenses</a>
+                <a href="/info/shipping-delivery" class="text-gray-400 transition hover:text-white">
+                  🚚 Shipping &amp; Delivery
+                </a>
               </li>
               <li>
-                <a href="/changelog" class="text-gray-400 transition hover:text-white">Changelog</a>
+                <a href="/info/returns-exchanges" class="text-gray-400 transition hover:text-white">
+                  🔄 Returns &amp; Exchanges
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/254796770862?text=Hi%20Kulola%2C%20I%20want%20to%20track%20my%20order"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-gray-400 transition hover:text-white"
+                >
+                  📦 Track My Order
+                </a>
               </li>
             </ul>
           </div>
-          
-    <!-- Newsletter -->
-          <div>
-            <h3 class="text-xl font-semibold text-white">Newsletter</h3>
-            <p class="mt-6 text-gray-400">
-              Sign up for our newsletter to receive special offers.
-            </p>
 
+          <%!-- Newsletter --%>
+          <div>
+            <h3 class="text-xl font-semibold text-white">Stay in the Loop</h3>
+            <p class="mt-6 text-gray-400">
+              New drops monthly. Be the first to know about restocks &amp; exclusive offers.
+            </p>
             <form class="mt-6" phx-submit="subscribe_newsletter">
               <div class="relative">
                 <input
@@ -1614,7 +1835,7 @@ defmodule KulolaWeb.HomeComponents do
                 />
                 <button
                   type="submit"
-                  class="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white text-black transition hover:bg-gray-200"
+                  class="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#C8001F] text-white transition hover:bg-red-800"
                 >
                   <svg
                     class="h-4 w-4"
@@ -1631,49 +1852,58 @@ defmodule KulolaWeb.HomeComponents do
                   </svg>
                 </button>
               </div>
-
-              <label class="mt-4 flex items-start gap-3 text-sm text-gray-400">
-                <input
-                  type="checkbox"
-                  name="terms"
-                  class="mt-0.5 h-4 w-4 rounded border-gray-600 bg-transparent text-white focus:ring-0 focus:ring-offset-0"
-                />
-                <span>I agree with the terms & conditions</span>
-              </label>
+              <p class="mt-4 text-xs text-gray-500">
+                Follow us on Instagram
+                <a
+                  href="https://instagram.com/kulolas_closet_page"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[#C8001F] transition hover:underline"
+                >
+                  @kulolas_closet_page
+                </a>
+                for daily style inspo.
+              </p>
             </form>
           </div>
         </div>
       </div>
-      
-    <!-- Large Logo Marquee -->
-      <div class="overflow-hidden border-t border-gray-400">
+
+      <%!-- Large Logo Marquee --%>
+      <div class="overflow-hidden border-t border-gray-800">
         <div class="animate-marquee-slow flex whitespace-nowrap py-8">
-          <span class="mx-8 text-[100px] font-bold text-gray-100 sm:text-[140px] opacity-[0.8] lg:text-[180px]">
+          <span class="mx-8 text-[100px] font-bold text-gray-100 opacity-[0.06] sm:text-[140px] lg:text-[180px]">
             Kulola's Closet
           </span>
-          <span class="mx-8 text-[100px] font-bold text-gray-100 sm:text-[140px] opacity-[0.8] lg:text-[180px]">
+          <span class="mx-8 text-[100px] font-bold text-gray-100 opacity-[0.06] sm:text-[140px] lg:text-[180px]">
             Kulola's Closet
           </span>
-          <span class="mx-8 text-[100px] font-bold text-gray-100 sm:text-[140px] opacity-[0.8] lg:text-[180px]">
+          <span class="mx-8 text-[100px] font-bold text-gray-100 opacity-[0.06] sm:text-[140px] lg:text-[180px]">
             Kulola's Closet
           </span>
-          <span class="mx-8 text-[100px] font-bold text-gray-100 sm:text-[140px] opacity-[0.8] lg:text-[180px]">
+          <span class="mx-8 text-[100px] font-bold text-gray-100 opacity-[0.06] sm:text-[140px] lg:text-[180px]">
             Kulola's Closet
           </span>
         </div>
       </div>
-      
-    <!-- Copyright -->
-      <div class="border-t border-gray-400 py-6">
-        <p class="text-center text-sm text-gray-500">
-          Copyright © Kulola's Closet 2026 . <span class="mx-2">|</span>
-          Designed by
-          <a href="www.michaelmunavu.com" class="text-white transition hover:underline">
-            Michael Munavu
-          </a>
-          - Powered by
-          <a href="www.virgil.africa" class="text-white transition hover:underline">Virgil Africa</a>
-        </p>
+
+      <%!-- Copyright --%>
+      <div class="border-t border-gray-800 py-6 px-4">
+        <div class="mx-auto flex max-w-7xl flex-col items-center gap-2 sm:flex-row sm:justify-between">
+          <p class="text-sm text-gray-500">
+            &copy; {Date.utc_today().year} Kulola's Closet. All rights reserved.
+          </p>
+          <p class="text-sm text-gray-600">
+            Designed by
+            <a href="https://www.michaelmunavu.com" class="text-gray-400 transition hover:text-white">
+              Michael Munavu
+            </a>
+            &middot; Powered by
+            <a href="https://www.virgil.africa" class="text-gray-400 transition hover:text-white">
+              Virgil Africa
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
     """

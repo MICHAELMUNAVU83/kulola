@@ -32,13 +32,6 @@ defmodule KulolaWeb.SidebarComponents do
           badge_variant={:default}
         />
 
-        <.nav_item
-          label="Analytics"
-          path={~p"/admin/analytics"}
-          active={String.starts_with?(@current_path, "/admin/analytics")}
-          icon="chart"
-        />
-
         <.nav_divider />
         <.nav_section label="Catalogue" />
 
@@ -82,10 +75,12 @@ defmodule KulolaWeb.SidebarComponents do
         <.nav_section label="Store" />
 
         <.nav_item
-          label="Promotions"
+          label="Promo Codes"
           path={~p"/admin/promotions"}
           active={String.starts_with?(@current_path, "/admin/promotions")}
           icon="badge"
+          badge={Map.get(@counts, :promotions)}
+          badge_variant={:count}
         />
 
         <.nav_item
@@ -97,20 +92,20 @@ defmodule KulolaWeb.SidebarComponents do
           badge_variant={:count}
         />
 
-        <.nav_item
-          label="Homepage"
-          path={~p"/admin/homepage"}
-          active={String.starts_with?(@current_path, "/admin/homepage")}
-          icon="monitor"
-        />
-
         <.nav_divider />
         <.nav_section label="System" />
 
         <.nav_item
+          label="Info Pages"
+          path={~p"/admin/pages"}
+          active={String.starts_with?(@current_path, "/admin/pages")}
+          icon="file-text"
+        />
+
+        <.nav_item
           label="Settings"
           path={~p"/admin/settings"}
-          active={String.starts_with?(@current_path, "/admin/settings")}
+          active={@current_path == "/admin/settings"}
           icon="settings"
         />
       </nav>
@@ -125,12 +120,18 @@ defmodule KulolaWeb.SidebarComponents do
   defp sidebar_logo(assigns) do
     ~H"""
     <div class="flex items-center gap-2.5 border-b border-gray-200 px-4 py-3.5">
-      <img src="/images/kulola-logo.png" alt="Kulola" class="h-8 w-8 flex-shrink-0 rounded-full object-cover ring-2 ring-[#C8001F]/60" />
+      <img
+        src="/images/kulola-logo.png"
+        alt="Kulola"
+        class="h-8 w-8 flex-shrink-0 rounded-full object-cover ring-2 ring-[#C8001F]/60"
+      />
       <div class="min-w-0">
         <span class="brand-logo block text-[17px] leading-tight text-gray-900">
           Kulola's Closet<span class="text-[#C8001F]">.</span>
         </span>
-        <span class="block text-[9px] uppercase tracking-widest text-gray-400">Fashion &amp; Function</span>
+        <span class="block text-[9px] uppercase tracking-widest text-gray-400">
+          Fashion &amp; Function
+        </span>
       </div>
       <span class="ml-auto flex-shrink-0 rounded-md bg-[#C8001F]/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#C8001F]">
         Admin
@@ -181,14 +182,14 @@ defmodule KulolaWeb.SidebarComponents do
     <a
       href={@path}
       class={[
-        "group flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-medium transition-colors",
+        "group flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium transition-all",
         if(@active,
-          do: "bg-gray-900 text-white",
-          else: "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          do: "bg-[#C8001F] text-white shadow-sm shadow-[#C8001F]/30",
+          else: "text-gray-600 hover:bg-[#C8001F]/8 hover:text-[#C8001F]"
         )
       ]}
     >
-      <span class={if @active, do: "text-white", else: "text-gray-400 group-hover:text-gray-600"}>
+      <span class={if @active, do: "text-white", else: "text-gray-400 group-hover:text-[#C8001F]"}>
         <.nav_icon name={@icon} />
       </span>
 
@@ -199,7 +200,7 @@ defmodule KulolaWeb.SidebarComponents do
           "ml-auto rounded-full px-2 py-0.5 text-[10px] font-semibold tabular-nums",
           if(@active,
             do: "bg-white/20 text-white",
-            else: badge_class(@badge_variant)
+            else: "bg-[#C8001F]/10 text-[#C8001F]"
           )
         ]}>
           {@badge}
@@ -209,34 +210,52 @@ defmodule KulolaWeb.SidebarComponents do
     """
   end
 
-  defp badge_class(:alert),   do: "bg-red-100 text-red-600"
-  defp badge_class(:count),   do: "bg-gray-100 text-gray-500"
+  defp badge_class(:alert), do: "bg-red-100 text-red-600"
+  defp badge_class(:count), do: "bg-gray-100 text-gray-500"
   defp badge_class(:default), do: "bg-gray-100 text-gray-600"
-  defp badge_class(_),        do: "bg-gray-100 text-gray-500"
+  defp badge_class(_), do: "bg-gray-100 text-gray-500"
 
   # ── Footer / User ─────────────────────────────────────────────────
 
   defp sidebar_footer(assigns) do
     ~H"""
-    <div class="border-t border-gray-200 p-3">
-      <div class="flex items-center gap-2.5 rounded-lg px-2 py-2 transition hover:bg-gray-100 cursor-pointer">
-        <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-white">
+    <div class="border-t border-gray-100 p-3 space-y-1">
+      <!-- User row -->
+      <div class="flex items-center gap-2.5 rounded-xl px-2 py-2">
+        <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#C8001F] text-xs font-bold text-white shadow-sm">
           MM
         </div>
         <div class="min-w-0 flex-1">
           <p class="truncate text-[13px] font-semibold text-gray-900">Michael Munavu</p>
           <p class="text-[11px] text-gray-400">Super Admin</p>
         </div>
-        <svg
-          class="h-4 w-4 text-gray-400"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M9 18l6-6-6-6" />
-        </svg>
       </div>
+
+      <!-- Back to website -->
+      <a
+        href="/"
+        class="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
+      >
+        <svg class="h-4 w-4 text-gray-400 group-hover:text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        Back to Website
+      </a>
+
+      <!-- Logout -->
+      <form action="/users/log_out" method="post">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
+        <button
+          type="submit"
+          class="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-gray-500 transition hover:bg-red-50 hover:text-[#C8001F]"
+        >
+          <svg class="h-4 w-4 text-gray-400 group-hover:text-[#C8001F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          Log out
+        </button>
+      </form>
     </div>
     """
   end

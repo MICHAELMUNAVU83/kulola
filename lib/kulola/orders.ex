@@ -13,9 +13,14 @@ defmodule Kulola.Orders do
   # ── CRUD ──────────────────────────────────────────────────────────────────
 
   def create_order(attrs) do
-    %Order{}
-    |> Order.changeset(attrs)
-    |> Repo.insert()
+    case %Order{} |> Order.changeset(attrs) |> Repo.insert() do
+      {:ok, order} = result ->
+        if order.promo_code not in [nil, ""] do
+          Task.start(fn -> Kulola.Promotions.record_usage(order.promo_code) end)
+        end
+        result
+      error -> error
+    end
   end
 
   def get_order!(id), do: Repo.get!(Order, id)

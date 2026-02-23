@@ -32,17 +32,19 @@ defmodule KulolaWeb.ProductComponents do
         <%!-- Right: Info --%>
         <div class="flex flex-col">
           <%!-- Reviews --%>
-          <div class="flex items-center gap-2 text-sm text-gray-700">
-            <div class="flex text-amber-400">
-              <.rating_stars rating={@product.rating} />
+          <%= if (@product[:reviews_count] || 0) > 0 do %>
+            <div class="flex items-center gap-2 text-sm text-gray-700">
+              <div class="flex text-amber-400">
+                <.rating_stars rating={@product.rating} />
+              </div>
+              <span>{"(#{@product.rating})"}</span>
+              <span class="text-gray-400">|</span>
+              <span class="text-gray-600">{"#{@product.reviews_count} Review's"}</span>
             </div>
-            <span>{"(#{@product.rating})"}</span>
-            <span class="text-gray-400">|</span>
-            <span class="text-gray-600">{"#{@product.reviews_count} Review's"}</span>
-          </div>
+          <% end %>
 
           <h1 class="mt-3 text-2xl font-bold text-black sm:text-3xl">{@product.name}</h1>
-          <p class="mt-2 text-xl font-bold text-black">$ {@product.price} USD</p>
+          <p class="mt-2 text-xl font-bold text-black">KES {KulolaWeb.Format.price(@product.price)}</p>
 
           <%!-- Stock --%>
           <div class="mt-3 flex items-center gap-2 text-sm text-green-600">
@@ -97,9 +99,6 @@ defmodule KulolaWeb.ProductComponents do
 
           <%!-- SKU & Type --%>
           <div class="mt-6 space-y-1 text-sm text-gray-700">
-            <p class="flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-black"></span> SKU: {@product.sku}
-            </p>
             <p class="flex items-center gap-2">
               <span class="h-1.5 w-1.5 rounded-full bg-black"></span>
               Product Type: {@product.product_type}
@@ -270,7 +269,13 @@ defmodule KulolaWeb.ProductComponents do
             class="related-products-nav-btn absolute -left-4 top-[180px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-gray-900 hover:text-gray-900 lg:flex xl:-left-12"
             aria-label="Previous"
           >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -280,7 +285,13 @@ defmodule KulolaWeb.ProductComponents do
             class="related-products-nav-btn absolute -right-4 top-[180px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-gray-900 hover:text-gray-900 lg:flex xl:-right-12"
             aria-label="Next"
           >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -316,11 +327,17 @@ defmodule KulolaWeb.ProductComponents do
                     </div>
                     <h3 class="mt-3 text-sm font-medium text-gray-900">{product.name}</h3>
                     <div class="mt-1 flex items-center gap-2">
-                      <span class={if product.original_price, do: "font-semibold text-red-500", else: "font-semibold text-gray-900"}>
-                        $ {product.price} USD
+                      <span class={
+                        if product.original_price,
+                          do: "font-semibold text-red-500",
+                          else: "font-semibold text-gray-900"
+                      }>
+                        KES {KulolaWeb.Format.price(product.price)}
                       </span>
                       <%= if product.original_price do %>
-                        <span class="text-sm text-gray-400 line-through">${product.original_price} USD</span>
+                        <span class="text-sm text-gray-400 line-through">
+                          KES {KulolaWeb.Format.price(product.original_price)}
+                        </span>
                       <% end %>
                     </div>
                   </a>

@@ -26,6 +26,7 @@ defmodule KulolaWeb.Router do
     live "/cart", CartLive.Index, :index
     live "/checkout", CheckoutLive.Index, :index
     live "/success", SuccessLive.Index, :index
+    live "/info/:slug", InfoLive.Show, :show
 
     scope "/admin" do
       live "/", DashboardLive.Index, :index
@@ -83,6 +84,13 @@ defmodule KulolaWeb.Router do
 
       live "/testimonials/:id", TestimonialLive.Show, :show
       live "/testimonials/:id/show/edit", TestimonialLive.Show, :edit
+
+      live "/promotions", PromotionLive.Index, :index
+
+      live "/pages", AdminPageLive.Index, :index
+      live "/pages/:id/edit", AdminPageLive.Index, :edit
+
+      live "/settings", AdminPageLive.Index, :index
     end
   end
 

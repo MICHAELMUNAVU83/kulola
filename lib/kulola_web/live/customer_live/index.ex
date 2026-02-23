@@ -58,109 +58,93 @@ defmodule KulolaWeb.CustomerLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
-      <!-- Header -->
-      <div class="mb-6 flex items-center justify-between">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Commerce</p>
-          <h1 class="mt-1 text-2xl font-bold text-gray-900">
-            Customers
-            <span class="ml-2 text-lg font-normal text-gray-400">({length(@customers)})</span>
-          </h1>
-        </div>
-        <!-- Search -->
-        <div class="relative flex items-center">
-          <svg class="pointer-events-none absolute left-3.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search name, email, phone…"
-            value={@search}
-            phx-input="search"
-            phx-debounce="250"
-            class="w-72 rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-9 text-sm text-gray-700 shadow-sm placeholder-gray-400 focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-100"
-          />
-          <%= if @search != "" do %>
-            <button
-              phx-click="search"
-              phx-value-value=""
-              class="absolute right-3 text-gray-400 hover:text-gray-700"
-            >
-              <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-            </button>
-          <% end %>
+    <div class="space-y-6">
+
+      <!-- ── Page banner ── -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#C8001F] to-[#8b0014] px-7 py-6 text-white shadow-md">
+        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="text-xs font-medium uppercase tracking-widest text-red-200">People</p>
+            <h1 class="mt-0.5 font-serif text-2xl font-bold">Customers</h1>
+            <p class="mt-1 text-xs text-red-200">{length(@customers)} unique buyers</p>
+          </div>
+          <div class="relative flex-shrink-0">
+            <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search name, email, phone…"
+              value={@search}
+              phx-input="search"
+              phx-debounce="250"
+              class="w-72 rounded-xl border border-white/20 bg-white/10 py-2.5 pl-10 pr-9 text-sm text-white placeholder-white/50 backdrop-blur-sm focus:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/20"
+            />
+            <%= if @search != "" do %>
+              <button phx-click="search" phx-value-value="" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white">
+                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            <% end %>
+          </div>
         </div>
       </div>
 
-      <!-- Customer grid -->
+      <!-- Customer table -->
       <%= if @customers == [] do %>
-        <div class="flex flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white py-24 text-center shadow-sm">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-3xl">👤</div>
+        <div class="flex flex-col items-center justify-center rounded-3xl border border-gray-100 bg-white py-24 text-center shadow-sm">
+          <span class="text-5xl">👥</span>
           <p class="mt-4 text-sm font-medium text-gray-500">No customers yet</p>
-          <p class="mt-1 text-xs text-gray-400">Customers appear here once an order is marked as paid.</p>
+          <p class="mt-1 text-xs text-gray-400">Customers appear once an order is marked as paid.</p>
         </div>
       <% else %>
-        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
           <table class="w-full">
             <thead>
-              <tr class="border-b border-gray-100 bg-gray-50">
-                <th class="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Customer</th>
-                <th class="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Contact</th>
-                <th class="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Orders</th>
-                <th class="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Total Spent</th>
-                <th class="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Since</th>
-                <th class="px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-gray-400"></th>
+              <tr class="border-b border-gray-100 bg-gray-50/80">
+                <th class="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Customer</th>
+                <th class="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Contact</th>
+                <th class="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Orders</th>
+                <th class="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Total Spent</th>
+                <th class="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-400">Since</th>
+                <th class="px-5 py-3.5"></th>
               </tr>
             </thead>
             <tbody>
               <%= for customer <- @customers do %>
                 <tr
-                  class="group border-b border-gray-100 transition-colors last:border-0 hover:bg-gray-50 cursor-pointer"
+                  class="group border-b border-gray-100 transition-colors last:border-0 hover:bg-[#C8001F]/3 cursor-pointer"
                   phx-click={JS.navigate("/admin/customers/#{customer.id}")}
                 >
-                  <!-- Avatar + Name -->
                   <td class="px-5 py-3.5">
                     <div class="flex items-center gap-3">
-                      <div class={["flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white", avatar_color(customer.email)]}>
+                      <div class={["flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white shadow-sm", avatar_color(customer.email)]}>
                         {initials(customer.name)}
                       </div>
-                      <div>
-                        <p class="text-sm font-semibold text-gray-900">{customer.name}</p>
-                      </div>
+                      <p class="text-sm font-semibold text-gray-900">{customer.name}</p>
                     </div>
                   </td>
-
-                  <!-- Contact -->
                   <td class="px-5 py-3.5">
                     <p class="text-sm text-gray-700">{customer.email}</p>
                     <%= if customer.phone not in [nil, ""] do %>
                       <p class="text-xs text-gray-400">{customer.phone}</p>
                     <% end %>
                   </td>
-
-                  <!-- Orders count -->
                   <td class="px-5 py-3.5">
-                    <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700">
+                    <span class="inline-flex items-center gap-1 rounded-full bg-[#C8001F]/10 px-2.5 py-1 text-xs font-semibold text-[#C8001F]">
                       {customer.order_count} {if customer.order_count == 1, do: "order", else: "orders"}
                     </span>
                   </td>
-
-                  <!-- Total spent -->
                   <td class="px-5 py-3.5">
-                    <span class="text-sm font-bold text-gray-900">KSH {fmt(customer.total_spent)}</span>
+                    <span class="text-sm font-bold text-gray-900">KES {fmt(customer.total_spent)}</span>
                   </td>
-
-                  <!-- Since -->
                   <td class="px-5 py-3.5">
                     <span class="text-xs text-gray-400">{format_date(customer.inserted_at)}</span>
                   </td>
-
-                  <!-- Arrow -->
                   <td class="px-5 py-3.5 text-right">
-                    <span class="text-gray-300 transition group-hover:text-gray-600">
+                    <span class="text-gray-300 transition group-hover:text-[#C8001F]">
                       <svg class="inline h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                       </svg>

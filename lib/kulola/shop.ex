@@ -115,6 +115,47 @@ defmodule Kulola.Shop do
     |> enrich_products_for_display()
   end
 
+  @doc """
+  Returns products filtered by a list of collection slugs, an optional pill filter,
+  and a sort order.  Used by the category page when checkboxes/pills/sort change.
+  """
+  def list_products_for_category_filter(slugs, pill \\ "all", sort \\ "best_selling") do
+    # Resolve slugs → collection IDs
+    collection_ids =
+      if slugs == [] do
+        []
+      else
+        from(c in Collection, where: c.slug in ^slugs, select: c.id)
+        |> Repo.all()
+      end
+
+    base =
+      from(p in Product,
+        where: p.status == "active" and p.collection_id in ^collection_ids
+      )
+
+    base
+    |> apply_pill_filter(pill)
+    |> apply_sort(sort)
+    |> Repo.all()
+    |> enrich_products_for_display()
+  end
+
+  defp apply_pill_filter(query, "on_sale") do
+    where(query, [p], not is_nil(p.badge_label) and p.badge_label != "")
+  end
+
+  defp apply_pill_filter(query, "discounts") do
+    where(query, [p], p.is_bestseller == true or p.is_featured == true)
+  end
+
+  defp apply_pill_filter(query, _all), do: query
+
+  defp apply_sort(query, "price_asc"),  do: order_by(query, [p], asc: p.base_price)
+  defp apply_sort(query, "price_desc"), do: order_by(query, [p], desc: p.base_price)
+  defp apply_sort(query, "newest"),     do: order_by(query, [p], desc: p.inserted_at)
+  defp apply_sort(query, _),            do: order_by(query, [p], asc: p.position)
+
   @doc "Returns a small list of products for the popular sidebar block."
   def list_popular_products_for_display(limit \\ 3) do
     products =
@@ -134,7 +175,7 @@ defmodule Kulola.Shop do
         slug: p.slug,
         image: main_image,
         price: p.base_price || 0,
-        currency: "KSH",
+        currency: "KES",
         rating: 4.5,
         href: "/products/#{p.slug}"
       }
@@ -205,7 +246,7 @@ defmodule Kulola.Shop do
         |> Map.put(:sku, "SKU-#{product.id}")
         |> Map.put(:product_type, if(collection, do: collection.title, else: "Product"))
         |> Map.put(:badge, product.badge_label)
-        |> Map.put(:currency, "KSH")
+        |> Map.put(:currency, "KES")
     end
   end
 
@@ -415,7 +456,7 @@ defmodule Kulola.Shop do
         description: p.description,
         price: p.base_price || 0,
         original_price: nil,
-        currency: "KSH",
+        currency: "KES",
         badge: p.badge_label,
         main_image: main_image,
         colors: colors,

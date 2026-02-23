@@ -4,16 +4,20 @@ defmodule KulolaWeb.CheckoutLive.Index do
 
   alias Kulola.Orders
   alias Kulola.Paystack
+  alias Kulola.Promotions
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:page_title, "Checkout | Kulola")
+     |> assign(:page_title, "Checkout | Kulola's Closet")
      |> assign(:cart_items, [])
      |> assign(:cart_loaded, false)
      |> assign(:submitting, false)
      |> assign(:form_error, nil)
+     |> assign(:promo_input, "")
+     |> assign(:applied_promo, nil)
+     |> assign(:promo_error, nil)
      |> assign(:form, %{"name" => "", "email" => "", "phone" => "", "address" => ""})}
   end
 
@@ -32,6 +36,39 @@ defmodule KulolaWeb.CheckoutLive.Index do
   end
 
   @impl true
+  def handle_event("update_promo_input", %{"value" => v}, socket) do
+    {:noreply, assign(socket, :promo_input, v)}
+  end
+
+  @impl true
+  def handle_event("apply_promo", _params, socket) do
+    code = String.trim(socket.assigns.promo_input)
+
+    case Promotions.validate_code(code) do
+      {:ok, promo} ->
+        {:noreply,
+         socket
+         |> assign(:applied_promo, promo)
+         |> assign(:promo_error, nil)}
+
+      {:error, reason} ->
+        {:noreply,
+         socket
+         |> assign(:applied_promo, nil)
+         |> assign(:promo_error, reason)}
+    end
+  end
+
+  @impl true
+  def handle_event("remove_promo", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:applied_promo, nil)
+     |> assign(:promo_input, "")
+     |> assign(:promo_error, nil)}
+  end
+
+  @impl true
   def handle_event("remove_item", %{"key" => key}, socket) do
     {:noreply, push_event(socket, "remove-cart-item", %{key: key})}
   end
@@ -44,7 +81,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
 
   @impl true
   def handle_event("place_order", _params, socket) do
-    %{cart_items: items, form: form} = socket.assigns
+    %{cart_items: items, form: form, applied_promo: promo} = socket.assigns
 
     cond do
       items == [] ->
@@ -61,17 +98,22 @@ defmodule KulolaWeb.CheckoutLive.Index do
 
       true ->
         socket = assign(socket, submitting: true, form_error: nil)
-        total = calc_total(items)
-        reference = Orders.generate_reference()
+
+        subtotal        = calc_subtotal(items)
+        discount_amount = if promo, do: Promotions.calc_discount(promo, subtotal), else: 0
+        total           = subtotal - discount_amount
+        reference       = Orders.generate_reference()
 
         order_attrs = %{
-          reference: reference,
-          email: form["email"],
-          name: form["name"],
-          phone: form["phone"],
-          address: form["address"],
-          total_amount: total,
-          items: items
+          reference:       reference,
+          email:           form["email"],
+          name:            form["name"],
+          phone:           form["phone"],
+          address:         form["address"],
+          total_amount:    total,
+          discount_amount: discount_amount,
+          promo_code:      if(promo, do: promo.code, else: nil),
+          items:           items
         }
 
         case Orders.create_order(order_attrs) do
@@ -104,10 +146,16 @@ defmodule KulolaWeb.CheckoutLive.Index do
     end
   end
 
-  defp calc_total(items) do
+  defp calc_subtotal(items) do
     Enum.reduce(items, 0, fn item, acc ->
       acc + (item["price"] || 0) * (item["quantity"] || 1)
     end)
+  end
+
+  defp calc_total(items, promo) do
+    sub = calc_subtotal(items)
+    discount = if promo, do: Promotions.calc_discount(promo, sub), else: 0
+    sub - discount
   end
 
   defp fmt(n), do: KulolaWeb.Format.price(n)
@@ -138,7 +186,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
               <p class="mb-6 text-sm text-gray-400">We'll send your confirmation here.</p>
 
               <%= if @form_error do %>
-                <div class="mb-5 flex items-center gap-2 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+                <div class="mb-5 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
                   <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                   </svg>
@@ -156,7 +204,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                       value={@form["name"]}
                       placeholder="Jane Doe"
                       required
-                      class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-800"
+                      class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
                     />
                   </div>
                   <div>
@@ -167,7 +215,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                       value={@form["email"]}
                       placeholder="jane@example.com"
                       required
-                      class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-800"
+                      class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
                     />
                   </div>
                 </div>
@@ -179,7 +227,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                     name="phone"
                     value={@form["phone"]}
                     placeholder="+254 700 000 000"
-                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-800"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
                   />
                 </div>
 
@@ -189,23 +237,91 @@ defmodule KulolaWeb.CheckoutLive.Index do
                     name="address"
                     rows="3"
                     placeholder="Street, City, County"
-                    class="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-800"
+                    class="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
                   >{@form["address"]}</textarea>
                 </div>
 
-                <!-- Divider -->
-                <div class="border-t border-gray-100 pt-2">
+                <!-- ── Promo Code ── -->
+                <div class="border-t border-gray-100 pt-5">
+                  <label class="mb-2 block text-sm font-medium text-gray-700">Promo / Discount Code</label>
+
+                  <%= if @applied_promo do %>
+                    <!-- Applied state -->
+                    <div class="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3">
+                      <svg class="h-5 w-5 flex-shrink-0 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-green-800">
+                          <span class="font-mono">{@applied_promo.code}</span>
+                          · -{@applied_promo.discount_percent}% off applied!
+                        </p>
+                        <%= if @applied_promo.influencer_name not in [nil, ""] do %>
+                          <p class="text-xs text-green-600">By {@applied_promo.influencer_name}</p>
+                        <% end %>
+                      </div>
+                      <button
+                        type="button"
+                        phx-click="remove_promo"
+                        class="rounded-lg px-2.5 py-1 text-xs font-medium text-green-700 transition hover:bg-green-100"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  <% else %>
+                    <!-- Input state -->
+                    <div class="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Enter promo code"
+                        value={@promo_input}
+                        phx-input="update_promo_input"
+                        class={[
+                          "flex-1 rounded-xl border px-4 py-3 font-mono text-sm uppercase tracking-widest placeholder-gray-300 transition focus:outline-none focus:ring-1",
+                          if(@promo_error,
+                            do: "border-red-300 focus:border-red-400 focus:ring-red-200",
+                            else: "border-gray-300 focus:border-[#C8001F]/60 focus:ring-[#C8001F]/20"
+                          )
+                        ]}
+                      />
+                      <button
+                        type="button"
+                        phx-click="apply_promo"
+                        class="flex-shrink-0 rounded-xl border border-[#C8001F] px-5 py-3 text-sm font-semibold text-[#C8001F] transition hover:bg-[#C8001F] hover:text-white"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                    <%= if @promo_error do %>
+                      <p class="mt-1.5 flex items-center gap-1 text-xs text-red-600">
+                        <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                        {@promo_error}
+                      </p>
+                    <% end %>
+                  <% end %>
+                </div>
+
+                <!-- Totals summary -->
+                <div class="space-y-1.5">
                   <div class="flex items-center justify-between text-sm text-gray-500">
                     <span>Subtotal</span>
-                    <span class="font-medium text-gray-700">KSH {fmt(calc_total(@cart_items))}</span>
+                    <span class="font-medium text-gray-700">KES {fmt(calc_subtotal(@cart_items))}</span>
                   </div>
-                  <div class="mt-1.5 flex items-center justify-between text-sm text-gray-500">
+                  <%= if @applied_promo do %>
+                    <div class="flex items-center justify-between text-sm text-green-600">
+                      <span>Discount ({@applied_promo.discount_percent}% off)</span>
+                      <span class="font-semibold">-KES {fmt(Promotions.calc_discount(@applied_promo, calc_subtotal(@cart_items)))}</span>
+                    </div>
+                  <% end %>
+                  <div class="flex items-center justify-between text-sm text-gray-500">
                     <span>Shipping</span>
                     <span class="font-medium text-green-600">Free</span>
                   </div>
-                  <div class="mt-2 flex items-center justify-between text-base font-bold text-gray-900">
+                  <div class="flex items-center justify-between border-t border-gray-100 pt-2 text-base font-bold text-gray-900">
                     <span>Total</span>
-                    <span>KSH {fmt(calc_total(@cart_items))}</span>
+                    <span class="text-[#C8001F]">KES {fmt(calc_total(@cart_items, @applied_promo))}</span>
                   </div>
                 </div>
 
@@ -240,29 +356,24 @@ defmodule KulolaWeb.CheckoutLive.Index do
           <!-- ── Right: Editable cart ── -->
           <div class="lg:col-span-2">
             <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <!-- Cart header -->
               <div class="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-                <h2 class="font-semibold text-gray-900">
-                  Your Order
-                </h2>
+                <h2 class="font-semibold text-gray-900">Your Order</h2>
                 <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
                   {length(@cart_items)} {if length(@cart_items) == 1, do: "item", else: "items"}
                 </span>
               </div>
 
-              <!-- Items -->
               <div class="divide-y divide-gray-50 px-6">
                 <%= if @cart_items == [] do %>
                   <div class="py-10 text-center">
                     <p class="text-sm text-gray-400">No items in your cart.</p>
-                    <a href="/shop" class="mt-3 inline-block text-sm font-medium text-black underline underline-offset-2">
+                    <a href="/shop" class="mt-3 inline-block text-sm font-medium text-[#C8001F] underline underline-offset-2">
                       Keep shopping
                     </a>
                   </div>
                 <% else %>
                   <%= for item <- @cart_items do %>
                     <div class="flex gap-4 py-4">
-                      <!-- Image -->
                       <div class="h-20 w-16 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
                         <%= if item["image"] do %>
                           <img src={item["image"]} alt={item["name"]} class="h-full w-full object-cover" />
@@ -271,7 +382,6 @@ defmodule KulolaWeb.CheckoutLive.Index do
                         <% end %>
                       </div>
 
-                      <!-- Details -->
                       <div class="flex flex-1 flex-col justify-between min-w-0">
                         <div class="flex items-start justify-between gap-2">
                           <div class="min-w-0">
@@ -282,12 +392,10 @@ defmodule KulolaWeb.CheckoutLive.Index do
                               <%= if item["size"], do: item["size"] %>
                             </p>
                           </div>
-                          <!-- Remove -->
                           <button
                             phx-click="remove_item"
                             phx-value-key={item["key"]}
                             class="flex-shrink-0 rounded-lg p-1 text-gray-300 transition hover:bg-red-50 hover:text-red-500"
-                            title="Remove item"
                           >
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -296,31 +404,23 @@ defmodule KulolaWeb.CheckoutLive.Index do
                         </div>
 
                         <div class="flex items-center justify-between">
-                          <!-- Qty controls -->
                           <div class="flex items-center gap-1 rounded-full border border-gray-200 px-2 py-1">
                             <button
                               phx-click="update_quantity"
                               phx-value-key={item["key"]}
                               phx-value-quantity={max(1, (item["quantity"] || 1) - 1)}
                               class="flex h-5 w-5 items-center justify-center rounded-full text-gray-500 transition hover:bg-gray-100 hover:text-black"
-                            >
-                              −
-                            </button>
-                            <span class="w-5 text-center text-sm font-medium text-gray-800">
-                              {item["quantity"] || 1}
-                            </span>
+                            >−</button>
+                            <span class="w-5 text-center text-sm font-medium text-gray-800">{item["quantity"] || 1}</span>
                             <button
                               phx-click="update_quantity"
                               phx-value-key={item["key"]}
                               phx-value-quantity={(item["quantity"] || 1) + 1}
                               class="flex h-5 w-5 items-center justify-center rounded-full text-gray-500 transition hover:bg-gray-100 hover:text-black"
-                            >
-                              +
-                            </button>
+                            >+</button>
                           </div>
-                          <!-- Line price -->
                           <span class="text-sm font-semibold text-gray-900">
-                            KSH {fmt((item["price"] || 0) * (item["quantity"] || 1))}
+                            KES {fmt((item["price"] || 0) * (item["quantity"] || 1))}
                           </span>
                         </div>
                       </div>
@@ -329,16 +429,21 @@ defmodule KulolaWeb.CheckoutLive.Index do
                 <% end %>
               </div>
 
-              <!-- Footer totals -->
               <%= if @cart_items != [] do %>
-                <div class="border-t border-gray-100 px-6 py-4">
+                <div class="border-t border-gray-100 px-6 py-4 space-y-1.5">
+                  <%= if @applied_promo do %>
+                    <div class="flex justify-between text-sm text-green-600">
+                      <span>Discount ({@applied_promo.discount_percent}% · <span class="font-mono">{@applied_promo.code}</span>)</span>
+                      <span class="font-semibold">-KES {fmt(Promotions.calc_discount(@applied_promo, calc_subtotal(@cart_items)))}</span>
+                    </div>
+                  <% end %>
                   <div class="flex justify-between text-sm text-gray-500">
                     <span>Shipping</span>
                     <span class="font-medium text-green-600">Free</span>
                   </div>
-                  <div class="mt-2 flex justify-between text-base font-bold text-gray-900">
+                  <div class="flex justify-between border-t border-gray-100 pt-2 text-base font-bold text-gray-900">
                     <span>Total</span>
-                    <span>KSH {fmt(calc_total(@cart_items))}</span>
+                    <span class="text-[#C8001F]">KES {fmt(calc_total(@cart_items, @applied_promo))}</span>
                   </div>
                 </div>
               <% end %>

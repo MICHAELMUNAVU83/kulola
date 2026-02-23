@@ -48,27 +48,25 @@ defmodule KulolaWeb.OrderLive.Show do
 
   defp status_color(status) do
     case status do
-      "pending" -> "bg-amber-50 text-amber-700 border-amber-200"
-      "paid" -> "bg-blue-50 text-blue-700 border-blue-200"
-      "processing" -> "bg-purple-50 text-purple-700 border-purple-200"
-      "shipped" -> "bg-indigo-50 text-indigo-700 border-indigo-200"
-      "delivered" -> "bg-green-50 text-green-700 border-green-200"
-      "cancelled" -> "bg-gray-100 text-gray-500 border-gray-200"
-      "failed" -> "bg-red-50 text-red-700 border-red-200"
-      _ -> "bg-gray-100 text-gray-500 border-gray-200"
+      "paid"       -> "bg-[#C8001F]/10 text-[#C8001F] border-[#C8001F]/20"
+      "processing" -> "bg-pink-50 text-pink-700 border-pink-200"
+      "shipped"    -> "bg-indigo-50 text-indigo-600 border-indigo-200"
+      "delivered"  -> "bg-green-50 text-green-700 border-green-200"
+      "cancelled"  -> "bg-gray-100 text-gray-500 border-gray-200"
+      "failed"     -> "bg-red-50 text-red-400 border-red-200"
+      _            -> "bg-gray-100 text-gray-500 border-gray-200"
     end
   end
 
   defp status_dot(status) do
     case status do
-      "pending" -> "bg-amber-400"
-      "paid" -> "bg-blue-500"
-      "processing" -> "bg-purple-500"
-      "shipped" -> "bg-indigo-500"
-      "delivered" -> "bg-green-500"
-      "cancelled" -> "bg-gray-400"
-      "failed" -> "bg-red-500"
-      _ -> "bg-gray-400"
+      "paid"       -> "bg-[#C8001F]"
+      "processing" -> "bg-pink-500"
+      "shipped"    -> "bg-indigo-500"
+      "delivered"  -> "bg-green-500"
+      "cancelled"  -> "bg-gray-400"
+      "failed"     -> "bg-red-400"
+      _            -> "bg-gray-400"
     end
   end
 
@@ -108,40 +106,50 @@ defmodule KulolaWeb.OrderLive.Show do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-7xl">
+    <div class="space-y-6">
 
-      <!-- Back button + header -->
-      <div class="mb-6 flex items-center gap-4">
-        <.link
-          navigate="/admin/orders"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-gray-300 hover:text-gray-700"
-        >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </.link>
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Orders</p>
-          <h1 class="mt-0.5 font-mono text-xl font-bold text-gray-900">{@order.reference}</h1>
+      <!-- ── Breadcrumb banner ── -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#C8001F] to-[#8b0014] px-7 py-6 text-white shadow-md">
+        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
+        <div class="flex items-center gap-4">
+          <.link navigate="/admin/orders"
+            class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </.link>
+          <div>
+            <p class="text-xs font-medium uppercase tracking-widest text-red-200">Orders</p>
+            <h1 class="mt-0.5 font-mono text-xl font-bold">{@order.reference}</h1>
+          </div>
+          <div class="ml-auto">
+            <span class={[
+              "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-semibold capitalize bg-white/10 border-white/20 text-white"
+            ]}>
+              <span class={["h-2 w-2 rounded-full", status_dot(@order.status)]} />
+              {@order.status}
+            </span>
+          </div>
         </div>
       </div>
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-        <!-- ── Left column: items + totals ── -->
+        <!-- ── Left: items + totals ── -->
         <div class="space-y-6 lg:col-span-2">
-
-          <!-- Items -->
-          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-            <div class="border-b border-gray-100 px-6 py-4">
-              <h2 class="text-sm font-semibold text-gray-900">
-                Order Items <span class="ml-1 text-gray-400">({item_count(@order.items)})</span>
+          <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+            <div class="border-b border-gray-100 px-6 py-5">
+              <h2 class="font-serif text-base font-semibold text-gray-900">
+                Order Items
+                <span class="ml-1.5 rounded-full bg-[#C8001F]/10 px-2 py-0.5 text-xs font-bold text-[#C8001F]">
+                  {item_count(@order.items)}
+                </span>
               </h2>
             </div>
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-gray-50">
               <%= for item <- (@order.items || []) do %>
                 <div class="flex gap-4 px-6 py-4">
-                  <div class="h-20 w-16 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
+                  <div class="h-20 w-16 flex-shrink-0 overflow-hidden rounded-2xl bg-gray-100">
                     <%= if item["image"] do %>
                       <img src={item["image"]} alt={item["name"]} class="h-full w-full object-cover" />
                     <% else %>
@@ -161,50 +169,39 @@ defmodule KulolaWeb.OrderLive.Show do
                         Qty: {item["quantity"] || 1}
                       </span>
                       <span class="text-sm font-bold text-gray-900">
-                        KSH {fmt((item["price"] || 0) * (item["quantity"] || 1))}
+                        KES {fmt((item["price"] || 0) * (item["quantity"] || 1))}
                       </span>
                     </div>
                   </div>
                 </div>
               <% end %>
             </div>
-
-            <!-- Totals -->
-            <div class="border-t border-gray-100 bg-gray-50 px-6 py-4 space-y-2">
+            <div class="border-t border-gray-100 bg-gray-50/60 px-6 py-5 space-y-2.5">
               <div class="flex justify-between text-sm text-gray-500">
                 <span>Subtotal</span>
-                <span>KSH {fmt(subtotal(@order.items))}</span>
+                <span>KES {fmt(subtotal(@order.items))}</span>
               </div>
               <div class="flex justify-between text-sm text-gray-500">
                 <span>Shipping</span>
-                <span class="font-medium text-green-600">Free</span>
+                <span class="font-semibold text-green-600">Free</span>
               </div>
-              <div class="flex justify-between border-t border-gray-200 pt-2 text-base font-bold text-gray-900">
+              <div class="flex justify-between border-t border-gray-200 pt-2.5 text-base font-bold text-gray-900">
                 <span>Total</span>
-                <span>KSH {fmt(@order.total_amount)}</span>
+                <span class="text-[#C8001F]">KES {fmt(@order.total_amount)}</span>
               </div>
             </div>
           </div>
-
         </div>
 
-        <!-- ── Right column: status + customer ── -->
-        <div class="space-y-6">
+        <!-- ── Right: status + customer ── -->
+        <div class="space-y-5">
 
-          <!-- Status card -->
-          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <!-- Status actions -->
+          <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-5 py-4">
-              <h2 class="text-sm font-semibold text-gray-900">Order Status</h2>
+              <h2 class="font-serif text-sm font-semibold text-gray-900">Order Status</h2>
             </div>
             <div class="px-5 py-4 space-y-4">
-              <span class={[
-                "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-semibold capitalize",
-                status_color(@order.status)
-              ]}>
-                <span class={["h-2 w-2 rounded-full", status_dot(@order.status)]} />
-                {@order.status}
-              </span>
-
               <% nexts = next_statuses(@order.status) %>
               <%= if nexts != [] do %>
                 <div class="space-y-2">
@@ -215,36 +212,28 @@ defmodule KulolaWeb.OrderLive.Show do
                         phx-click="update_status"
                         phx-value-status={next}
                         class={[
-                          "rounded-xl border px-4 py-2.5 text-sm font-semibold capitalize transition",
+                          "rounded-2xl border px-4 py-2.5 text-sm font-semibold capitalize transition",
                           case next do
-                            "cancelled" ->
-                              "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
-                            "paid" ->
-                              "border-green-200 bg-green-50 text-green-700 hover:bg-green-100"
-                            _ ->
-                              "border-gray-900 bg-gray-900 text-white hover:bg-gray-700"
+                            "cancelled" -> "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
+                            "paid"      -> "border-[#C8001F]/30 bg-[#C8001F] text-white hover:bg-[#a8001a]"
+                            _           -> "border-[#C8001F]/30 bg-[#C8001F] text-white hover:bg-[#a8001a]"
                           end
                         ]}
                       >
-                        <%= if next == "paid" do %>
-                          ✓ Mark as Paid — deducts stock
-                        <% else %>
-                          Mark as {String.capitalize(next)} →
-                        <% end %>
+                        <%= if next == "paid" do %>✓ Mark as Paid — deducts stock<% else %>Mark as {String.capitalize(next)} →<% end %>
                       </button>
                     <% end %>
                   </div>
                 </div>
               <% end %>
-
               <p class="text-xs text-gray-400">Placed on {format_date(@order.inserted_at)}</p>
             </div>
           </div>
 
-          <!-- Customer card -->
-          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+          <!-- Customer info -->
+          <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-5 py-4">
-              <h2 class="text-sm font-semibold text-gray-900">Customer</h2>
+              <h2 class="font-serif text-sm font-semibold text-gray-900">Customer</h2>
             </div>
             <div class="px-5 py-4 space-y-3 text-sm">
               <div class="flex items-start justify-between gap-3">
@@ -253,7 +242,7 @@ defmodule KulolaWeb.OrderLive.Show do
               </div>
               <div class="flex items-start justify-between gap-3">
                 <span class="text-gray-400 shrink-0">Email</span>
-                <a href={"mailto:#{@order.email}"} class="font-medium text-blue-600 hover:underline text-right break-all">
+                <a href={"mailto:#{@order.email}"} class="font-medium text-[#C8001F] hover:underline text-right break-all">
                   {@order.email}
                 </a>
               </div>

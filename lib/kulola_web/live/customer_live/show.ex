@@ -52,27 +52,25 @@ defmodule KulolaWeb.CustomerLive.Show do
 
   defp status_color(status) do
     case status do
-      "pending" -> "bg-amber-50 text-amber-700"
-      "paid" -> "bg-blue-50 text-blue-700"
-      "processing" -> "bg-purple-50 text-purple-700"
-      "shipped" -> "bg-indigo-50 text-indigo-700"
-      "delivered" -> "bg-green-50 text-green-700"
-      "cancelled" -> "bg-gray-100 text-gray-500"
-      "failed" -> "bg-red-50 text-red-700"
-      _ -> "bg-gray-100 text-gray-500"
+      "paid"       -> "bg-[#C8001F]/10 text-[#C8001F]"
+      "processing" -> "bg-pink-50 text-pink-700"
+      "shipped"    -> "bg-indigo-50 text-indigo-600"
+      "delivered"  -> "bg-green-50 text-green-700"
+      "cancelled"  -> "bg-gray-100 text-gray-500"
+      "failed"     -> "bg-red-50 text-red-400"
+      _            -> "bg-gray-100 text-gray-500"
     end
   end
 
   defp status_dot(status) do
     case status do
-      "pending" -> "bg-amber-400"
-      "paid" -> "bg-blue-500"
-      "processing" -> "bg-purple-500"
-      "shipped" -> "bg-indigo-500"
-      "delivered" -> "bg-green-500"
-      "cancelled" -> "bg-gray-400"
-      "failed" -> "bg-red-500"
-      _ -> "bg-gray-400"
+      "paid"       -> "bg-[#C8001F]"
+      "processing" -> "bg-pink-500"
+      "shipped"    -> "bg-indigo-500"
+      "delivered"  -> "bg-green-500"
+      "cancelled"  -> "bg-gray-400"
+      "failed"     -> "bg-red-400"
+      _            -> "bg-gray-400"
     end
   end
 
@@ -108,42 +106,42 @@ defmodule KulolaWeb.CustomerLive.Show do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-5xl">
+    <div class="space-y-6">
 
-      <!-- Back + header -->
-      <div class="mb-6 flex items-center gap-4">
-        <.link
-          navigate="/admin/customers"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-gray-300 hover:text-gray-700"
-        >
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </.link>
+      <!-- ── Hero banner ── -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#C8001F] to-[#8b0014] px-7 py-6 text-white shadow-md">
+        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
         <div class="flex items-center gap-4">
-          <div class={["flex h-12 w-12 items-center justify-center rounded-full text-lg font-bold text-white shadow-sm", avatar_color(@customer.email)]}>
+          <.link navigate="/admin/customers"
+            class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </.link>
+          <div class={["flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full text-lg font-bold text-white ring-2 ring-white/30 shadow-md", avatar_color(@customer.email)]}>
             {initials(@customer.name)}
           </div>
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Customer</p>
-            <h1 class="mt-0.5 text-xl font-bold text-gray-900">{@customer.name}</h1>
+            <p class="text-xs font-medium uppercase tracking-widest text-red-200">Customer</p>
+            <h1 class="mt-0.5 font-serif text-xl font-bold">{@customer.name}</h1>
+            <p class="text-xs text-red-200">{@customer.email}</p>
           </div>
         </div>
       </div>
 
       <!-- Stat strip -->
-      <div class="mb-6 grid grid-cols-3 gap-4">
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Total Spent</p>
-          <p class="mt-1 text-2xl font-bold text-gray-900">KSH {fmt(@customer.total_spent)}</p>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="overflow-hidden rounded-3xl border border-[#C8001F]/20 bg-[#C8001F]/5 p-5">
+          <p class="text-xs font-semibold uppercase tracking-widest text-[#C8001F]/70">Total Spent</p>
+          <p class="mt-2 font-serif text-2xl font-bold text-[#C8001F]">KES {fmt(@customer.total_spent)}</p>
         </div>
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Paid Orders</p>
-          <p class="mt-1 text-2xl font-bold text-gray-900">{@customer.order_count}</p>
+          <p class="mt-2 font-serif text-2xl font-bold text-gray-900">{@customer.order_count}</p>
         </div>
-        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 shadow-sm">
           <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Products Bought</p>
-          <p class="mt-1 text-2xl font-bold text-gray-900">{length(@all_products)}</p>
+          <p class="mt-2 font-serif text-2xl font-bold text-gray-900">{length(@all_products)}</p>
         </div>
       </div>
 
@@ -153,11 +151,11 @@ defmodule KulolaWeb.CustomerLive.Show do
         <div class="space-y-6 lg:col-span-2">
 
           <!-- Products bought -->
-          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-            <div class="border-b border-gray-100 px-6 py-4">
-              <h2 class="text-sm font-semibold text-gray-900">
+          <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+            <div class="border-b border-gray-100 px-6 py-5">
+              <h2 class="font-serif text-base font-semibold text-gray-900">
                 Products Bought
-                <span class="ml-1 text-gray-400">({length(@all_products)})</span>
+                <span class="ml-1.5 rounded-full bg-[#C8001F]/10 px-2 py-0.5 text-xs font-bold text-[#C8001F]">{length(@all_products)}</span>
               </h2>
             </div>
             <%= if @all_products == [] do %>
@@ -188,7 +186,7 @@ defmodule KulolaWeb.CustomerLive.Show do
                         ×{item["total_ordered"]}
                       </span>
                       <p class="mt-1 text-xs font-semibold text-gray-900">
-                        KSH {fmt((item["price"] || 0) * item["total_ordered"])}
+                        KES {fmt((item["price"] || 0) * item["total_ordered"])}
                       </p>
                     </div>
                   </div>
@@ -198,11 +196,11 @@ defmodule KulolaWeb.CustomerLive.Show do
           </div>
 
           <!-- Order history -->
-          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-            <div class="border-b border-gray-100 px-6 py-4">
-              <h2 class="text-sm font-semibold text-gray-900">
+          <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+            <div class="border-b border-gray-100 px-6 py-5">
+              <h2 class="font-serif text-base font-semibold text-gray-900">
                 Order History
-                <span class="ml-1 text-gray-400">({length(@orders)})</span>
+                <span class="ml-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-bold text-gray-500">{length(@orders)}</span>
               </h2>
             </div>
             <%= if @orders == [] do %>
@@ -227,7 +225,7 @@ defmodule KulolaWeb.CustomerLive.Show do
                       </p>
                     </div>
                     <div class="text-right">
-                      <p class="text-sm font-bold text-gray-900">KSH {fmt(order.total_amount)}</p>
+                      <p class="text-sm font-bold text-gray-900">KES {fmt(order.total_amount)}</p>
                     </div>
                     <.link
                       navigate={"/admin/orders/#{order.id}"}
@@ -247,14 +245,14 @@ defmodule KulolaWeb.CustomerLive.Show do
 
         <!-- Right: Customer info -->
         <div>
-          <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-            <div class="border-b border-gray-100 px-5 py-4">
-              <h2 class="text-sm font-semibold text-gray-900">Contact Info</h2>
+          <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
+            <div class="border-b border-gray-100 px-5 py-5">
+              <h2 class="font-serif text-base font-semibold text-gray-900">Contact Info</h2>
             </div>
             <div class="px-5 py-4 space-y-3 text-sm">
               <div>
                 <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Email</p>
-                <a href={"mailto:#{@customer.email}"} class="font-medium text-blue-600 hover:underline break-all">
+                <a href={"mailto:#{@customer.email}"} class="font-medium text-[#C8001F] hover:underline break-all">
                   {@customer.email}
                 </a>
               </div>
@@ -279,6 +277,7 @@ defmodule KulolaWeb.CustomerLive.Show do
         </div>
 
       </div>
+
     </div>
     """
   end

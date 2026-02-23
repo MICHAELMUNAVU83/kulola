@@ -157,7 +157,7 @@ defmodule KulolaWeb.CartLive.Index do
                           
     <!-- Price -->
                           <span class="font-semibold text-gray-900">
-                            KSH {fmt((item["price"] || 0) * (item["quantity"] || 1))}
+                            KES {fmt((item["price"] || 0) * (item["quantity"] || 1))}
                           </span>
                         </div>
                       </div>
@@ -177,7 +177,7 @@ defmodule KulolaWeb.CartLive.Index do
                         acc + (i["quantity"] || 1)
                       end)} items)
                     </span>
-                    <span>KSH {fmt(total_price(@cart_items))}</span>
+                    <span>KES {fmt(total_price(@cart_items))}</span>
                   </div>
                   <div class="flex justify-between text-gray-600">
                     <span>Shipping</span>
@@ -186,7 +186,7 @@ defmodule KulolaWeb.CartLive.Index do
                   <div class="border-t border-gray-200 pt-3">
                     <div class="flex justify-between text-base font-semibold text-gray-900">
                       <span>Total</span>
-                      <span>KSH {fmt(total_price(@cart_items))}</span>
+                      <span>KES {fmt(total_price(@cart_items))}</span>
                     </div>
                   </div>
                 </div>

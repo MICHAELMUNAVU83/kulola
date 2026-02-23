@@ -20,7 +20,7 @@ defmodule Kulola.OrderNotifier do
             </div>
           </td>
           <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;text-align:right;font-weight:600;color:#111;">
-            KSH #{KulolaWeb.Format.price((item["price"] || 0) * (item["quantity"] || 1))}
+            KES #{KulolaWeb.Format.price((item["price"] || 0) * (item["quantity"] || 1))}
           </td>
         </tr>
         """
@@ -81,7 +81,7 @@ defmodule Kulola.OrderNotifier do
                   <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
                       <td style="font-size:16px;font-weight:700;color:#111;">Total Paid</td>
-                      <td style="text-align:right;font-size:18px;font-weight:700;color:#111;">KSH #{KulolaWeb.Format.price(total)}</td>
+                      <td style="text-align:right;font-size:18px;font-weight:700;color:#111;">KES #{KulolaWeb.Format.price(total)}</td>
                     </tr>
                   </table>
                 </td>

@@ -1,12 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" class="[scrollbar-gutter:stable]">
+<html lang="en" class="[scrollbar-gutter:stable] scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Kulola" suffix=" · Phoenix Framework">
+
+    <%!-- Page title --%>
+    <.live_title default="Kulola's Closet | Everyday Fashion, Effortlessly You" suffix=" | Kulola's Closet">
       {assigns[:page_title]}
     </.live_title>
+
+    <%!-- Primary SEO --%>
+    <meta
+      name="description"
+      content={assigns[:meta_description] || "Kulola's Closet — Everyday Fashion, Effortlessly You. Curated casual-feminine fits for the modern woman. New drops monthly. Shop coord sets, dresses, tops & more."}
+    />
+    <meta name="keywords" content="Kulola's Closet, fashion Kenya, African fashion, coord sets, women's clothing, casual feminine style, Nairobi fashion" />
+    <meta name="author" content="Kulola's Closet" />
+    <meta name="robots" content="index, follow" />
+
+    <%!-- Open Graph (Facebook / WhatsApp previews) --%>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kulola's Closet" />
+    <meta
+      property="og:title"
+      content={assigns[:page_title] || "Kulola's Closet | Everyday Fashion, Effortlessly You"}
+    />
+    <meta
+      property="og:description"
+      content={assigns[:meta_description] || "Curated casual-feminine fits for the modern woman. New drops monthly. Shop coord sets, dresses, tops & more."}
+    />
+    <meta
+      property="og:image"
+      content={assigns[:og_image] || "/images/kulola-logo.png"}
+    />
+    <meta property="og:url" content={assigns[:canonical_url] || "https://kulolascloset.com"} />
+
+    <%!-- Twitter / X Card --%>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@kulolas_closet_page" />
+    <meta
+      name="twitter:title"
+      content={assigns[:page_title] || "Kulola's Closet | Everyday Fashion, Effortlessly You"}
+    />
+    <meta
+      name="twitter:description"
+      content={assigns[:meta_description] || "Curated casual-feminine fits for the modern woman. New drops monthly."}
+    />
+    <meta
+      name="twitter:image"
+      content={assigns[:og_image] || "/images/kulola-logo.png"}
+    />
+
+    <%!-- Favicon --%>
+    <link rel="icon" type="image/png" href="/images/kulola-logo.png" />
+    <link rel="apple-touch-icon" href="/images/kulola-logo.png" />
+
+    <%!-- Fonts & Styles --%>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />

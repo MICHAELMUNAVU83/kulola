@@ -146,7 +146,7 @@ defmodule KulolaWeb.SuccessLive.Index do
                         </p>
                       </div>
                       <span class="text-sm font-semibold">
-                        KSH {KulolaWeb.Format.price((item["price"] || 0) * (item["quantity"] || 1))}
+                        KES {KulolaWeb.Format.price((item["price"] || 0) * (item["quantity"] || 1))}
                       </span>
                     </div>
                   <% end %>
@@ -154,7 +154,7 @@ defmodule KulolaWeb.SuccessLive.Index do
 
                 <div class="mt-5 border-t border-gray-200 pt-4 flex justify-between font-bold text-gray-900">
                   <span>Total Paid</span>
-                  <span>KSH {KulolaWeb.Format.price(@order.total_amount)}</span>
+                  <span>KES {KulolaWeb.Format.price(@order.total_amount)}</span>
                 </div>
               </div>
 

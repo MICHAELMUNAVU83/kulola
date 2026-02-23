@@ -3,6 +3,7 @@ alias Kulola.Collections.Collection
 alias Kulola.Products.Product
 alias Kulola.ProductVariants.ProductVariant
 alias Kulola.Testimonials.Testimonial
+alias Kulola.InfoPages.InfoPage
 
 # Clear existing seed data so seeds can be re-run safely
 Repo.delete_all(Kulola.Testimonials.Testimonial)
@@ -556,3 +557,192 @@ Enum.each(testimonials, fn attrs ->
 end)
 
 IO.puts("✅  Seeded #{length(testimonials)} testimonials.")
+
+# ── Info Pages ────────────────────────────────────────────────────────────────
+
+# Info pages are NOT cleared on re-seed so admin edits are preserved.
+# Only insert when the slug doesn't already exist.
+info_pages = [
+  %{
+    slug: "how-to-order",
+    title: "How to Order",
+    icon: "🛍️",
+    position: 1,
+    meta_description: "Step-by-step guide on how to place an order at Kulola's Closet — shop online or via WhatsApp.",
+    content: """
+## How to Place Your Order
+
+Ordering from Kulola's Closet is simple and straightforward. Here's how:
+
+### Option 1 — Order via WhatsApp (Recommended)
+
+- Screenshot or share the product you love from our Instagram or website.
+- Send us a message on **WhatsApp: 0796 770 862**.
+- Let us know your **size**, preferred **colour**, and **delivery location**.
+- We'll confirm availability and send you the total including delivery.
+- Make payment via **M-Pesa Till No. 5894819**.
+- Send us the M-Pesa confirmation message.
+- Your order will be dispatched within 24 hours!
+
+### Option 2 — Order via the Website
+
+- Browse our collections and add items to your cart.
+- Proceed to **Checkout** and fill in your delivery details.
+- Complete payment via M-Pesa.
+- You'll receive an order confirmation via email or WhatsApp.
+
+## Payment Methods
+
+- **M-Pesa Till No. 5894819** (Kulola's Closet)
+- Bank transfer (available on request)
+
+## Need Help?
+
+If you have any trouble placing an order, don't hesitate to reach out on WhatsApp and we'll assist you immediately.
+"""
+  },
+  %{
+    slug: "size-guide",
+    title: "Size Guide",
+    icon: "📐",
+    position: 2,
+    meta_description: "Find your perfect fit with Kulola's Closet size guide — measurements for tops, bottoms, dresses, and coord sets.",
+    content: """
+## Finding Your Perfect Fit
+
+All our garments are made with Kenyan bodies in mind. We recommend taking your measurements before ordering.
+
+### How to Measure Yourself
+
+- **Bust** — Measure around the fullest part of your chest, keeping the tape parallel to the floor.
+- **Waist** — Measure around your natural waistline, the narrowest part of your torso.
+- **Hips** — Measure around the fullest part of your hips, about 20 cm below your waist.
+- **Length** — Measure from the top of your shoulder to wherever you'd like the garment to end.
+
+### Women's Size Chart
+
+### Tops & Dresses
+
+- **XS** — Bust 80–84 cm | Waist 60–64 cm | Hips 86–90 cm
+- **S** — Bust 84–88 cm | Waist 64–68 cm | Hips 90–94 cm
+- **M** — Bust 88–94 cm | Waist 68–74 cm | Hips 94–100 cm
+- **L** — Bust 94–100 cm | Waist 74–80 cm | Hips 100–106 cm
+- **XL** — Bust 100–106 cm | Waist 80–86 cm | Hips 106–112 cm
+- **XXL** — Bust 106–114 cm | Waist 86–94 cm | Hips 112–120 cm
+
+### Coord Sets & Bottoms
+
+- **S** — Waist 64–68 cm | Hips 90–96 cm
+- **M** — Waist 68–74 cm | Hips 96–102 cm
+- **L** — Waist 74–80 cm | Hips 102–108 cm
+- **XL** — Waist 80–86 cm | Hips 108–114 cm
+
+## Not Sure About Your Size?
+
+Every product page includes specific measurements. You can also **WhatsApp us** with your measurements and we'll recommend the best fit for you.
+"""
+  },
+  %{
+    slug: "shipping-delivery",
+    title: "Shipping & Delivery",
+    icon: "🚚",
+    position: 3,
+    meta_description: "Kulola's Closet shipping and delivery information — Nairobi same-day delivery and countrywide shipping across Kenya.",
+    content: """
+## Shipping & Delivery
+
+We deliver across Kenya! Here's everything you need to know about getting your Kulola order to your door.
+
+### Nairobi Deliveries
+
+- **Standard Delivery** — 1–2 business days | **KES 200–300**
+- **Same-Day Delivery** — Available for orders placed before 12 PM | **KES 300–500** (select locations)
+- **Pick-Up** — Contact us on WhatsApp to arrange a convenient pick-up point.
+
+### Countrywide Deliveries
+
+- **Courier (G4S / Wells Fargo)** — 2–4 business days | **KES 400–600**
+- **Bus / Matatu Services** — 1–2 business days | Cost varies by distance
+- Delivery fees for upcountry orders are confirmed at checkout or via WhatsApp.
+
+### How Delivery Works
+
+- Once your order is confirmed and payment received, we process and pack within **24 hours**.
+- You'll receive a **WhatsApp notification** when your parcel is dispatched, including tracking details where applicable.
+- For bus deliveries, the bus ticket/tracking number will be shared with you.
+
+### Important Notes
+
+- Delivery timelines exclude weekends and public holidays.
+- Kulola's Closet is not responsible for delays caused by third-party courier services once the parcel is dispatched.
+- Please ensure your **delivery address and phone number** are accurate when ordering.
+
+## Questions?
+
+Reach us on **WhatsApp: 0796 770 862** for any delivery enquiries.
+"""
+  },
+  %{
+    slug: "returns-exchanges",
+    title: "Returns & Exchanges",
+    icon: "🔄",
+    position: 4,
+    meta_description: "Kulola's Closet returns and exchanges policy — we want you to love every piece.",
+    content: """
+## Returns & Exchanges
+
+We want you to love every piece from Kulola's Closet. If something isn't right, here's what you can do.
+
+### Our Policy
+
+- We accept **exchange requests** within **48 hours** of receiving your order.
+- Items must be **unworn, unwashed, and in original condition** with tags intact.
+- **Sale items** are final sale and cannot be exchanged or returned.
+
+### Valid Reasons for Exchange
+
+- Wrong size sent (our error)
+- Wrong item sent (our error)
+- Item has a manufacturing defect
+
+### How to Request an Exchange
+
+- Contact us on **WhatsApp: 0796 770 862** within 48 hours of delivery.
+- Share your order details and clear photos of the item(s).
+- Our team will review and respond within 24 hours.
+- If approved, we'll arrange collection and dispatch the replacement.
+
+### Exchanges — Size or Style
+
+- If you'd like to exchange for a different size or style (your preference), this is subject to stock availability.
+- The customer is responsible for return delivery costs in this case.
+- Any price difference will be charged or refunded accordingly.
+
+### Refunds
+
+- We do not offer cash refunds except in cases where the item is out of stock and no suitable replacement is available.
+- Refunds, where applicable, are processed within **5–7 business days** via M-Pesa.
+
+## Contact Us
+
+If you have any concerns about your order, please reach out promptly on **WhatsApp: 0796 770 862**. We're here to help!
+"""
+  }
+]
+
+inserted_info_pages =
+  Enum.reduce(info_pages, 0, fn attrs, count ->
+    case Repo.get_by(InfoPage, slug: attrs.slug) do
+      nil ->
+        {:ok, _} =
+          %InfoPage{}
+          |> InfoPage.changeset(attrs)
+          |> Repo.insert()
+        count + 1
+
+      _existing ->
+        count
+    end
+  end)
+
+IO.puts("✅  Seeded #{inserted_info_pages} info pages (#{length(info_pages) - inserted_info_pages} already existed).")

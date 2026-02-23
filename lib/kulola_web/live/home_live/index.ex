@@ -11,7 +11,7 @@ defmodule KulolaWeb.HomeLive.Index do
 
     {:ok,
      socket
-     |> assign(:page_title, "Home | Kulola")
+     |> assign(:page_title, "Everyday Fashion, Effortlessly You")
      |> assign(:collections, collections)
      |> assign(:featured_collections, Enum.take(collections, 2))
      |> assign(:hero_images, hero_images)
@@ -49,7 +49,7 @@ defmodule KulolaWeb.HomeLive.Index do
     <div id="home-page" class="page-typography" phx-hook="HomeReveal">
       <.promo_bar />
       <.navbar collections={@collections} />
-      <.hero hero_images={@hero_images} />
+      <.hero hero_images={@hero_images} collections={@collections} />
       <.collections collections={@collections} />
       <.sale_banner sale_banner={@sale_banner} current_index={@sale_banner_index} />
       <.new_arrivals products={@products} />

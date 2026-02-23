@@ -21,9 +21,13 @@ defmodule KulolaWeb.OldProductLive.Index do
       selected_color_id = selected_color && selected_color.id
       selected_size_id = selected_size && selected_size.name
 
+      hero_images = Shop.list_hero_images(6)
+
       {:ok,
        socket
-       |> assign(:page_title, "#{product.name} | Kulola")
+       |> assign(:page_title, product.name)
+       |> assign(:meta_description, "#{String.slice(product.description || "", 0, 150)} — Shop #{product.name} at Kulola's Closet.")
+       |> assign(:og_image, product.main_image || "/images/kulola-logo.png")
        |> assign(:product, product)
        |> assign(:related_products, related)
        |> assign(:selected_color_id, selected_color_id)
@@ -31,6 +35,7 @@ defmodule KulolaWeb.OldProductLive.Index do
        |> assign(:quantity, 1)
        |> assign(:main_image_index, 0)
        |> assign(:accordion_open, nil)
+       |> assign(:contact_images, Enum.shuffle(hero_images))
        |> assign(:nav_collections, Shop.list_collections_for_display())}
     end
   end
@@ -109,7 +114,7 @@ defmodule KulolaWeb.OldProductLive.Index do
       />
       <.product_accordions accordion_open={@accordion_open} product={@product} />
       <.related_products_section products={@related_products} />
-      <.contact_section />
+      <.contact_section contact_images={@contact_images} />
       <.footer />
     </div>
     """

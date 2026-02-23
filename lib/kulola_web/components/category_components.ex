@@ -118,7 +118,7 @@ defmodule KulolaWeb.CategoryComponents do
               </div>
               <div class="min-w-0 flex-1">
                 <p class="truncate text-sm font-medium text-black">{product.name}</p>
-                <p class="text-sm text-gray-700">{"$#{product.price} #{product.currency}"}</p>
+                <p class="text-sm text-gray-700">KES {KulolaWeb.Format.price(product.price)}</p>
                 <div class="mt-0.5 flex items-center gap-1">
                   <%= for _ <- 1..5 do %>
                     <svg class="h-4 w-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
@@ -245,10 +245,10 @@ defmodule KulolaWeb.CategoryComponents do
                   do: "font-semibold text-red-500",
                   else: "font-semibold text-black"
               }>
-                $ {product.price} USD
+                KES {KulolaWeb.Format.price(product.price)}
               </span>
               <%= if product.original_price do %>
-                <span class="text-sm text-gray-400 line-through">${product.original_price} USD</span>
+                <span class="text-sm text-gray-400 line-through">KES {KulolaWeb.Format.price(product.original_price)}</span>
               <% end %>
             </div>
           </a>
