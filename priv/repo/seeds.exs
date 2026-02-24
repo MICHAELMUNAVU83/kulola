@@ -88,8 +88,10 @@ products = [
     is_new_arrival: false,
     position: 1,
     status: "active",
-    size_advice: "Runs true to size. The trousers have a drawstring waist for a flexible fit. If between sizes, size up for comfort. Model is 5'6\" wearing a size M. Measure your bust and hips before ordering.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. The trousers have a drawstring waist for a flexible fit. If between sizes, size up for comfort. Model is 5'6\" wearing a size M. Measure your bust and hips before ordering.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Red", "#CC2936"}, {"Denim Blue", "#4A7FB5"}]
   },
@@ -107,8 +109,10 @@ products = [
     is_new_arrival: true,
     position: 2,
     status: "active",
-    size_advice: "Runs true to size. Bold, relaxed silhouette — if you prefer a more fitted look, size down. Drawstring trousers adjust easily. Measure your waist and hips for the best fit.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. Bold, relaxed silhouette — if you prefer a more fitted look, size down. Drawstring trousers adjust easily. Measure your waist and hips for the best fit.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Orange", "#F97316"}, {"Denim Blue", "#4A7FB5"}]
   },
@@ -126,8 +130,10 @@ products = [
     is_new_arrival: true,
     position: 3,
     status: "active",
-    size_advice: "This oversized knit set runs generously. For a cosy relaxed fit, take your usual size. For a more structured look, size down one. The sweater has a deep drop-shoulder so measure your bust width.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "This oversized knit set runs generously. For a cosy relaxed fit, take your usual size. For a more structured look, size down one. The sweater has a deep drop-shoulder so measure your bust width.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Chocolate", "#7B3F00"}, {"Cream", "#F5F0E8"}]
   },
@@ -145,8 +151,10 @@ products = [
     is_new_arrival: false,
     position: 4,
     status: "active",
-    size_advice: "Runs true to size. Linen has a natural relaxed drape. The frilled shoulder top suits a range of bust sizes and the drawstring trousers give flexibility. Model is 5'6\" in a size M.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. Linen has a natural relaxed drape. The frilled shoulder top suits a range of bust sizes and the drawstring trousers give flexibility. Model is 5'6\" in a size M.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Sage Green", "#8FAF7E"}, {"Olive", "#6B7C4A"}]
   },
@@ -164,8 +172,10 @@ products = [
     is_new_arrival: false,
     position: 5,
     status: "active",
-    size_advice: "Runs true to size. The V-neck button-front top has a relaxed fit — measure your bust for the best button closure. Trousers have an elasticated drawstring waist for a comfortable, adjustable fit.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. The V-neck button-front top has a relaxed fit — measure your bust for the best button closure. Trousers have an elasticated drawstring waist for a comfortable, adjustable fit.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "coord-sets",
     colors: [{"Olive", "#6B7C4A"}, {"Cream", "#F5F0E8"}]
   },
@@ -185,8 +195,10 @@ products = [
     is_new_arrival: false,
     position: 6,
     status: "active",
-    size_advice: "High-waisted fit — measure your natural waist. These run true to size with no stretch. The belt is included and fully adjustable. Model wears a size M. If between sizes, size up for the waist.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "High-waisted fit — measure your natural waist. These run true to size with no stretch. The belt is included and fully adjustable. Model wears a size M. If between sizes, size up for the waist.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Black", "#1A1A1A"}, {"White", "#F5F5F5"}]
   },
@@ -204,8 +216,10 @@ products = [
     is_new_arrival: false,
     position: 7,
     status: "active",
-    size_advice: "High-waisted structured fit — runs true to size. These do not have stretch, so measure your natural waist carefully. The front pleats add ease around the hips. Belt included and adjustable.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "High-waisted structured fit — runs true to size. These do not have stretch, so measure your natural waist carefully. The front pleats add ease around the hips. Belt included and adjustable.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Navy", "#1B2A6B"}, {"Black", "#1A1A1A"}]
   },
@@ -223,8 +237,10 @@ products = [
     is_new_arrival: false,
     position: 8,
     status: "active",
-    size_advice: "Tailored structured waist — no stretch, so measure your waist exactly. Runs true to size. The front button detail sits flat when the correct size is chosen. Size up if you're between sizes.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Tailored structured waist — no stretch, so measure your waist exactly. Runs true to size. The front button detail sits flat when the correct size is chosen. Size up if you're between sizes.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Olive", "#6B7C4A"}, {"Camel", "#C9A882"}]
   },
@@ -242,8 +258,10 @@ products = [
     is_new_arrival: true,
     position: 9,
     status: "active",
-    size_advice: "High-rise denim runs slightly small in the waist — size up if you're between sizes. Denim has minimal stretch. Measure your waist and hips. The wide leg gives a relaxed, flattering silhouette on most body types.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "High-rise denim runs slightly small in the waist — size up if you're between sizes. Denim has minimal stretch. Measure your waist and hips. The wide leg gives a relaxed, flattering silhouette on most body types.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Light Wash", "#B8D4E8"}, {"Dark Wash", "#2C4F7C"}]
   },
@@ -261,8 +279,10 @@ products = [
     is_new_arrival: false,
     position: 10,
     status: "active",
-    size_advice: "Part of a co-ord set — size up slightly for a tailored blazer-and-trouser look with room to layer. Waistband is structured with no stretch. We recommend ordering both pieces in the same size.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Part of a co-ord set — size up slightly for a tailored blazer-and-trouser look with room to layer. Waistband is structured with no stretch. We recommend ordering both pieces in the same size.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "wide-leg-pants",
     colors: [{"Navy", "#1B2A6B"}]
   },
@@ -282,8 +302,10 @@ products = [
     is_new_arrival: false,
     position: 11,
     status: "active",
-    size_advice: "Elasticated drawstring waist means this fits a range of sizes. Runs true to size. Maxi length sits at the ankle — ideal for heights 5'3\" and above. Pair with heels or flats.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Elasticated drawstring waist means this fits a range of sizes. Runs true to size. Maxi length sits at the ankle — ideal for heights 5'3\" and above. Pair with heels or flats.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "skirts",
     colors: [{"Mid-Wash Denim", "#7BA4C7"}, {"Dark Denim", "#2C4F7C"}]
   },
@@ -301,8 +323,10 @@ products = [
     is_new_arrival: false,
     position: 12,
     status: "active",
-    size_advice: "Runs true to size with a structured waistband — measure your waist carefully. Full-length with a front split for ease of movement. Best for heights 5'4\" and above. Size up if unsure.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size with a structured waistband — measure your waist carefully. Full-length with a front split for ease of movement. Best for heights 5'4\" and above. Size up if unsure.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "skirts",
     colors: [{"Burgundy", "#800020"}, {"Black", "#1A1A1A"}]
   },
@@ -322,8 +346,10 @@ products = [
     is_new_arrival: false,
     position: 13,
     status: "active",
-    size_advice: "Runs true to size. Drawstring waist is fully adjustable. For petite heights (under 5'3\"), the leg length may be slightly long — easy to hem. Model is 5'6\" wearing size M. Measure bust and waist.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. Drawstring waist is fully adjustable. For petite heights (under 5'3\"), the leg length may be slightly long — easy to hem. Model is 5'6\" wearing size M. Measure bust and waist.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "jumpsuits",
     colors: [{"Sage Green", "#8FAF7E"}, {"Blush", "#F5C4C4"}]
   },
@@ -343,8 +369,10 @@ products = [
     is_new_arrival: false,
     position: 14,
     status: "active",
-    size_advice: "Runs true to size. The layered knit-over-shirt effect is built into the design — no separate styling needed. Measure your bust for the best fit. Relaxed drop-shoulder cut.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. The layered knit-over-shirt effect is built into the design — no separate styling needed. Measure your bust for the best fit. Relaxed drop-shoulder cut.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Grey", "#9CA3AF"}, {"Black", "#1A1A1A"}]
   },
@@ -362,8 +390,10 @@ products = [
     is_new_arrival: false,
     position: 15,
     status: "active",
-    size_advice: "Runs true to size. Same relaxed drop-shoulder construction as the grey version. Measure your bust for the best fit. The contrast button detailing is fixed — no adjustments needed.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. Same relaxed drop-shoulder construction as the grey version. Measure your bust for the best fit. The contrast button detailing is fixed — no adjustments needed.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Black", "#1A1A1A"}, {"Charcoal", "#374151"}]
   },
@@ -381,8 +411,10 @@ products = [
     is_new_arrival: true,
     position: 16,
     status: "active",
-    size_advice: "Structured cut runs slightly small — size up if between sizes. Best worn tucked into high-waisted bottoms. Measure your bust for the button fit. The split hem adds length in the back.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Structured cut runs slightly small — size up if between sizes. Best worn tucked into high-waisted bottoms. Measure your bust for the button fit. The split hem adds length in the back.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Navy", "#1B2A6B"}, {"Black", "#1A1A1A"}]
   },
@@ -400,8 +432,10 @@ products = [
     is_new_arrival: false,
     position: 17,
     status: "active",
-    size_advice: "Cropped fit runs true to size. Pearl jewelled buttons — measure your bust for the best closure. Pairs best with high-waisted trousers or skirts. Knit fabric has a gentle natural stretch.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Cropped fit runs true to size. Pearl jewelled buttons — measure your bust for the best closure. Pairs best with high-waisted trousers or skirts. Knit fabric has a gentle natural stretch.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Red", "#CC2936"}, {"Black", "#1A1A1A"}]
   },
@@ -419,8 +453,10 @@ products = [
     is_new_arrival: false,
     position: 18,
     status: "active",
-    size_advice: "Relaxed open-front blazer runs slightly oversized. Size down if you prefer a more fitted look. Great as part of the pinstripe co-ord set or layered solo. Measure your shoulders for the best fit.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Relaxed open-front blazer runs slightly oversized. Size down if you prefer a more fitted look. Great as part of the pinstripe co-ord set or layered solo. Measure your shoulders for the best fit.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Navy", "#1B2A6B"}, {"Black", "#1A1A1A"}]
   },
@@ -438,8 +474,10 @@ products = [
     is_new_arrival: false,
     position: 19,
     status: "active",
-    size_advice: "Runs true to size. Puff sleeves are structured and fixed. Measure your bust — the elastic hem gives flexibility around the waist. Cropped length sits above the high waist for a flattering look.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size. Puff sleeves are structured and fixed. Measure your bust — the elastic hem gives flexibility around the waist. Cropped length sits above the high waist for a flattering look.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"White", "#F5F5F5"}, {"Blush", "#F5C4C4"}]
   },
@@ -457,8 +495,10 @@ products = [
     is_new_arrival: false,
     position: 20,
     status: "active",
-    size_advice: "Runs true to size with a light stretch. Measure your bust for the best fit. The single adjustable shoulder strap gives flexibility. A versatile summer staple — pairs with anything high-waisted.",
-    shipping_returns: "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
+    size_advice:
+      "Runs true to size with a light stretch. Measure your bust for the best fit. The single adjustable shoulder strap gives flexibility. A versatile summer staple — pairs with anything high-waisted.",
+    shipping_returns:
+      "Nairobi delivery KES 200–300 (1–2 days). Countrywide KES 400–600 (2–4 days). Same-day available before 12 PM. Exchanges within 48 hours — unworn, tags on. WhatsApp 0796 770 862.",
     collection_slug: "tops-and-knits",
     colors: [{"Black/White", "#1A1A1A"}, {"Beige", "#D4B896"}]
   }
@@ -793,3 +833,50 @@ inserted_info_pages =
 IO.puts(
   "✅  Seeded #{inserted_info_pages} info pages (#{length(info_pages) - inserted_info_pages} already existed)."
 )
+
+alias Kulola.Repo
+alias Kulola.Accounts
+alias Kulola.Accounts.User
+
+admin_users = [
+  %{
+    name: "Michael Munavu",
+    email: "michaelmunavu83@gmail.com",
+    password: "123456",
+    role: "super_admin"
+  }
+]
+
+inserted =
+  Enum.reduce(admin_users, 0, fn attrs, count ->
+    case Repo.get_by(User, email: attrs.email) do
+      nil ->
+        case Accounts.invite_user(attrs) do
+          {:ok, _user} ->
+            IO.puts("  ✅  Created admin: #{attrs.email}")
+            count + 1
+
+          {:error, changeset} ->
+            IO.puts("  ❌  Failed to create #{attrs.email}: #{inspect(changeset.errors)}")
+            count
+        end
+
+      existing ->
+        {:ok, _} = Accounts.admin_update_user(existing, Map.take(attrs, [:name, :role]))
+        IO.puts("  ℹ️   Already exists (role updated): #{attrs.email}")
+        count
+    end
+  end)
+
+IO.puts("\n✅  Admin seed complete — #{inserted} new user(s) created.")
+IO.puts("\n🔐  Default credentials:")
+
+Enum.each(admin_users, fn u ->
+  IO.puts("     Email:    #{u.email}")
+  IO.puts("     Password: #{u.password}")
+  IO.puts("     Role:     #{u.role}")
+end)
+
+IO.puts("\n⚠️   Change the password after your first login!\n")
+
+# mix run priv/repo/seeds_admin.exs
