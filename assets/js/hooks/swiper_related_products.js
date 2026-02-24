@@ -23,16 +23,24 @@ const SwiperRelatedProducts = {
     const nextBtn = document.getElementById("related-products-next");
 
     this.swiper = new window.Swiper(this.el, {
-      slidesPerView: 1,
-      spaceBetween: 24,
-      speed: 400,
+      slidesPerView: 1.2,
+      spaceBetween: 16,
+      speed: 500,
+      loop: true,
+      centeredSlides: true,
+      autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
       navigation: {
         nextEl: nextBtn,
         prevEl: prevBtn,
       },
       breakpoints: {
-        640: { slidesPerView: 2 },
-        1024: { slidesPerView: 4 },
+        480: { slidesPerView: 2, spaceBetween: 16 },
+        768: { slidesPerView: 3, spaceBetween: 20 },
+        1024: { slidesPerView: 4, spaceBetween: 24 },
       },
       on: {
         init: (swiper) => {

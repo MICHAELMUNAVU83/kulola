@@ -66,16 +66,36 @@ defmodule KulolaWeb.ProductComponents do
 
           <%!-- Color --%>
           <div class="mt-6">
-            <p class="text-sm font-semibold text-black">Color</p>
-            <div class="mt-2 flex flex-wrap gap-2">
+            <p class="text-sm font-semibold text-black">
+              Color
+              <%= if @selected_color_id do %>
+                <% selected = Enum.find(@product.colors, &(&1.id == @selected_color_id)) %>
+                <%= if selected do %>
+                  <span class="ml-1 font-normal text-gray-500">— {selected.name}</span>
+                <% end %>
+              <% end %>
+            </p>
+            <div class="mt-2 flex flex-wrap gap-2.5">
               <%= for color <- @product.colors do %>
                 <button
                   type="button"
                   phx-click="select_color"
                   phx-value-id={color.id}
-                  class={"rounded-lg border-2 px-4 py-2 text-sm font-medium transition #{if @selected_color_id == color.id, do: "border-black bg-black text-white", else: "border-gray-300 bg-white text-black hover:border-gray-400"}"}
+                  title={color.name}
+                  class={[
+                    "group relative flex h-9 w-9 items-center justify-center rounded-full border-2 transition",
+                    if(@selected_color_id == color.id,
+                      do: "border-gray-900 ring-2 ring-gray-900 ring-offset-2",
+                      else: "border-transparent hover:border-gray-400"
+                    )
+                  ]}
+                  style={"background-color: #{color.hex}"}
                 >
-                  {color.name}
+                  <%= if @selected_color_id == color.id do %>
+                    <svg class="h-3.5 w-3.5 drop-shadow" viewBox="0 0 20 20" fill="white">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                  <% end %>
                 </button>
               <% end %>
             </div>
@@ -268,32 +288,20 @@ defmodule KulolaWeb.ProductComponents do
           <button
             type="button"
             id="related-products-prev"
-            class="related-products-nav-btn absolute -left-4 top-[180px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-gray-900 hover:text-gray-900 lg:flex xl:-left-12"
+            class="related-products-nav-btn absolute -left-3 top-1/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-md transition hover:border-gray-900 hover:text-gray-900 sm:-left-5 xl:-left-12"
             aria-label="Previous"
           >
-            <svg
-              class="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             type="button"
             id="related-products-next"
-            class="related-products-nav-btn absolute -right-4 top-[180px] z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition hover:border-gray-900 hover:text-gray-900 lg:flex xl:-right-12"
+            class="related-products-nav-btn absolute -right-3 top-1/3 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-md transition hover:border-gray-900 hover:text-gray-900 sm:-right-5 xl:-right-12"
             aria-label="Next"
           >
-            <svg
-              class="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>

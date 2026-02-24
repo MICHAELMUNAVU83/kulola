@@ -725,60 +725,75 @@ defmodule KulolaWeb.HomeComponents do
     ~H"""
     <section id="collections" class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-7xl">
-        <div class="text-center" data-motion-reveal>
-          <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">
-            Fashion's Gallery
-          </p>
-          <h2 class="mt-3 text-3xl font-bold text-black sm:text-4xl lg:text-5xl">
-            Explore Our Collections
-          </h2>
+        <div class="mb-10 flex items-end justify-between" data-motion-reveal>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-500">
+              Fashion's Gallery
+            </p>
+            <h2 class="mt-2 text-3xl font-bold text-black sm:text-4xl lg:text-5xl">
+              Explore Our Collections
+            </h2>
+          </div>
+          <a
+            href="/collections"
+            class="hidden shrink-0 items-center gap-1 text-sm font-medium text-[#C8001F] hover:underline sm:flex"
+          >
+            View all
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
         </div>
-        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" data-motion-stagger-group="0.06">
+
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-motion-stagger-group="0.06">
           <%= for {collection, index} <- Enum.with_index(@collections, 1) do %>
             <a
               href={collection.href}
-              class="group relative flex min-h-[220px] flex-col justify-between rounded-xl border border-[#C8001F]/30 bg-white p-5 transition-all hover:border-[#C8001F] hover:bg-[#C8001F]/5 hover:shadow-lg hover:shadow-[#C8001F]/10"
+              class="group relative overflow-hidden rounded-2xl bg-gray-100 transition hover:shadow-xl"
               data-motion-reveal
             >
-              <div>
-                <span class="text-sm text-[#C8001F]/50 group-hover:text-[#C8001F]">
-                  {String.pad_leading("#{index}", 2, "0")}
-                </span>
-                <h3 class="mt-2 text-xl font-semibold text-black group-hover:text-[#C8001F]">
-                  {collection.name}
-                </h3>
-              </div>
-
-              <%= if collection.image do %>
-                <div class="my-4 opacity-0 transition-opacity ease-in-out duration-500 group-hover:opacity-100">
-                  <img
-                    src={collection.image}
-                    alt={collection.name}
-                    class="h-20 w-16 rounded object-cover"
-                  />
+              <%= if collection.image not in [nil, ""] do %>
+                <img
+                  src={collection.image}
+                  alt={collection.name}
+                  class="aspect-[4/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+              <% else %>
+                <div class="aspect-[4/3] w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                  <span class="text-5xl opacity-30">👗</span>
                 </div>
               <% end %>
 
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-gray-500 group-hover:text-[#C8001F]/70">
-                  {collection.item_count} Items
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+              <div class="absolute inset-x-0 bottom-0 p-5">
+                <span class="text-xs font-semibold text-white/50">
+                  {String.pad_leading("#{index}", 2, "0")}
                 </span>
-                <svg
-                  class="h-5 w-5 text-[#C8001F]/40 transition-transform group-hover:translate-x-1 group-hover:text-[#C8001F]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                <h3 class="mt-1 text-xl font-bold text-white leading-tight">{collection.name}</h3>
+                <div class="mt-2 flex items-center justify-between">
+                  <span class="text-xs text-white/70">
+                    {collection.item_count} {if collection.item_count == 1, do: "item", else: "items"}
+                  </span>
+                  <span class="inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm transition group-hover:bg-[#C8001F]">
+                    Shop
+                    <svg class="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </span>
+                </div>
               </div>
             </a>
           <% end %>
+        </div>
+
+        <div class="mt-8 text-center sm:hidden">
+          <a href="/collections" class="inline-flex items-center gap-1 text-sm font-medium text-[#C8001F] hover:underline">
+            View all collections
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>

@@ -21,6 +21,7 @@ defmodule KulolaWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive.Index, :index
+    live "/collections", CollectionsLive.Index, :index
     live "/collections/:slug", CategoryLive.Index, :index
     live "/products/:slug", OldProductLive.Index, :index
     live "/cart", CartLive.Index, :index

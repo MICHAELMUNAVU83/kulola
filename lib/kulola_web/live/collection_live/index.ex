@@ -55,7 +55,8 @@ defmodule KulolaWeb.CollectionLive.Index do
     ~H"""
     <%!-- Page Header --%>
     <div class="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-r from-[#C8001F] to-[#8b0014] px-7 py-6 text-white shadow-md">
-      <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
+      <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5">
+      </div>
       <div class="flex items-center justify-between">
         <div>
           <p class="text-xs font-medium uppercase tracking-widest text-red-200">Catalogue</p>
@@ -63,7 +64,13 @@ defmodule KulolaWeb.CollectionLive.Index do
         </div>
         <.link patch={~p"/admin/collections/new"}>
           <button class="flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-[#C8001F] transition hover:bg-red-50 shadow-sm">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
             New Collection
