@@ -121,7 +121,7 @@ defmodule KulolaWeb.CartLive.Index do
               <p class="mt-2 text-gray-500">Start adding some beautiful pieces to your cart.</p>
               <a
                 href="/"
-                class="mt-8 rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+                class="mt-8 rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
               >
                 Shop Now
               </a>
@@ -301,7 +301,7 @@ defmodule KulolaWeb.CartLive.Index do
                 </div>
                 <a
                   href="/checkout"
-                  class="mt-6 block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-medium text-white transition hover:bg-red-800"
+                  class="mt-6 block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
                 >
                   Proceed to Checkout
                 </a>

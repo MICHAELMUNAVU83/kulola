@@ -165,7 +165,7 @@ defmodule KulolaWeb.TeamLive.Index do
         <button
           type="button"
           phx-click="show_invite"
-          class="flex items-center gap-2 rounded-xl bg-[#C8001F] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-800"
+          class="flex items-center gap-2 rounded-xl bg-[#C8001F] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-primary-dark)]"
         >
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -223,7 +223,7 @@ defmodule KulolaWeb.TeamLive.Index do
             <div class="col-span-full flex items-center gap-3 pt-1">
               <button
                 type="submit"
-                class="rounded-xl bg-[#C8001F] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-800"
+                class="rounded-xl bg-[#C8001F] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-primary-dark)]"
               >
                 Add Member
               </button>
@@ -340,7 +340,7 @@ defmodule KulolaWeb.TeamLive.Index do
                     <div class="flex items-end gap-2">
                       <button
                         type="submit"
-                        class="rounded-xl bg-[#C8001F] px-4 py-2 text-xs font-semibold text-white transition hover:bg-red-800"
+                        class="rounded-xl bg-[#C8001F] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
                       >
                         Save
                       </button>

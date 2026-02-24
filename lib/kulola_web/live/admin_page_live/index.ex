@@ -198,7 +198,7 @@ defmodule KulolaWeb.AdminPageLive.Index do
               <div class="flex items-center gap-3 pt-2">
                 <button
                   type="submit"
-                  class="rounded-xl bg-[#C8001F] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-800"
+                  class="rounded-xl bg-[#C8001F] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-primary-dark)]"
                 >
                   Save Page
                 </button>

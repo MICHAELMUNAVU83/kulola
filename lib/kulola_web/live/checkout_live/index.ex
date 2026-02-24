@@ -328,7 +328,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                 <button
                   type="submit"
                   disabled={@submitting or @cart_items == []}
-                  class="w-full rounded-full bg-[#C8001F] py-3.5 text-sm font-semibold text-white transition hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50"
+                  class="w-full rounded-full bg-[#C8001F] py-3.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)] disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <%= if @submitting do %>
                     <span class="flex items-center justify-center gap-2">

@@ -184,7 +184,7 @@ defmodule KulolaWeb.SuccessLive.Index do
               <div class="mt-8 flex flex-wrap justify-center gap-4">
                 <a
                   href="/"
-                  class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+                  class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
                 >
                   Continue Shopping
                 </a>
@@ -215,7 +215,7 @@ defmodule KulolaWeb.SuccessLive.Index do
               <div class="mt-8 flex gap-4">
                 <a
                   href="/cart"
-                  class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+                  class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
                 >
                   Return to Cart
                 </a>

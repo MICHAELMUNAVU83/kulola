@@ -99,7 +99,7 @@ defmodule KulolaWeb.InfoLive.Show do
                 href="https://wa.me/254796770862"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 rounded-full bg-[#C8001F] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-red-800"
+                class="inline-flex items-center gap-2 rounded-full bg-[#C8001F] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
               >
                 Contact Us on WhatsApp
               </a>
