@@ -130,7 +130,13 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
             type="button"
             class="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition hover:border-gray-300 hover:text-gray-700"
           >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -154,7 +160,7 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
                 <img
                   src={@saved_image}
                   alt="Customer photo"
-                  class="h-20 w-20 rounded-full border border-gray-200 object-cover shadow-sm"
+                  class="h-20 w-20 rounded-full border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <button
                   type="button"
@@ -162,7 +168,13 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
                   phx-target={@myself}
                   class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                 >
-                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -173,7 +185,7 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
               <div class="relative w-fit">
                 <.live_img_preview
                   entry={entry}
-                  class="h-20 w-20 rounded-full border border-gray-200 object-cover shadow-sm"
+                  class="h-20 w-20 rounded-full border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <button
                   type="button"
@@ -182,7 +194,13 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
                   phx-target={@myself}
                   class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                 >
-                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -202,7 +220,9 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
 
         <%!-- Details --%>
         <div>
-          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">Details</p>
+          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Details
+          </p>
           <div class="space-y-4">
             <%!-- Name --%>
             <div>
@@ -249,10 +269,11 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
                     <svg
                       class={[
                         "h-8 w-8 transition hover:scale-110",
-                        if(to_string(@form[:rating].value) != "" and
-                             String.to_integer(to_string(@form[:rating].value || 0)) >= i,
-                           do: "text-amber-400",
-                           else: "text-gray-200 hover:text-amber-300"
+                        if(
+                          to_string(@form[:rating].value) != "" and
+                            String.to_integer(to_string(@form[:rating].value || 0)) >= i,
+                          do: "text-amber-400",
+                          else: "text-gray-200 hover:text-amber-300"
                         )
                       ]}
                       viewBox="0 0 24 24"
@@ -270,9 +291,13 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
 
         <%!-- Linked product --%>
         <div>
-          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">Linked Product</p>
+          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Linked Product
+          </p>
           <div>
-            <label class="mb-1.5 block text-sm font-semibold text-gray-700">Product <span class="font-normal text-gray-400">(optional)</span></label>
+            <label class="mb-1.5 block text-sm font-semibold text-gray-700">
+              Product <span class="font-normal text-gray-400">(optional)</span>
+            </label>
             <select
               name={@form[:product_id].name}
               id={@form[:product_id].id}
@@ -293,7 +318,9 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
 
         <%!-- Display settings --%>
         <div>
-          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">Display</p>
+          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Display
+          </p>
           <div class="grid grid-cols-2 gap-4">
             <%!-- Position --%>
             <div>
@@ -307,7 +334,9 @@ defmodule KulolaWeb.TestimonialLive.FormComponent do
                 placeholder="1"
                 class="w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none focus:ring-0"
               />
-              <.error :for={msg <- Enum.map(@form[:position].errors, &translate_error/1)}>{msg}</.error>
+              <.error :for={msg <- Enum.map(@form[:position].errors, &translate_error/1)}>
+                {msg}
+              </.error>
             </div>
 
             <%!-- Active --%>

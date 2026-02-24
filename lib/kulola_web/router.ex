@@ -27,6 +27,7 @@ defmodule KulolaWeb.Router do
     live "/checkout", CheckoutLive.Index, :index
     live "/success", SuccessLive.Index, :index
     live "/info/:slug", InfoLive.Show, :show
+    live "/bundles/:id", BundleShowLive.Index, :index
 
     live_session :admin,
       on_mount: [{KulolaWeb.UserAuth, :require_admin}] do

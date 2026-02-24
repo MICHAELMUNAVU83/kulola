@@ -127,9 +127,10 @@ defmodule KulolaWeb.OrderLive.Index do
             </svg>
             <input
               type="text"
+              name="q"
               placeholder="Search reference, name, email…"
               value={@search}
-              phx-input="search"
+              phx-change="search"
               phx-debounce="250"
               class="w-72 rounded-xl border border-white/20 bg-white/10 py-2.5 pl-10 pr-9 text-sm text-white placeholder-white/50 backdrop-blur-sm focus:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/20"
             />
@@ -243,7 +244,10 @@ defmodule KulolaWeb.OrderLive.Index do
                       </div>
                     </td>
                     <td class="px-5 py-3.5">
-                      <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">{item_count(order.items)} pcs</span>
+                      <% count = item_count(order.items) %>
+                      <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+                        {count} {if count == 1, do: "item", else: "items"}
+                      </span>
                     </td>
                     <td class="px-5 py-3.5">
                       <span class="text-sm font-bold text-gray-900">KES {fmt(order.total_amount)}</span>

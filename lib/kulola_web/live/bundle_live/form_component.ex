@@ -128,7 +128,13 @@ defmodule KulolaWeb.BundleLive.FormComponent do
             type="button"
             class="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-400 transition hover:border-gray-300 hover:text-gray-700"
           >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -152,7 +158,7 @@ defmodule KulolaWeb.BundleLive.FormComponent do
                 <img
                   src={@saved_image}
                   alt="Bundle image"
-                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover shadow-sm"
+                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <button
                   type="button"
@@ -160,7 +166,13 @@ defmodule KulolaWeb.BundleLive.FormComponent do
                   phx-target={@myself}
                   class="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                 >
-                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -171,12 +183,15 @@ defmodule KulolaWeb.BundleLive.FormComponent do
               <div class="relative w-fit">
                 <.live_img_preview
                   entry={entry}
-                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover shadow-sm"
+                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <%= if entry.progress > 0 and not entry.done? do %>
                   <div class="absolute inset-x-0 bottom-0 rounded-b-xl bg-black/40 px-3 py-1.5">
                     <div class="h-1 overflow-hidden rounded-full bg-white/30">
-                      <div class="h-full rounded-full bg-white transition-all duration-300" style={"width: #{entry.progress}%"} />
+                      <div
+                        class="h-full rounded-full bg-white transition-all duration-300"
+                        style={"width: #{entry.progress}%"}
+                      />
                     </div>
                   </div>
                 <% end %>
@@ -187,7 +202,13 @@ defmodule KulolaWeb.BundleLive.FormComponent do
                   phx-target={@myself}
                   class="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                 >
-                  <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    class="h-3 w-3"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -211,7 +232,9 @@ defmodule KulolaWeb.BundleLive.FormComponent do
 
         <%!-- Basic Info --%>
         <div>
-          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">Details</p>
+          <p class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-gray-400">
+            Details
+          </p>
           <div class="space-y-4">
             <div>
               <label class="mb-1.5 block text-sm font-semibold text-gray-700">Title</label>
@@ -237,7 +260,9 @@ defmodule KulolaWeb.BundleLive.FormComponent do
                 placeholder="Short bundle description..."
                 class="w-full rounded-lg border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none focus:ring-0"
               >{@form[:description].value}</textarea>
-              <.error :for={msg <- Enum.map(@form[:description].errors, &translate_error/1)}>{msg}</.error>
+              <.error :for={msg <- Enum.map(@form[:description].errors, &translate_error/1)}>
+                {msg}
+              </.error>
             </div>
 
             <div>

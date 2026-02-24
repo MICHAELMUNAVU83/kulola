@@ -339,7 +339,7 @@ defmodule KulolaWeb.HomeComponents do
           <img
             src="/images/kulola-logo.png"
             alt="Kulola"
-            class="h-9 w-9 rounded-full object-cover shadow-sm ring-1 ring-black/5"
+            class="h-9 w-9 rounded-full object-cover object-top shadow-sm ring-1 ring-black/5"
           />
           <span class="brand-logo text-2xl text-gray-900 sm:text-3xl">
             Kulola's Closet<span class="text-[#C8001F]">.</span>
@@ -546,14 +546,20 @@ defmodule KulolaWeb.HomeComponents do
           <div class="swiper-wrapper" style="height: 100%;">
             <%= if @hero_images == [] do %>
               <div class="swiper-slide" style="height: 100%;">
-                <img src="/images/main.jpeg" alt="Collection"
-                  style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" />
+                <img
+                  src="/images/main.jpeg"
+                  alt="Collection"
+                  style="width: 100%; height: 100%; object-fit: cover; object-position: center top;"
+                />
               </div>
             <% else %>
               <%= for img <- @hero_images do %>
                 <div class="swiper-slide" style="height: 100%;">
-                  <img src={img.image} alt={img.alt}
-                    style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" />
+                  <img
+                    src={img.image}
+                    alt={img.alt}
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: center top;"
+                  />
                 </div>
               <% end %>
             <% end %>
@@ -596,7 +602,11 @@ defmodule KulolaWeb.HomeComponents do
           <%!-- Buttons --%>
           <div class="mt-6 flex gap-3">
             <a
-              href={if @hero_collection, do: "/collections/#{@hero_collection.slug}", else: "/#collections"}
+              href={
+                if @hero_collection,
+                  do: "/collections/#{@hero_collection.slug}",
+                  else: "/#collections"
+              }
               class="flex-1 rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800"
             >
               Shop {(@hero_collection && @hero_collection.name) || "Collection"}
@@ -660,7 +670,11 @@ defmodule KulolaWeb.HomeComponents do
 
             <div class="mt-8 flex flex-wrap gap-4">
               <a
-                href={if @hero_collection, do: "/collections/#{@hero_collection.slug}", else: "/#collections"}
+                href={
+                  if @hero_collection,
+                    do: "/collections/#{@hero_collection.slug}",
+                    else: "/#collections"
+                }
                 class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
               >
                 Shop {(@hero_collection && @hero_collection.name) || "Collection"}
@@ -674,8 +688,8 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
         </div>
-
-        <!-- Right: Swiper Image Panel -->
+        
+    <!-- Right: Swiper Image Panel -->
         <div class="relative overflow-hidden">
           <div
             id="hero-image-desktop"
@@ -686,7 +700,11 @@ defmodule KulolaWeb.HomeComponents do
             <div class="swiper-wrapper h-full">
               <%= if @hero_images == [] do %>
                 <div class="swiper-slide h-full">
-                  <img src="/images/main.jpeg" alt="Spring collection" class="h-full w-full object-cover" />
+                  <img
+                    src="/images/main.jpeg"
+                    alt="Spring collection"
+                    class="h-full w-full object-cover"
+                  />
                 </div>
               <% else %>
                 <%= for img <- @hero_images do %>
@@ -827,7 +845,7 @@ defmodule KulolaWeb.HomeComponents do
                 <img
                   src={product[:image] || "/images/main.jpeg"}
                   alt={product[:name] || "Featured"}
-                  class="h-64 w-full rounded-lg object-cover object-top"
+                  class="h-64 w-full rounded-lg object-cover object-top object-top"
                 />
               </div>
               
@@ -951,7 +969,7 @@ defmodule KulolaWeb.HomeComponents do
                       <img
                         src={product.main_image}
                         alt={product.name}
-                        class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        class="aspect-[3/4] w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
                     <%!-- Color Swatches --%>
@@ -1141,6 +1159,8 @@ defmodule KulolaWeb.HomeComponents do
     """
   end
 
+  attr :active_bundle, :map, default: nil
+
   def bundle_and_save(assigns) do
     ~H"""
     <section class="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
@@ -1148,74 +1168,95 @@ defmodule KulolaWeb.HomeComponents do
         <div class="text-center" data-motion-reveal>
           <p class="text-xs font-semibold uppercase tracking-widest text-gray-700">Bundle & Save</p>
           <h2 class="mt-3 text-3xl font-bold text-black sm:text-4xl lg:text-5xl">
-            Build Your Product Bundle<br />& Save Money
+            <%= if @active_bundle do %>
+              {@active_bundle.title}
+            <% else %>
+              Build Your Product Bundle<br />& Save Money
+            <% end %>
           </h2>
+          <%= if @active_bundle && @active_bundle.description not in [nil, ""] do %>
+            <p class="mx-auto mt-3 max-w-xl text-sm text-gray-500">{@active_bundle.description}</p>
+          <% end %>
         </div>
-        
+
+        <%= if @active_bundle do %>
+          <% products = Map.get(@active_bundle, :products, []) %>
+          <% bundle_url = "/bundles/#{@active_bundle.id}" %>
+          
     <!-- Content Grid -->
-        <div class="mt-12 overflow-hidden rounded-2xl border border-gray-200">
-          <div class="grid lg:grid-cols-5">
-            <!-- Products Grid (Scrollable) - Takes 3 columns -->
-            <div class="lg:col-span-3 lg:h-[700px] lg:overflow-y-auto">
-              <div class="grid grid-cols-2 gap-px bg-gray-200">
-                <%= for product <- @bundle_products do %>
-                  <a href={product.href} class="group bg-white p-5 transition hover:bg-gray-50">
-                    <div class="overflow-hidden rounded-lg bg-gray-100">
-                      <img
-                        src={product.main_image}
-                        alt={product.name}
-                        class="aspect-square w-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                    <div class="mt-4 border-t border-gray-200 pt-4">
-                      <!-- Color Swatches -->
-                      <div class="flex gap-2">
-                        <%= for color <- product.colors do %>
-                          <span
-                            class={"h-7 w-7 rounded-full border-2 #{if color.selected, do: "border-black", else: "border-gray-200"}"}
-                            style={"background-color: #{color.hex}"}
-                          >
-                          </span>
-                        <% end %>
+          <div class="mt-12 overflow-hidden rounded-2xl border border-gray-200">
+            <div class="grid lg:grid-cols-5">
+              <!-- Products Grid - Takes 3 columns -->
+              <div class="lg:col-span-3 lg:h-[700px] lg:overflow-y-auto">
+                <div class="grid grid-cols-2 gap-px bg-gray-200">
+                  <%= for product <- products do %>
+                    <a href={product.href} class="group bg-white p-5 transition hover:bg-gray-50">
+                      <div class="overflow-hidden rounded-lg bg-gray-100">
+                        <img
+                          src={product.main_image}
+                          alt={product.name}
+                          class="aspect-square w-full object-cover object-top transition-transform object-top duration-300 group-hover:scale-105"
+                        />
                       </div>
-                      <h3 class="mt-3 text-sm font-medium text-black">{product.name}</h3>
-                      <p class="mt-1 font-semibold text-black">
-                        KES {KulolaWeb.Format.price(product.price)}
-                      </p>
-                    </div>
+                      <div class="mt-4 border-t border-gray-200 pt-4">
+                        <div class="flex gap-1.5">
+                          <%= for color <- Enum.take(product.colors, 3) do %>
+                            <span
+                              class="h-5 w-5 rounded-full border border-gray-200"
+                              style={"background-color: #{color[:hex]}"}
+                            />
+                          <% end %>
+                        </div>
+                        <h3 class="mt-2 text-sm font-medium text-black line-clamp-1">
+                          {product.name}
+                        </h3>
+                        <p class="mt-0.5 text-sm font-semibold text-black">
+                          KES {KulolaWeb.Format.price(product.price)}
+                        </p>
+                      </div>
+                    </a>
+                  <% end %>
+                </div>
+                
+    <!-- CTA row -->
+                <div class="border-t border-gray-200 bg-white p-6 text-center">
+                  <a
+                    href={bundle_url}
+                    class="inline-block rounded-full bg-[#C8001F] px-10 py-3 text-sm font-semibold text-white transition hover:bg-red-800"
+                  >
+                    View Bundle & Add All to Cart →
                   </a>
-                <% end %>
+                </div>
               </div>
               
-    <!-- Shop Now Button -->
-              <div class="border-t border-gray-200 bg-white p-6 text-center">
-                <a
-                  href="/#collections"
-                  class="inline-block rounded-full bg-[#C8001F] px-10 py-3 text-sm font-medium text-white transition hover:bg-red-800"
-                >
-                  Shop Now
+    <!-- Featured Bundle Image - Takes 2 columns -->
+              <div class="hidden lg:col-span-2 lg:block">
+                <a href={bundle_url} class="block h-full">
+                  <img
+                    src={
+                      if @active_bundle.image not in [nil, ""],
+                        do: @active_bundle.image,
+                        else: "/images/main.jpeg"
+                    }
+                    alt={@active_bundle.title}
+                    class="h-full w-full object-cover object-top lg:h-[700px]"
+                  />
                 </a>
               </div>
             </div>
-            
-    <!-- Featured Image (Fixed) - Takes 2 columns -->
-            <div class="hidden lg:col-span-2 lg:block">
-              <%= if @active_bundle && @active_bundle.image not in [nil, ""] do %>
-                <img
-                  src={@active_bundle.image}
-                  alt={@active_bundle.title}
-                  class="h-full w-full object-cover lg:h-[700px]"
-                />
-              <% else %>
-                <img
-                  src="/images/main.jpeg"
-                  alt="Bundle collection"
-                  class="h-full w-full object-cover lg:h-[700px]"
-                />
-              <% end %>
-            </div>
           </div>
-        </div>
+        <% else %>
+          <!-- Fallback when no active bundle -->
+          <div class="mt-12 rounded-2xl border border-gray-200 bg-gray-50 p-16 text-center">
+            <p class="text-sm text-gray-400">No active bundle at the moment. Check back soon!</p>
+            <a
+              href="/#collections"
+              class="mt-4 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+            >
+              Shop Collections
+            </a>
+          </div>
+        <% end %>
       </div>
     </section>
     """
@@ -1276,7 +1317,7 @@ defmodule KulolaWeb.HomeComponents do
                 <img
                   src={testimonial.avatar}
                   alt={testimonial.name}
-                  class="h-28 w-24 flex-shrink-0 rounded-lg object-cover sm:h-36 sm:w-28"
+                  class="h-28 w-24 flex-shrink-0 rounded-lg object-cover object-top sm:h-36 sm:w-28"
                 />
               </div>
               <p class="mt-3 leading-relaxed text-gray-600">{testimonial.content}</p>
@@ -1346,7 +1387,7 @@ defmodule KulolaWeb.HomeComponents do
                   <img
                     src={product.main_image}
                     alt={product.name}
-                    class="aspect-[3/4] h-[300px] w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                    class="aspect-[3/4] h-[300px] w-full object-cover object-top object-top transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
 
@@ -1700,7 +1741,7 @@ defmodule KulolaWeb.HomeComponents do
                   <img
                     src="/images/main.jpeg"
                     alt="Collection"
-                    class="h-full w-full object-cover object-center"
+                    class="h-full w-full object-cover object-top object-center"
                   />
                 </div>
               <% else %>
@@ -1709,7 +1750,7 @@ defmodule KulolaWeb.HomeComponents do
                     <img
                       src={img.image}
                       alt={img.alt}
-                      class="h-full w-full object-cover object-center"
+                      class="h-full w-full object-cover object-top object-center"
                     />
                   </div>
                 <% end %>
@@ -1732,7 +1773,7 @@ defmodule KulolaWeb.HomeComponents do
             <img
               src="/images/kulola-logo.png"
               alt="Kulola's Closet"
-              class="h-10 w-10 rounded-full object-cover ring-2 ring-[#C8001F]"
+              class="h-10 w-10 rounded-full object-cover object-top ring-2 ring-[#C8001F]"
             />
             <div>
               <span class="brand-logo text-3xl text-white">

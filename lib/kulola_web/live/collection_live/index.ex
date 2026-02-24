@@ -110,9 +110,17 @@ defmodule KulolaWeb.CollectionLive.Index do
             <%!-- Title --%>
             <td class="px-5 py-3.5">
               <.link navigate={~p"/admin/collections/#{collection}"} class="flex items-center gap-3">
-                <div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 text-sm">
-                  🗂️
-                </div>
+                <%= if collection.image not in [nil, ""] do %>
+                  <img
+                    src={collection.image}
+                    alt={collection.title}
+                    class="h-10 w-10 flex-shrink-0 rounded-lg object-cover"
+                  />
+                <% else %>
+                  <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 text-sm">
+                    🗂️
+                  </div>
+                <% end %>
                 <span class="font-semibold text-gray-900 text-sm">{collection.title}</span>
               </.link>
             </td>

@@ -34,7 +34,13 @@ defmodule KulolaWeb.TestimonialLive.Show do
       <div class="flex items-center gap-4">
         <.link navigate={~p"/admin/testimonials"}>
           <button class="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-gray-400 transition hover:border-gray-300 hover:text-gray-700">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -91,7 +97,10 @@ defmodule KulolaWeb.TestimonialLive.Show do
           <div class="mt-5 flex items-center gap-1">
             <%= for i <- 1..5 do %>
               <svg
-                class={["h-5 w-5", if(i <= (@testimonial.rating || 0), do: "text-amber-400", else: "text-gray-200")]}
+                class={[
+                  "h-5 w-5",
+                  if(i <= (@testimonial.rating || 0), do: "text-amber-400", else: "text-gray-200")
+                ]}
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >
@@ -108,7 +117,7 @@ defmodule KulolaWeb.TestimonialLive.Show do
             <img
               src={@testimonial.image}
               alt={@testimonial.name}
-              class="h-14 w-14 rounded-full border border-gray-200 object-cover shadow-sm"
+              class="h-14 w-14 rounded-full border border-gray-200 object-cover object-top shadow-sm"
             />
           <% else %>
             <div class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-xl font-bold text-gray-400">
@@ -124,8 +133,13 @@ defmodule KulolaWeb.TestimonialLive.Show do
         <%!-- Linked product --%>
         <%= if @testimonial.product do %>
           <div class="border-t border-gray-100 px-8 py-5">
-            <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-400">Linked Product</p>
-            <.link navigate={~p"/admin/products/#{@testimonial.product}"} class="flex items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4 transition hover:bg-gray-100">
+            <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Linked Product
+            </p>
+            <.link
+              navigate={~p"/admin/products/#{@testimonial.product}"}
+              class="flex items-center gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4 transition hover:bg-gray-100"
+            >
               <%= if @testimonial.product.image && @testimonial.product.image != "" do %>
                 <img
                   src={@testimonial.product.image}
@@ -141,8 +155,16 @@ defmodule KulolaWeb.TestimonialLive.Show do
                 <p class="font-semibold text-gray-900">{@testimonial.product.name}</p>
                 <p class="text-sm text-gray-400">{@testimonial.product.slug}</p>
               </div>
-              <span class="text-sm font-semibold text-gray-700">Ksh {@testimonial.product.base_price}</span>
-              <svg class="h-4 w-4 flex-shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <span class="text-sm font-semibold text-gray-700">
+                Ksh {@testimonial.product.base_price}
+              </span>
+              <svg
+                class="h-4 w-4 flex-shrink-0 text-gray-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </.link>

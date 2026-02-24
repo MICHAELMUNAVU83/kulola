@@ -57,7 +57,10 @@ defmodule KulolaWeb.BundleLive.Show do
         {:ok, _item} ->
           {:noreply,
            socket
-           |> assign(:bundle_items, BundleItems.list_bundle_items_for_bundle(socket.assigns.bundle.id))
+           |> assign(
+             :bundle_items,
+             BundleItems.list_bundle_items_for_bundle(socket.assigns.bundle.id)
+           )
            |> assign(:show_item_form, false)
            |> assign(:item_error, nil)
            |> assign(:item_changeset, BundleItems.change_bundle_item(%BundleItem{}))}
@@ -67,10 +70,13 @@ defmodule KulolaWeb.BundleLive.Show do
             cond do
               Keyword.has_key?(errors, :bundle_id) and Keyword.has_key?(errors, :product_id) ->
                 "Please select a product."
+
               Keyword.has_key?(errors, :product_id) ->
                 "Please select a product."
+
               match?([{:bundle_id, _} | _], errors) ->
                 "Something went wrong. Please try again."
+
               true ->
                 "This product is already in the bundle."
             end
@@ -86,7 +92,11 @@ defmodule KulolaWeb.BundleLive.Show do
     {:ok, _} = BundleItems.delete_bundle_item(item)
 
     {:noreply,
-     assign(socket, :bundle_items, BundleItems.list_bundle_items_for_bundle(socket.assigns.bundle.id))}
+     assign(
+       socket,
+       :bundle_items,
+       BundleItems.list_bundle_items_for_bundle(socket.assigns.bundle.id)
+     )}
   end
 
   # ── Helpers ───────────────────────────────────────────────────────
@@ -105,7 +115,13 @@ defmodule KulolaWeb.BundleLive.Show do
       <div class="flex items-center gap-4">
         <.link navigate={~p"/admin/bundles"}>
           <button class="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-gray-400 transition hover:border-gray-300 hover:text-gray-700">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -136,7 +152,7 @@ defmodule KulolaWeb.BundleLive.Show do
             <img
               src={@bundle.image}
               alt={@bundle.title}
-              class="h-48 w-48 rounded-2xl border border-gray-200 object-cover shadow-sm"
+              class="h-48 w-48 rounded-2xl border border-gray-200 object-cover object-top shadow-sm"
             />
           <% else %>
             <div class="flex h-48 w-48 items-center justify-center rounded-2xl border border-gray-200 bg-gray-50 text-6xl">
@@ -168,7 +184,9 @@ defmodule KulolaWeb.BundleLive.Show do
           <p class="mt-4 text-base text-gray-600">{@bundle.description}</p>
 
           <div class="mt-6">
-            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Items in Bundle</p>
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Items in Bundle
+            </p>
             <p class="mt-1 text-2xl font-bold text-gray-900">{length(@bundle_items)}</p>
           </div>
         </div>
@@ -196,12 +214,24 @@ defmodule KulolaWeb.BundleLive.Show do
           ]}
         >
           <%= if @show_item_form do %>
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
             Cancel
           <% else %>
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
             Add Product
@@ -226,16 +256,17 @@ defmodule KulolaWeb.BundleLive.Show do
                   name="bundle_item[product_id]"
                   class={[
                     "w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-gray-900 transition focus:outline-none focus:ring-0",
-                    if(@item_error, do: "border-red-300 focus:border-red-400", else: "border-gray-200 focus:border-gray-400")
+                    if(@item_error,
+                      do: "border-red-300 focus:border-red-400",
+                      else: "border-gray-200 focus:border-gray-400"
+                    )
                   ]}
                 >
                   <option value="">— Choose a product —</option>
                   <%= for product <- @all_products do %>
-                    <option
-                      value={product.id}
-                      disabled={already_added?(@bundle_items, product.id)}
-                    >
-                      {product.name}{if already_added?(@bundle_items, product.id), do: " (already in bundle)"}
+                    <option value={product.id} disabled={already_added?(@bundle_items, product.id)}>
+                      {product.name}{if already_added?(@bundle_items, product.id),
+                        do: " (already in bundle)"}
                     </option>
                   <% end %>
                 </select>
@@ -299,7 +330,10 @@ defmodule KulolaWeb.BundleLive.Show do
               >
                 <%!-- Product --%>
                 <td class="px-6 py-4">
-                  <.link navigate={~p"/admin/products/#{item.product_id}"} class="flex items-center gap-3">
+                  <.link
+                    navigate={~p"/admin/products/#{item.product_id}"}
+                    class="flex items-center gap-3"
+                  >
                     <%= if item.product.image && item.product.image != "" do %>
                       <img
                         src={item.product.image}
@@ -353,7 +387,13 @@ defmodule KulolaWeb.BundleLive.Show do
                     data-confirm="Remove this product from the bundle?"
                     class="ml-auto flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-400 opacity-0 transition group-hover:opacity-100 hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                   >
-                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg
+                      class="h-3.5 w-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
                       <polyline points="3 6 5 6 21 6" />
                       <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                       <path d="M10 11v6m4-6v6" />

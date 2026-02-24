@@ -153,7 +153,7 @@ defmodule KulolaWeb.CollectionLive.FormComponent do
                 <img
                   src={@saved_image}
                   alt="Current collection image"
-                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover shadow-sm"
+                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <button
                   type="button"
@@ -179,7 +179,7 @@ defmodule KulolaWeb.CollectionLive.FormComponent do
               <div class="relative w-fit">
                 <.live_img_preview
                   entry={entry}
-                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover shadow-sm"
+                  class="h-36 w-36 rounded-xl border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <%!-- Progress bar --%>
                 <%= if entry.progress > 0 and not entry.done? do %>

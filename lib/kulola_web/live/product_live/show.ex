@@ -83,8 +83,7 @@ defmodule KulolaWeb.ProductLive.Show do
       })
     end)
 
-    {:noreply,
-     assign(socket, :images, ProductImages.list_product_images_for_product(product.id))}
+    {:noreply, assign(socket, :images, ProductImages.list_product_images_for_product(product.id))}
   end
 
   @impl true
@@ -98,7 +97,11 @@ defmodule KulolaWeb.ProductLive.Show do
     {:ok, _} = ProductImages.delete_product_image(image)
 
     {:noreply,
-     assign(socket, :images, ProductImages.list_product_images_for_product(socket.assigns.product.id))}
+     assign(
+       socket,
+       :images,
+       ProductImages.list_product_images_for_product(socket.assigns.product.id)
+     )}
   end
 
   # ── Variants ──────────────────────────────────────────────────────
@@ -126,9 +129,15 @@ defmodule KulolaWeb.ProductLive.Show do
       {:ok, _variant} ->
         {:noreply,
          socket
-         |> assign(:variants, ProductVariants.list_product_variants_for_product(socket.assigns.product.id))
+         |> assign(
+           :variants,
+           ProductVariants.list_product_variants_for_product(socket.assigns.product.id)
+         )
          |> assign(:show_variant_form, false)
-         |> assign(:variant_form, to_form(ProductVariants.change_product_variant(%ProductVariant{})))}
+         |> assign(
+           :variant_form,
+           to_form(ProductVariants.change_product_variant(%ProductVariant{}))
+         )}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :variant_form, to_form(changeset))}
@@ -141,7 +150,11 @@ defmodule KulolaWeb.ProductLive.Show do
     {:ok, _} = ProductVariants.delete_product_variant(variant)
 
     {:noreply,
-     assign(socket, :variants, ProductVariants.list_product_variants_for_product(socket.assigns.product.id))}
+     assign(
+       socket,
+       :variants,
+       ProductVariants.list_product_variants_for_product(socket.assigns.product.id)
+     )}
   end
 
   # ── Helpers ───────────────────────────────────────────────────────
@@ -164,7 +177,13 @@ defmodule KulolaWeb.ProductLive.Show do
       <div class="flex items-center gap-4">
         <.link navigate={~p"/admin/products"}>
           <button class="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-gray-400 transition hover:border-gray-300 hover:text-gray-700">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -195,7 +214,7 @@ defmodule KulolaWeb.ProductLive.Show do
             <img
               src={@product.image}
               alt={@product.name}
-              class="h-52 w-52 rounded-2xl border border-gray-200 object-cover shadow-sm"
+              class="h-52 w-52 rounded-2xl border border-gray-200 object-cover object-top shadow-sm"
             />
           <% else %>
             <div class="flex h-52 w-52 items-center justify-center rounded-2xl border border-gray-200 bg-gray-50 text-6xl">
@@ -247,7 +266,13 @@ defmodule KulolaWeb.ProductLive.Show do
 
             <%= if @collection do %>
               <span class="flex items-center gap-1.5 text-gray-500">
-                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
                   <polygon points="12 2 2 7 12 12 22 7 12 2" />
                   <polyline points="2 17 12 22 22 17" />
                   <polyline points="2 12 12 17 22 12" />
@@ -258,22 +283,36 @@ defmodule KulolaWeb.ProductLive.Show do
 
             <span class="text-gray-400 text-sm">Position {@product.position}</span>
 
-            <.link navigate="/admin/orders" class="flex items-center gap-1.5 rounded-full bg-gray-900 px-3 py-1 text-xs font-semibold text-white hover:bg-gray-700 transition">
+            <.link
+              navigate="/admin/orders"
+              class="flex items-center gap-1.5 rounded-full bg-gray-900 px-3 py-1 text-xs font-semibold text-white hover:bg-gray-700 transition"
+            >
               <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"/>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"
+                />
               </svg>
               {@order_count} {if @order_count == 1, do: "order", else: "orders"}
             </.link>
 
             <div class="flex gap-2">
               <%= if @product.is_featured do %>
-                <span class="rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-600">Featured</span>
+                <span class="rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-600">
+                  Featured
+                </span>
               <% end %>
               <%= if @product.is_bestseller do %>
-                <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-600">Bestseller</span>
+                <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-600">
+                  Bestseller
+                </span>
               <% end %>
               <%= if @product.is_new_arrival do %>
-                <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">New Arrival</span>
+                <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600">
+                  New Arrival
+                </span>
               <% end %>
             </div>
           </div>
@@ -301,7 +340,7 @@ defmodule KulolaWeb.ProductLive.Show do
                 <img
                   src={image.image}
                   alt="Product image"
-                  class="h-full w-full rounded-xl border border-gray-200 object-cover shadow-sm"
+                  class="h-full w-full rounded-xl border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <button
                   type="button"
@@ -310,7 +349,13 @@ defmodule KulolaWeb.ProductLive.Show do
                   data-confirm="Remove this image?"
                   class="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 opacity-0 shadow-sm transition group-hover:opacity-100 hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                 >
-                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -325,12 +370,15 @@ defmodule KulolaWeb.ProductLive.Show do
               <div class="group relative aspect-square">
                 <.live_img_preview
                   entry={entry}
-                  class="h-full w-full rounded-xl border border-gray-200 object-cover shadow-sm"
+                  class="h-full w-full rounded-xl border border-gray-200 object-cover object-top shadow-sm"
                 />
                 <%= if entry.progress > 0 and not entry.done? do %>
                   <div class="absolute inset-x-0 bottom-0 rounded-b-xl bg-black/40 px-3 py-2">
                     <div class="h-1.5 overflow-hidden rounded-full bg-white/30">
-                      <div class="h-full rounded-full bg-white transition-all" style={"width: #{entry.progress}%"} />
+                      <div
+                        class="h-full rounded-full bg-white transition-all"
+                        style={"width: #{entry.progress}%"}
+                      />
                     </div>
                   </div>
                 <% end %>
@@ -340,7 +388,13 @@ defmodule KulolaWeb.ProductLive.Show do
                   phx-value-ref={entry.ref}
                   class="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 shadow-sm transition hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                 >
-                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <svg
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -370,7 +424,10 @@ defmodule KulolaWeb.ProductLive.Show do
               type="submit"
               class="rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-700"
             >
-              Upload {length(@uploads.product_image.entries)} image{if length(@uploads.product_image.entries) != 1, do: "s"}
+              Upload {length(@uploads.product_image.entries)} image{if length(
+                                                                         @uploads.product_image.entries
+                                                                       ) != 1,
+                                                                       do: "s"}
             </button>
           <% end %>
         </form>
@@ -378,7 +435,13 @@ defmodule KulolaWeb.ProductLive.Show do
         <%= if Enum.empty?(@images) and Enum.empty?(@uploads.product_image.entries) do %>
           <div class="flex flex-col items-center justify-center py-16 text-center">
             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100">
-              <svg class="h-7 w-7 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <svg
+                class="h-7 w-7 text-gray-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                 <circle cx="8.5" cy="8.5" r="1.5" />
                 <polyline points="21 15 16 10 5 21" />
@@ -412,12 +475,24 @@ defmodule KulolaWeb.ProductLive.Show do
           ]}
         >
           <%= if @show_variant_form do %>
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
             Cancel
           <% else %>
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
             </svg>
             Add Variant
@@ -428,7 +503,9 @@ defmodule KulolaWeb.ProductLive.Show do
       <%!-- Inline add-variant form --%>
       <%= if @show_variant_form do %>
         <div class="border-b border-gray-100 bg-gray-50 px-6 py-6">
-          <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-400">New Variant</p>
+          <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-400">
+            New Variant
+          </p>
           <.form
             for={@variant_form}
             phx-change="validate_variant"
@@ -447,7 +524,9 @@ defmodule KulolaWeb.ProductLive.Show do
                   placeholder="e.g. Midnight Black"
                   class="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none"
                 />
-                <.error :for={msg <- Enum.map(@variant_form[:color_name].errors, &translate_error/1)}>{msg}</.error>
+                <.error :for={msg <- Enum.map(@variant_form[:color_name].errors, &translate_error/1)}>
+                  {msg}
+                </.error>
               </div>
 
               <%!-- Color hex --%>
@@ -468,7 +547,9 @@ defmodule KulolaWeb.ProductLive.Show do
                     class="flex-1 bg-transparent px-3 py-2.5 font-mono text-sm text-gray-700 focus:outline-none"
                   />
                 </div>
-                <.error :for={msg <- Enum.map(@variant_form[:color_hex].errors, &translate_error/1)}>{msg}</.error>
+                <.error :for={msg <- Enum.map(@variant_form[:color_hex].errors, &translate_error/1)}>
+                  {msg}
+                </.error>
               </div>
 
               <%!-- Size --%>
@@ -482,7 +563,9 @@ defmodule KulolaWeb.ProductLive.Show do
                   placeholder="e.g. S, M, L, XL"
                   class="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none"
                 />
-                <.error :for={msg <- Enum.map(@variant_form[:size].errors, &translate_error/1)}>{msg}</.error>
+                <.error :for={msg <- Enum.map(@variant_form[:size].errors, &translate_error/1)}>
+                  {msg}
+                </.error>
               </div>
 
               <%!-- Stock --%>
@@ -496,7 +579,11 @@ defmodule KulolaWeb.ProductLive.Show do
                   placeholder="e.g. 50"
                   class="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none"
                 />
-                <.error :for={msg <- Enum.map(@variant_form[:stock_quantity].errors, &translate_error/1)}>{msg}</.error>
+                <.error :for={
+                  msg <- Enum.map(@variant_form[:stock_quantity].errors, &translate_error/1)
+                }>
+                  {msg}
+                </.error>
               </div>
             </div>
 
@@ -518,23 +605,38 @@ defmodule KulolaWeb.ProductLive.Show do
         <%= if Enum.empty?(@variants) do %>
           <div class="flex flex-col items-center justify-center py-16 text-center">
             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-100">
-              <svg class="h-7 w-7 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <svg
+                class="h-7 w-7 text-gray-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
                 <line x1="12" y1="16" x2="12.01" y2="16" />
               </svg>
             </div>
             <p class="mt-4 text-base font-semibold text-gray-700">No variants yet</p>
-            <p class="mt-1.5 text-sm text-gray-400">Add size and colour variants using the button above.</p>
+            <p class="mt-1.5 text-sm text-gray-400">
+              Add size and colour variants using the button above.
+            </p>
           </div>
         <% else %>
           <table class="w-full">
             <thead>
               <tr class="border-b border-gray-100 bg-gray-50">
-                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">Color</th>
-                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">Size</th>
-                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">Stock</th>
-                <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-gray-400"></th>
+                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Color
+                </th>
+                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Size
+                </th>
+                <th class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Stock
+                </th>
+                <th class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-gray-400">
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -558,7 +660,9 @@ defmodule KulolaWeb.ProductLive.Show do
                   </span>
                 </td>
                 <td class="px-6 py-4">
-                  <span class="text-sm font-medium text-gray-700">{variant.stock_quantity} units</span>
+                  <span class="text-sm font-medium text-gray-700">
+                    {variant.stock_quantity} units
+                  </span>
                 </td>
                 <td class="px-6 py-4 text-right">
                   <button
@@ -567,7 +671,13 @@ defmodule KulolaWeb.ProductLive.Show do
                     data-confirm="Delete this variant?"
                     class="ml-auto flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-400 opacity-0 transition group-hover:opacity-100 hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                   >
-                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg
+                      class="h-3.5 w-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
                       <polyline points="3 6 5 6 21 6" />
                       <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                       <path d="M10 11v6m4-6v6" />

@@ -12,7 +12,7 @@ defmodule KulolaWeb.ProductComponents do
             <img
               src={Enum.at(@product.gallery_images, @main_image_index) || @product.main_image}
               alt={@product.name}
-              class="h-full w-full object-cover object-top"
+              class="h-full w-full object-cover object-top object-top"
             />
           </div>
           <div class="flex gap-2">
@@ -23,7 +23,7 @@ defmodule KulolaWeb.ProductComponents do
                 phx-value-index={idx}
                 class={"aspect-square w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 bg-gray-100 transition #{if @main_image_index == idx, do: "border-black", else: "border-transparent hover:border-gray-300"}"}
               >
-                <img src={img} alt="" class="h-full w-full object-cover object-top" />
+                <img src={img} alt="" class="h-full w-full object-cover object-top object-top" />
               </button>
             <% end %>
           </div>
@@ -44,7 +44,9 @@ defmodule KulolaWeb.ProductComponents do
           <% end %>
 
           <h1 class="mt-3 text-2xl font-bold text-black sm:text-3xl">{@product.name}</h1>
-          <p class="mt-2 text-xl font-bold text-black">KES {KulolaWeb.Format.price(@product.price)}</p>
+          <p class="mt-2 text-xl font-bold text-black">
+            KES {KulolaWeb.Format.price(@product.price)}
+          </p>
 
           <%!-- Stock --%>
           <div class="mt-3 flex items-center gap-2 text-sm text-green-600">
@@ -313,7 +315,7 @@ defmodule KulolaWeb.ProductComponents do
                       <img
                         src={product.main_image}
                         alt={product.name}
-                        class="aspect-[3/4] w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        class="aspect-[3/4] w-full object-cover object-top object-top transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
                     <div class="mt-4 flex gap-2">

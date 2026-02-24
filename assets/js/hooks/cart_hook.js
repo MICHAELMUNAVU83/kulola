@@ -202,6 +202,11 @@ const CartHook = {
     };
     window.addEventListener("storage", this.onStorage);
 
+    // Navigate to cart page (used by bundle page "Add All" flow)
+    this.handleEvent("navigate-to-cart", () => {
+      window.location.href = "/cart";
+    });
+
     // Close drawer when LiveView navigates to /cart or /checkout
     this.onNavigate = () => {
       if (isCartOrCheckout()) window.CartDrawer.close();

@@ -18,8 +18,7 @@ defmodule KulolaWeb.HomeLive.Index do
      |> assign(:contact_images, Enum.shuffle(hero_images))
      |> assign(:products, Shop.list_new_arrivals())
      |> assign(:bestsellers, Shop.list_bestsellers())
-     |> assign(:bundle_products, Shop.list_bundle_display_products())
-     |> assign(:active_bundle, Shop.get_active_bundle())
+     |> assign(:active_bundle, Shop.get_active_bundle_with_products())
      |> assign(:testimonials, Shop.list_testimonials_for_display())
      |> assign(:instagram_images, DummyData.instagram_images())
      |> assign(:sale_banner, Shop.get_sale_banner_data())
@@ -58,7 +57,7 @@ defmodule KulolaWeb.HomeLive.Index do
       <.banner items={@marquee_items} />
       <.two_column_collection featured_collections={@featured_collections} />
       <.video_banner />
-      <.bundle_and_save bundle_products={@bundle_products} active_bundle={@active_bundle} />
+      <.bundle_and_save active_bundle={@active_bundle} />
       <.testimonials testimonials={@testimonials} />
       <.best_sellers bestsellers={@bestsellers} />
       <.countdown collection={@countdown_collection} />

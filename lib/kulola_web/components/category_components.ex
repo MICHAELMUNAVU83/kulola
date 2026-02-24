@@ -8,7 +8,7 @@ defmodule KulolaWeb.CategoryComponents do
       <img
         src={@category.hero_image}
         alt=""
-        class="absolute inset-0 h-full w-full object-cover opacity-50"
+        class="absolute inset-0 h-full w-full object-cover object-top opacity-50"
       />
       <div class="absolute inset-0 bg-black/40" aria-hidden="true"></div>
       <div class="relative z-10 px-4 text-center text-white">
@@ -225,7 +225,7 @@ defmodule KulolaWeb.CategoryComponents do
               <img
                 src={product.main_image}
                 alt={product.name}
-                class="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                class="aspect-[3/4] w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
               />
             </div>
             <div class="mt-4 flex gap-2">
@@ -248,7 +248,9 @@ defmodule KulolaWeb.CategoryComponents do
                 KES {KulolaWeb.Format.price(product.price)}
               </span>
               <%= if product.original_price do %>
-                <span class="text-sm text-gray-400 line-through">KES {KulolaWeb.Format.price(product.original_price)}</span>
+                <span class="text-sm text-gray-400 line-through">
+                  KES {KulolaWeb.Format.price(product.original_price)}
+                </span>
               <% end %>
             </div>
           </a>

@@ -302,6 +302,40 @@ defmodule Kulola.Shop do
     |> Repo.one()
   end
 
+  @doc "Returns the first active bundle with its products enriched for display."
+  def get_active_bundle_with_products do
+    bundle =
+      from(b in Bundle, where: b.is_active == true, order_by: b.id, limit: 1)
+      |> Repo.one()
+
+    case bundle do
+      nil -> nil
+      b -> Map.put(b, :products, list_products_for_bundle(b.id))
+    end
+  end
+
+  @doc "Returns enriched display products belonging to a bundle by id."
+  def list_products_for_bundle(bundle_id) do
+    alias Kulola.BundleItems.BundleItem
+
+    from(p in Product,
+      join: bi in BundleItem,
+      on: bi.product_id == p.id,
+      where: bi.bundle_id == ^bundle_id and p.status == "active",
+      order_by: p.position
+    )
+    |> Repo.all()
+    |> enrich_products_for_display()
+  end
+
+  @doc "Returns a bundle by id with enriched products, or nil."
+  def get_bundle_for_display(id) do
+    case Repo.get(Bundle, id) do
+      nil -> nil
+      bundle -> Map.put(bundle, :products, list_products_for_bundle(bundle.id))
+    end
+  end
+
   @doc """
   Builds the sale banner data map from the DB.
   Uses the first featured active product as the floating card and its uploaded

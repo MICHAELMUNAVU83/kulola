@@ -138,7 +138,7 @@ defmodule KulolaWeb.SidebarComponents do
       <img
         src="/images/kulola-logo.png"
         alt="Kulola"
-        class="h-8 w-8 flex-shrink-0 rounded-full object-cover ring-2 ring-[#C8001F]/60"
+        class="h-8 w-8 flex-shrink-0 rounded-full object-cover object-top ring-2 ring-[#C8001F]/60"
       />
       <div class="min-w-0">
         <span class="brand-logo block text-[17px] leading-tight text-gray-900">
@@ -251,23 +251,39 @@ defmodule KulolaWeb.SidebarComponents do
           </p>
           <p class="text-[11px] text-gray-400">{user_role_label(@current_user)}</p>
         </div>
-        <svg class="h-3.5 w-3.5 flex-shrink-0 text-gray-300 group-hover:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <svg
+          class="h-3.5 w-3.5 flex-shrink-0 text-gray-300 group-hover:text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+        >
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </a>
-
-      <!-- Back to website -->
+      
+    <!-- Back to website -->
       <a
         href="/"
         class="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
       >
-        <svg class="h-4 w-4 text-gray-400 group-hover:text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        <svg
+          class="h-4 w-4 text-gray-400 group-hover:text-gray-600"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
         </svg>
         Back to Website
       </a>
-
-      <!-- Logout -->
+      
+    <!-- Logout -->
       <form action="/users/log_out" method="post">
         <input type="hidden" name="_method" value="delete" />
         <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
@@ -275,8 +291,18 @@ defmodule KulolaWeb.SidebarComponents do
           type="submit"
           class="group flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-gray-500 transition hover:bg-red-50 hover:text-[#C8001F]"
         >
-          <svg class="h-4 w-4 text-gray-400 group-hover:text-[#C8001F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          <svg
+            class="h-4 w-4 text-gray-400 group-hover:text-[#C8001F]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
           </svg>
           Log out
         </button>
@@ -295,6 +321,7 @@ defmodule KulolaWeb.SidebarComponents do
   defp user_role_label(_), do: "Member"
 
   defp user_initials(nil), do: "A"
+
   defp user_initials(%{name: name}) when is_binary(name) and name != "" do
     name
     |> String.split()
@@ -303,13 +330,23 @@ defmodule KulolaWeb.SidebarComponents do
     |> Enum.join()
     |> String.upcase()
   end
+
   defp user_initials(%{email: email}) do
     email |> String.slice(0, 2) |> String.upcase()
   end
 
   defp user_avatar_color(nil), do: "bg-[#C8001F]"
+
   defp user_avatar_color(%{id: id}) do
-    colors = ["bg-[#C8001F]", "bg-blue-500", "bg-violet-500", "bg-teal-500", "bg-amber-500", "bg-pink-500"]
+    colors = [
+      "bg-[#C8001F]",
+      "bg-blue-500",
+      "bg-violet-500",
+      "bg-teal-500",
+      "bg-amber-500",
+      "bg-pink-500"
+    ]
+
     Enum.at(colors, rem(id, length(colors)))
   end
 
@@ -430,7 +467,11 @@ defmodule KulolaWeb.SidebarComponents do
   defp nav_icon(%{name: "file-text"} = assigns) do
     ~H"""
     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+      />
     </svg>
     """
   end
@@ -438,7 +479,11 @@ defmodule KulolaWeb.SidebarComponents do
   defp nav_icon(%{name: "help"} = assigns) do
     ~H"""
     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
     </svg>
     """
   end
