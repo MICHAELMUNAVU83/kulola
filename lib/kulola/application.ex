@@ -14,8 +14,8 @@ defmodule Kulola.Application do
       {Phoenix.PubSub, name: Kulola.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Kulola.Finch},
-      # Start a worker by calling: Kulola.Worker.start_link(arg)
-      # {Kulola.Worker, arg},
+      # Site settings cache (loads once from DB, invalidated on save)
+      {Kulola.SiteSettings, []},
       # Start to serve requests, typically the last entry
       KulolaWeb.Endpoint
     ]

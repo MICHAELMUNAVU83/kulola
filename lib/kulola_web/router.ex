@@ -98,6 +98,7 @@ defmodule KulolaWeb.Router do
 
         live "/help", HelpLive.Index, :index
 
+        live "/theme", ThemeLive.Index, :index
         live "/settings", AdminPageLive.Index, :index
       end
     end

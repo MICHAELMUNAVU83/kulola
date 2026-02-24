@@ -111,6 +111,13 @@ defmodule KulolaWeb.SidebarComponents do
         />
 
         <.nav_item
+          label="Theme & Branding"
+          path={~p"/admin/theme"}
+          active={String.starts_with?(@current_path, "/admin/theme")}
+          icon="palette"
+        />
+
+        <.nav_item
           label="Settings"
           path={~p"/admin/settings"}
           active={@current_path == "/admin/settings"}
@@ -483,6 +490,18 @@ defmodule KulolaWeb.SidebarComponents do
         stroke-linecap="round"
         stroke-linejoin="round"
         d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    """
+  end
+
+  defp nav_icon(%{name: "palette"} = assigns) do
+    ~H"""
+    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 2C6.48 2 2 6.48 2 12c0 5.52 4.48 10 10 10 .83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 8 6.5 8 8 8.67 8 9.5 7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5S18.33 11 17.5 11z"
       />
     </svg>
     """

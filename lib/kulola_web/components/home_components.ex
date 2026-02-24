@@ -210,7 +210,7 @@ defmodule KulolaWeb.HomeComponents do
         </a>
         <a
           href="/checkout"
-          class="flex items-center justify-center gap-2 rounded-full bg-[#C8001F] py-3 text-sm font-semibold text-white transition hover:bg-red-800"
+          class="flex items-center justify-center gap-2 rounded-full bg-[#C8001F] py-3 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
         >
           Checkout →
         </a>
@@ -299,7 +299,7 @@ defmodule KulolaWeb.HomeComponents do
         </div>
         <a
           href="/checkout"
-          class="block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800"
+          class="block w-full rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
         >
           Checkout →
         </a>
@@ -607,7 +607,7 @@ defmodule KulolaWeb.HomeComponents do
                   do: "/collections/#{@hero_collection.slug}",
                   else: "/#collections"
               }
-              class="flex-1 rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-red-800"
+              class="flex-1 rounded-full bg-[#C8001F] py-3 text-center text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
             >
               Shop {(@hero_collection && @hero_collection.name) || "Collection"}
             </a>
@@ -675,7 +675,7 @@ defmodule KulolaWeb.HomeComponents do
                     do: "/collections/#{@hero_collection.slug}",
                     else: "/#collections"
                 }
-                class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
+                class="rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
               >
                 Shop {(@hero_collection && @hero_collection.name) || "Collection"}
               </a>
@@ -829,7 +829,7 @@ defmodule KulolaWeb.HomeComponents do
           <% fp = Map.get(@sale_banner, :featured_product, %{}) %>
           <a
             href={if fp[:slug], do: "/products/#{fp[:slug]}", else: "/#collections"}
-            class="mt-8 w-fit rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-red-800"
+            class="mt-8 w-fit rounded-full bg-[#C8001F] px-8 py-3 text-base font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
           >
             Shop Now
           </a>
@@ -1237,7 +1237,7 @@ defmodule KulolaWeb.HomeComponents do
                 <div class="border-t border-gray-200 bg-white p-6 text-center">
                   <a
                     href={bundle_url}
-                    class="inline-block rounded-full bg-[#C8001F] px-10 py-3 text-sm font-semibold text-white transition hover:bg-red-800"
+                    class="inline-block rounded-full bg-[#C8001F] px-10 py-3 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
                   >
                     View Bundle & Add All to Cart →
                   </a>
@@ -1266,7 +1266,7 @@ defmodule KulolaWeb.HomeComponents do
             <p class="text-sm text-gray-400">No active bundle at the moment. Check back soon!</p>
             <a
               href="/#collections"
-              class="mt-4 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+              class="mt-4 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
             >
               Shop Collections
             </a>
@@ -1377,7 +1377,7 @@ defmodule KulolaWeb.HomeComponents do
 
               <a
                 href="/#bestsellers"
-                class="mt-8 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+                class="mt-8 inline-block rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
               >
                 Shop Now
               </a>
@@ -1736,7 +1736,7 @@ defmodule KulolaWeb.HomeComponents do
             </textarea>
             <button
               type="submit"
-              class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-red-800"
+              class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-medium text-white transition hover:bg-[var(--brand-primary-dark)]"
             >
               Send Message
             </button>
@@ -1989,7 +1989,7 @@ defmodule KulolaWeb.HomeComponents do
                 />
                 <button
                   type="submit"
-                  class="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#C8001F] text-white transition hover:bg-red-800"
+                  class="absolute right-1.5 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#C8001F] text-white transition hover:bg-[var(--brand-primary-dark)]"
                 >
                   <svg
                     class="h-4 w-4"

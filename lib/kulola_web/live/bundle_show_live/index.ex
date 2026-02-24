@@ -202,7 +202,7 @@ defmodule KulolaWeb.BundleShowLive.Index do
               </p>
               <button
                 phx-click="add_all_to_cart"
-                class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-semibold text-white transition hover:bg-red-800"
+                class="rounded-full bg-[#C8001F] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
               >
                 Add All to Cart — KES {KulolaWeb.Format.price(@bundle_total)}
               </button>
@@ -331,7 +331,7 @@ defmodule KulolaWeb.BundleShowLive.Index do
           </p>
           <button
             phx-click="add_all_to_cart"
-            class="mt-6 inline-block rounded-full bg-[#C8001F] px-10 py-3.5 text-sm font-semibold text-white transition hover:bg-red-800"
+            class="mt-6 inline-block rounded-full bg-[#C8001F] px-10 py-3.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)]"
           >
             Add All to Cart — KES {KulolaWeb.Format.price(@bundle_total)}
           </button>
