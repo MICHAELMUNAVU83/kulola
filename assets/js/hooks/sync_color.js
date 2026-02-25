@@ -1,29 +1,23 @@
-// In assets/js/hooks.js (or wherever you define your hooks)
-// Add this to your Hooks object and pass to LiveSocket
-
 const SyncColorPicker = {
   mounted() {
-    const swatch = this.el.querySelector("#badge-color-swatch");
-    const text = this.el.querySelector("#badge-color-text");
+    const swatch = this.el.querySelector("input[type='color']");
+    const text = this.el.querySelector("input[type='text']");
+
+    if (!swatch || !text) return;
 
     swatch.addEventListener("input", (e) => {
       text.value = e.target.value;
-      // Trigger a change event so phx-change / validate picks it up
       text.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    // Also sync text → swatch when user types a valid hex
+    text.addEventListener("input", (e) => {
+      const val = e.target.value.trim();
+      if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+        swatch.value = val;
+      }
     });
   },
 };
 
 export default SyncColorPicker;
-
-// ─────────────────────────────────────────────────────────────────
-// In assets/js/app.js, wire it up:
-//
-// import SyncColorPicker from "./hooks"   // or wherever you put it
-//
-// let Hooks = { SyncColorPicker }
-//
-// let liveSocket = new LiveSocket("/live", Socket, {
-//   hooks: Hooks,
-//   params: { _csrf_token: csrfToken }
-// })
