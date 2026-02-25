@@ -232,7 +232,7 @@ defmodule KulolaWeb.ProductLive.Show do
                 <%= if @product.badge_label not in [nil, ""] do %>
                   <span
                     class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-                    style={"background-color: #{@product.badge_color || "#f3f4f6"}; color: #111"}
+                    style={"background-color: #{@product.badge_color || "#f3f4f6"}; color: white"}
                   >
                     {@product.badge_label}
                   </span>
