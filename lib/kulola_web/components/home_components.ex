@@ -532,7 +532,7 @@ defmodule KulolaWeb.HomeComponents do
 
   def hero(assigns) do
     ~H"""
-    <section class="relative bg-white" id="hero-section" phx-hook="HeroReveal">
+    <section class="relative bg-white" id="hero-section">
       <%!-- ── MOBILE: full-bleed image hero with overlay text ── --%>
       <div class="relative overflow-hidden lg:hidden" style="height: 75svh; min-height: 480px;">
         <%!-- Background image swiper — all layers forced to fill parent --%>
@@ -740,7 +740,12 @@ defmodule KulolaWeb.HomeComponents do
           >
             View all
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </a>
         </div>
@@ -777,8 +782,18 @@ defmodule KulolaWeb.HomeComponents do
                   </span>
                   <span class="inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm transition group-hover:bg-[#C8001F]">
                     Shop
-                    <svg class="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <svg
+                      class="h-3 w-3 transition-transform group-hover:translate-x-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
                     </svg>
                   </span>
                 </div>
@@ -788,10 +803,18 @@ defmodule KulolaWeb.HomeComponents do
         </div>
 
         <div class="mt-8 text-center sm:hidden">
-          <a href="/collections" class="inline-flex items-center gap-1 text-sm font-medium text-[#C8001F] hover:underline">
+          <a
+            href="/collections"
+            class="inline-flex items-center gap-1 text-sm font-medium text-[#C8001F] hover:underline"
+          >
             View all collections
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </a>
         </div>
