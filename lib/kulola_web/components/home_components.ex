@@ -1395,7 +1395,7 @@ defmodule KulolaWeb.HomeComponents do
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-6 lg:col-span-5">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-5">
             <%= for product <- @bestsellers do %>
               <a href={"/products/#{product.slug}"} class="group block">
                 <div class="overflow-hidden rounded-lg bg-gray-100">
@@ -1423,40 +1423,6 @@ defmodule KulolaWeb.HomeComponents do
                 <p class="mt-1 font-semibold text-black">
                   KES {KulolaWeb.Format.price(product.price)}
                 </p>
-
-                <div class="mt-2 flex items-center gap-1">
-                  <div class="flex text-yellow-400">
-                    <% rating_float = Decimal.to_float(product.rating) %>
-                    <% full_stars = trunc(rating_float) %>
-                    <% has_half = rating_float - full_stars >= 0.5 %>
-
-                    <%= for _i <- 1..full_stars do %>
-                      <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                      </svg>
-                    <% end %>
-                    <%= if has_half do %>
-                      <svg class="h-4 w-4" viewBox="0 0 20 20">
-                        <defs>
-                          <linearGradient id={"half-rating-#{product.id}"}>
-                            <stop offset="50%" stop-color="#FACC15" />
-                            <stop offset="50%" stop-color="#E5E7EB" />
-                          </linearGradient>
-                        </defs>
-                        <path
-                          fill={"url(#half-rating-#{product.id})"}
-                          d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                        />
-                      </svg>
-                    <% end %>
-                    <%= for _i <- 1..(5 - full_stars - if(has_half, do: 1, else: 0)) do %>
-                      <svg class="h-4 w-4 fill-gray-200" viewBox="0 0 20 20">
-                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                      </svg>
-                    <% end %>
-                  </div>
-                  <span class="text-sm text-gray-500">({product.rating})</span>
-                </div>
               </a>
             <% end %>
           </div>
@@ -1506,19 +1472,9 @@ defmodule KulolaWeb.HomeComponents do
               <div class="text-center">
                 <span
                   class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
-                  id="countdown-days"
-                >
-                  9
-                </span>
-                <p class="mt-3 text-sm font-medium text-red-200">Days</p>
-              </div>
-              <span class="text-4xl font-light text-white/50 sm:text-5xl lg:text-6xl">:</span>
-              <div class="text-center">
-                <span
-                  class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
                   id="countdown-hours"
                 >
-                  19
+                  02
                 </span>
                 <p class="mt-3 text-sm font-medium text-red-200">Hours</p>
               </div>
@@ -1528,7 +1484,7 @@ defmodule KulolaWeb.HomeComponents do
                   class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
                   id="countdown-minutes"
                 >
-                  23
+                  00
                 </span>
                 <p class="mt-3 text-sm font-medium text-red-200">Minutes</p>
               </div>
@@ -1538,7 +1494,7 @@ defmodule KulolaWeb.HomeComponents do
                   class="font-display text-5xl font-bold tabular-nums text-white sm:text-6xl lg:text-7xl"
                   id="countdown-seconds"
                 >
-                  59
+                  00
                 </span>
                 <p class="mt-3 text-sm font-medium text-red-200">Seconds</p>
               </div>
