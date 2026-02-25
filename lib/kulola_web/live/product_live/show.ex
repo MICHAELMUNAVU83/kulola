@@ -16,6 +16,9 @@ defmodule KulolaWeb.ProductLive.Show do
      |> assign(:current_path, "/admin/products")
      |> assign(:show_variant_form, false)
      |> assign(:variant_form, to_form(ProductVariants.change_product_variant(%ProductVariant{})))
+     |> assign(:editing_variant_id, nil)
+     |> assign(:editing_variant, nil)
+     |> assign(:edit_variant_form, nil)
      |> allow_upload(:product_image,
        accept: ~w(.jpg .jpeg .png .webp),
        max_entries: 10,
@@ -108,7 +111,12 @@ defmodule KulolaWeb.ProductLive.Show do
 
   @impl true
   def handle_event("toggle_variant_form", _, socket) do
-    {:noreply, assign(socket, :show_variant_form, !socket.assigns.show_variant_form)}
+    {:noreply,
+     socket
+     |> assign(:show_variant_form, !socket.assigns.show_variant_form)
+     |> assign(:editing_variant_id, nil)
+     |> assign(:editing_variant, nil)
+     |> assign(:edit_variant_form, nil)}
   end
 
   @impl true
@@ -155,6 +163,57 @@ defmodule KulolaWeb.ProductLive.Show do
        :variants,
        ProductVariants.list_product_variants_for_product(socket.assigns.product.id)
      )}
+  end
+
+  @impl true
+  def handle_event("edit_variant", %{"id" => id}, socket) do
+    variant = ProductVariants.get_product_variant!(id)
+    changeset = ProductVariants.change_product_variant(variant)
+
+    {:noreply,
+     socket
+     |> assign(:editing_variant_id, variant.id)
+     |> assign(:editing_variant, variant)
+     |> assign(:edit_variant_form, to_form(changeset))
+     |> assign(:show_variant_form, false)}
+  end
+
+  @impl true
+  def handle_event("cancel_edit_variant", _, socket) do
+    {:noreply,
+     socket
+     |> assign(:editing_variant_id, nil)
+     |> assign(:editing_variant, nil)
+     |> assign(:edit_variant_form, nil)}
+  end
+
+  @impl true
+  def handle_event("validate_edit_variant", %{"product_variant" => params}, socket) do
+    changeset =
+      socket.assigns.editing_variant
+      |> ProductVariants.change_product_variant(params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, :edit_variant_form, to_form(changeset))}
+  end
+
+  @impl true
+  def handle_event("update_variant", %{"product_variant" => params}, socket) do
+    case ProductVariants.update_product_variant(socket.assigns.editing_variant, params) do
+      {:ok, _variant} ->
+        {:noreply,
+         socket
+         |> assign(
+           :variants,
+           ProductVariants.list_product_variants_for_product(socket.assigns.product.id)
+         )
+         |> assign(:editing_variant_id, nil)
+         |> assign(:editing_variant, nil)
+         |> assign(:edit_variant_form, nil)}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, :edit_variant_form, to_form(changeset))}
+    end
   end
 
   # ── Helpers ───────────────────────────────────────────────────────
@@ -532,7 +591,11 @@ defmodule KulolaWeb.ProductLive.Show do
               <%!-- Color hex --%>
               <div>
                 <label class="mb-1.5 block text-sm font-semibold text-gray-700">Color</label>
-                <div class="flex items-center overflow-hidden rounded-xl border border-gray-200 bg-white transition focus-within:border-gray-400">
+                <div
+                  id="variant-color-picker-add"
+                  phx-hook="SyncColorPicker"
+                  class="flex items-center overflow-hidden rounded-xl border border-gray-200 bg-white transition focus-within:border-gray-400"
+                >
                   <input
                     type="color"
                     value={@variant_form[:color_hex].value || "#000000"}
@@ -600,6 +663,134 @@ defmodule KulolaWeb.ProductLive.Show do
         </div>
       <% end %>
 
+      <%!-- Inline edit-variant form --%>
+      <%= if @editing_variant_id do %>
+        <div class="border-b border-gray-100 bg-amber-50 px-6 py-6">
+          <div class="mb-4 flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Edit Variant
+            </p>
+            <button
+              type="button"
+              phx-click="cancel_edit_variant"
+              class="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-500 transition hover:border-gray-300 hover:text-gray-700"
+            >
+              <svg
+                class="h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Cancel
+            </button>
+          </div>
+          <.form
+            for={@edit_variant_form}
+            phx-change="validate_edit_variant"
+            phx-submit="update_variant"
+            class="space-y-4"
+          >
+            <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              <%!-- Color name --%>
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Color Name</label>
+                <input
+                  type="text"
+                  name={@edit_variant_form[:color_name].name}
+                  value={@edit_variant_form[:color_name].value}
+                  id={@edit_variant_form[:color_name].id}
+                  placeholder="e.g. Midnight Black"
+                  class="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none"
+                />
+                <.error :for={
+                  msg <- Enum.map(@edit_variant_form[:color_name].errors, &translate_error/1)
+                }>
+                  {msg}
+                </.error>
+              </div>
+
+              <%!-- Color hex --%>
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Color</label>
+                <div
+                  id="variant-color-picker-edit"
+                  phx-hook="SyncColorPicker"
+                  class="flex items-center overflow-hidden rounded-xl border border-gray-200 bg-white transition focus-within:border-gray-400"
+                >
+                  <input
+                    type="color"
+                    value={@edit_variant_form[:color_hex].value || "#000000"}
+                    class="h-[42px] w-12 flex-shrink-0 cursor-pointer border-0 bg-transparent p-1"
+                  />
+                  <input
+                    type="text"
+                    name={@edit_variant_form[:color_hex].name}
+                    value={@edit_variant_form[:color_hex].value || "#000000"}
+                    id={@edit_variant_form[:color_hex].id}
+                    placeholder="#000000"
+                    class="flex-1 bg-transparent px-3 py-2.5 font-mono text-sm text-gray-700 focus:outline-none"
+                  />
+                </div>
+                <.error :for={
+                  msg <- Enum.map(@edit_variant_form[:color_hex].errors, &translate_error/1)
+                }>
+                  {msg}
+                </.error>
+              </div>
+
+              <%!-- Size --%>
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Size</label>
+                <input
+                  type="text"
+                  name={@edit_variant_form[:size].name}
+                  value={@edit_variant_form[:size].value}
+                  id={@edit_variant_form[:size].id}
+                  placeholder="e.g. S, M, L, XL"
+                  class="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none"
+                />
+                <.error :for={
+                  msg <- Enum.map(@edit_variant_form[:size].errors, &translate_error/1)
+                }>
+                  {msg}
+                </.error>
+              </div>
+
+              <%!-- Stock --%>
+              <div>
+                <label class="mb-1.5 block text-sm font-semibold text-gray-700">Stock Qty</label>
+                <input
+                  type="text"
+                  name={@edit_variant_form[:stock_quantity].name}
+                  value={@edit_variant_form[:stock_quantity].value}
+                  id={@edit_variant_form[:stock_quantity].id}
+                  placeholder="e.g. 50"
+                  class="w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition focus:border-gray-400 focus:outline-none"
+                />
+                <.error :for={
+                  msg <- Enum.map(@edit_variant_form[:stock_quantity].errors, &translate_error/1)
+                }>
+                  {msg}
+                </.error>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                phx-disable-with="Saving..."
+                class="rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-700"
+              >
+                Update Variant
+              </button>
+            </div>
+          </.form>
+        </div>
+      <% end %>
+
       <%!-- Variants list --%>
       <div>
         <%= if Enum.empty?(@variants) do %>
@@ -642,7 +833,10 @@ defmodule KulolaWeb.ProductLive.Show do
             <tbody>
               <tr
                 :for={variant <- @variants}
-                class="group border-b border-gray-100 last:border-0 hover:bg-gray-50"
+                class={[
+                  "group border-b border-gray-100 last:border-0 hover:bg-gray-50",
+                  if(@editing_variant_id == variant.id, do: "bg-amber-50 hover:bg-amber-50")
+                ]}
               >
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
@@ -665,25 +859,50 @@ defmodule KulolaWeb.ProductLive.Show do
                   </span>
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <button
-                    phx-click="delete_variant"
-                    phx-value-id={variant.id}
-                    data-confirm="Delete this variant?"
-                    class="ml-auto flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-400 opacity-0 transition group-hover:opacity-100 hover:border-red-200 hover:bg-red-50 hover:text-red-500"
-                  >
-                    <svg
-                      class="h-3.5 w-3.5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
+                  <div class="flex items-center justify-end gap-2">
+                    <button
+                      phx-click="edit_variant"
+                      phx-value-id={variant.id}
+                      class={[
+                        "flex h-8 w-8 items-center justify-center rounded-lg border text-gray-400 transition",
+                        if(@editing_variant_id == variant.id,
+                          do: "border-amber-300 bg-amber-100 text-amber-600",
+                          else:
+                            "border-gray-200 opacity-0 group-hover:opacity-100 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+                        )
+                      ]}
                     >
-                      <polyline points="3 6 5 6 21 6" />
-                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                      <path d="M10 11v6m4-6v6" />
-                      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                    </svg>
-                  </button>
+                      <svg
+                        class="h-3.5 w-3.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                      </svg>
+                    </button>
+                    <button
+                      phx-click="delete_variant"
+                      phx-value-id={variant.id}
+                      data-confirm="Delete this variant?"
+                      class="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-400 opacity-0 transition group-hover:opacity-100 hover:border-red-200 hover:bg-red-50 hover:text-red-500"
+                    >
+                      <svg
+                        class="h-3.5 w-3.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                        <path d="M10 11v6m4-6v6" />
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                      </svg>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
