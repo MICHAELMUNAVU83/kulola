@@ -10,7 +10,8 @@
           bundles: Kulola.Repo.aggregate(Kulola.Bundles.Bundle, :count),
           orders: Map.get(Kulola.Orders.count_by_status(), "all", 0),
           customers: Kulola.Customers.count_customers(),
-          promotions: Kulola.Promotions.count_promo_codes()
+          promotions: Kulola.Promotions.count_promo_codes(),
+          open_chats: Kulola.Chat.count_open_sessions()
         },
         Map.get(assigns, :counts, %{})
       )

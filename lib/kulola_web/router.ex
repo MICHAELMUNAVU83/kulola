@@ -96,6 +96,9 @@ defmodule KulolaWeb.Router do
 
         live "/team", TeamLive.Index, :index
 
+        live "/chat", AdminChatLive.Index, :index
+        live "/chat/:id", AdminChatLive.Show, :show
+
         live "/help", HelpLive.Index, :index
 
         live "/theme", ThemeLive.Index, :index

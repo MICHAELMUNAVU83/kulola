@@ -127,6 +127,27 @@ defmodule KulolaWeb.ProductComponents do
             </p>
           </div>
 
+          <%!-- Chat CTA --%>
+          <button
+            type="button"
+            phx-click="toggle_chat"
+            class="mt-5 flex w-full items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-left transition hover:border-gray-900 hover:bg-gray-100"
+          >
+            <span class="relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gray-900 text-white">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              <span class="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-green-500 ring-2 ring-white"></span>
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-gray-900">Ask a Sales Rep</p>
+              <p class="text-xs text-gray-500">Questions about sizing, colour or style? We reply in minutes.</p>
+            </div>
+            <svg class="ml-auto h-4 w-4 flex-shrink-0 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
           <%!-- Quantity & Add to Cart --%>
           <div class="mt-6 flex flex-wrap items-end gap-4">
             <form phx-change="set_quantity" class="flex flex-col">

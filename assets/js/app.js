@@ -29,6 +29,8 @@ import VideoBannerReveal from "./hooks/video_banner_reveal.js";
 import CountdownTimer from "./hooks/countdown_timer.js";
 import HomeReveal from "./hooks/home_reveal.js";
 import SyncColorPicker from "./hooks/sync_color.js";
+import ChatScroll from "./hooks/chat_scroll.js";
+import ChatPersist from "./hooks/chat_persist.js";
 import CartHook from "./hooks/cart_hook.js";
 import CartSync from "./hooks/cart_sync.js";
 import ChartHook from "./hooks/chart_hook.js";
@@ -49,6 +51,8 @@ const liveSocket = new LiveSocket("/live", Socket, {
     VideoBannerReveal,
     CountdownTimer,
     SyncColorPicker,
+    ChatScroll,
+    ChatPersist,
     HomeReveal,
     CartHook,
     CartSync,
