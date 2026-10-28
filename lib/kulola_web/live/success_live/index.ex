@@ -18,7 +18,8 @@ defmodule KulolaWeb.SuccessLive.Index do
        |> assign(:status, :no_reference)
        |> assign(:order, nil)}
     else
-      socket = assign(socket, page_title: "Order Confirmed | Kulola", status: :verifying, order: nil)
+      socket =
+        assign(socket, page_title: "Order Confirmed | Kulola", status: :verifying, order: nil)
 
       if connected?(socket) do
         send(self(), {:verify_payment, reference})
@@ -42,6 +43,13 @@ defmodule KulolaWeb.SuccessLive.Index do
          |> assign(:order, order)
          |> push_event("clear-cart", %{})}
 
+      order when order.status == "fitting_requested" ->
+        {:noreply,
+         socket
+         |> assign(:status, :success)
+         |> assign(:order, order)
+         |> push_event("clear-cart", %{})}
+
       order ->
         case Paystack.verify(reference) do
           {:ok, _data} ->
@@ -52,19 +60,28 @@ defmodule KulolaWeb.SuccessLive.Index do
               try do
                 case OrderNotifier.send_confirmation(paid_order) do
                   {:ok, _} ->
-                    Logger.info("[Email] Order confirmation sent to #{paid_order.email} for #{paid_order.reference}")
+                    Logger.info(
+                      "[Email] Order confirmation sent to #{paid_order.email} for #{paid_order.reference}"
+                    )
+
                   {:error, reason} ->
-                    Logger.error("[Email] Failed to send confirmation to #{paid_order.email}: #{inspect(reason)}")
+                    Logger.error(
+                      "[Email] Failed to send confirmation to #{paid_order.email}: #{inspect(reason)}"
+                    )
                 end
 
                 case OrderNotifier.send_admin_notification(paid_order) do
-                  {:ok, _} -> :ok
+                  {:ok, _} ->
+                    :ok
+
                   {:error, reason} ->
                     Logger.error("[Email] Failed to send admin notification: #{inspect(reason)}")
                 end
               rescue
                 e ->
-                  Logger.error("[Email] Exception sending order emails for #{paid_order.reference}: #{Exception.message(e)}\n#{Exception.format_stacktrace(__STACKTRACE__)}")
+                  Logger.error(
+                    "[Email] Exception sending order emails for #{paid_order.reference}: #{Exception.message(e)}\n#{Exception.format_stacktrace(__STACKTRACE__)}"
+                  )
               end
             end)
 
@@ -133,9 +150,17 @@ defmodule KulolaWeb.SuccessLive.Index do
                 </svg>
               </div>
 
-              <h1 class="mt-6 text-3xl font-bold text-gray-900">Order Confirmed!</h1>
+              <h1 class="mt-6 text-3xl font-bold text-gray-900">
+                {if @order.order_type == "fitting",
+                  do: "Fitting Request Received!",
+                  else: "Order Confirmed!"}
+              </h1>
               <p class="mt-3 text-gray-600">
-                Thank you, <strong>{@order.name}</strong>! Your payment was successful and your order is being prepared.
+                <%= if @order.order_type == "fitting" do %>
+                  Thank you, <strong>{@order.name}</strong>! Our team will contact you to confirm your fitting.
+                <% else %>
+                  Thank you, <strong>{@order.name}</strong>! Your payment was successful and your order is being prepared.
+                <% end %>
               </p>
 
               <div class="mt-8 w-full rounded-xl border border-gray-100 bg-gray-50 p-6 text-left">
@@ -171,15 +196,31 @@ defmodule KulolaWeb.SuccessLive.Index do
                   <% end %>
                 </div>
 
-                <div class="mt-5 border-t border-gray-200 pt-4 flex justify-between font-bold text-gray-900">
-                  <span>Total Paid</span>
-                  <span>KES {KulolaWeb.Format.price(@order.total_amount)}</span>
-                </div>
+                <%= if @order.order_type == "fitting" do %>
+                  <div class="mt-5 space-y-2 border-t border-gray-200 pt-4 text-sm">
+                    <p><strong>Area:</strong> {@order.delivery_area}</p>
+                    <p><strong>Date:</strong> {@order.fitting_date}</p>
+                    <p><strong>Time:</strong> {@order.fitting_time}</p>
+                    <%= if @order.additional_items not in [nil, ""] do %>
+                      <p><strong>Additional items:</strong> {@order.additional_items}</p>
+                    <% end %>
+                    <p>
+                      <strong>Fitting fee:</strong> KES {KulolaWeb.Format.price(@order.delivery_fee)}
+                    </p>
+                  </div>
+                <% else %>
+                  <div class="mt-5 border-t border-gray-200 pt-4 flex justify-between font-bold text-gray-900">
+                    <span>Total Paid</span>
+                    <span>KES {KulolaWeb.Format.price(@order.total_amount)}</span>
+                  </div>
+                <% end %>
               </div>
 
-              <p class="mt-6 text-sm text-gray-500">
-                A confirmation email has been sent to <strong>{@order.email}</strong>
-              </p>
+              <%= if @order.order_type != "fitting" do %>
+                <p class="mt-6 text-sm text-gray-500">
+                  A confirmation email has been sent to <strong>{@order.email}</strong>
+                </p>
+              <% end %>
 
               <div class="mt-8 flex flex-wrap justify-center gap-4">
                 <a

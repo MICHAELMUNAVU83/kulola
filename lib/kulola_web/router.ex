@@ -37,6 +37,7 @@ defmodule KulolaWeb.Router do
 
         live "/orders", OrderLive.Index, :index
         live "/orders/:id", OrderLive.Show, :show
+        live "/delivery-areas", DeliveryAreaLive.Index, :index
 
         live "/customers", CustomerLive.Index, :index
         live "/customers/:id", CustomerLive.Show, :show

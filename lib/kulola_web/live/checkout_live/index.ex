@@ -2,459 +2,531 @@ defmodule KulolaWeb.CheckoutLive.Index do
   use KulolaWeb, :live_view
   import KulolaWeb.HomeComponents
 
-  alias Kulola.Orders
-  alias Kulola.Paystack
-  alias Kulola.Promotions
+  alias Kulola.{DeliveryAreas, Orders, Paystack, Promotions}
+
+  @slots ["10:00 AM – 12:00 PM", "12:00 PM – 2:00 PM", "2:00 PM – 4:00 PM", "4:00 PM – 6:00 PM"]
+  @fields ~w(name email phone location_scope order_type delivery_area other_area estate building unit_number floor address delivery_instructions courier fitting_date fitting_time wants_additional additional_items)
 
   @impl true
   def mount(_params, _session, socket) do
+    form =
+      Map.new(@fields, &{&1, ""})
+      |> Map.merge(%{
+        "location_scope" => "nairobi",
+        "order_type" => "fitting",
+        "courier" => "Kulola delivery"
+      })
+
     {:ok,
-     socket
-     |> assign(:page_title, "Checkout | Kulola's Closet")
-     |> assign(:cart_items, [])
-     |> assign(:cart_loaded, false)
-     |> assign(:submitting, false)
-     |> assign(:form_error, nil)
-     |> assign(:promo_input, "")
-     |> assign(:applied_promo, nil)
-     |> assign(:promo_error, nil)
-     |> assign(:form, %{"name" => "", "email" => "", "phone" => "", "address" => ""})}
+     assign(socket,
+       page_title: "Checkout | Kulola's Closet",
+       cart_items: [],
+       cart_loaded: false,
+       submitting: false,
+       form_error: nil,
+       promo_input: "",
+       applied_promo: nil,
+       promo_error: nil,
+       form: form,
+       areas: DeliveryAreas.list(true),
+       slots: @slots
+     )}
   end
 
   @impl true
-  def handle_event("cart_loaded", %{"items" => items}, socket) do
-    {:noreply,
-     socket
-     |> assign(:cart_items, items)
-     |> assign(:cart_loaded, true)}
-  end
+  def handle_event("cart_loaded", %{"items" => items}, socket),
+    do: {:noreply, assign(socket, cart_items: items, cart_loaded: true)}
 
-  @impl true
   def handle_event("update_form", params, socket) do
-    form = Map.merge(socket.assigns.form, Map.take(params, ["name", "email", "phone", "address"]))
-    {:noreply, assign(socket, :form, form)}
+    form = Map.merge(socket.assigns.form, Map.take(params, @fields))
+
+    form =
+      if form["location_scope"] == "outside_nairobi",
+        do: Map.put(form, "order_type", "delivery"),
+        else: form
+
+    {:noreply, assign(socket, form: form, form_error: nil)}
   end
 
-  @impl true
-  def handle_event("update_promo_input", %{"value" => v}, socket) do
-    {:noreply, assign(socket, :promo_input, v)}
-  end
+  def handle_event("update_promo_input", %{"value" => value}, socket),
+    do: {:noreply, assign(socket, :promo_input, value)}
 
-  @impl true
-  def handle_event("apply_promo", _params, socket) do
-    code = String.trim(socket.assigns.promo_input)
+  def handle_event("remove_promo", _, socket),
+    do: {:noreply, assign(socket, applied_promo: nil, promo_input: "", promo_error: nil)}
 
-    case Promotions.validate_code(code) do
-      {:ok, promo} ->
+  def handle_event("remove_item", %{"key" => key}, socket),
+    do: {:noreply, push_event(socket, "remove-cart-item", %{key: key})}
+
+  def handle_event("update_quantity", %{"key" => key, "quantity" => quantity}, socket) do
+    case Integer.parse(to_string(quantity)) do
+      {qty, _} ->
         {:noreply,
-         socket
-         |> assign(:applied_promo, promo)
-         |> assign(:promo_error, nil)}
+         push_event(socket, "update-cart-quantity", %{key: key, quantity: max(1, min(99, qty))})}
 
-      {:error, reason} ->
-        {:noreply,
-         socket
-         |> assign(:applied_promo, nil)
-         |> assign(:promo_error, reason)}
+      :error ->
+        {:noreply, socket}
     end
   end
 
-  @impl true
-  def handle_event("remove_promo", _params, socket) do
-    {:noreply,
-     socket
-     |> assign(:applied_promo, nil)
-     |> assign(:promo_input, "")
-     |> assign(:promo_error, nil)}
+  def handle_event("apply_promo", _, socket) do
+    case Promotions.validate_code(String.trim(socket.assigns.promo_input)) do
+      {:ok, promo} -> {:noreply, assign(socket, applied_promo: promo, promo_error: nil)}
+      {:error, reason} -> {:noreply, assign(socket, applied_promo: nil, promo_error: reason)}
+    end
   end
 
-  @impl true
-  def handle_event("remove_item", %{"key" => key}, socket) do
-    {:noreply, push_event(socket, "remove-cart-item", %{key: key})}
+  def handle_event("place_order", _, socket) do
+    with :ok <- validate(socket.assigns), {:ok, order} <- create_order(socket.assigns) do
+      if order.order_type == "fitting" do
+        {:noreply,
+         socket
+         |> push_event("clear-cart", %{})
+         |> push_navigate(to: ~p"/success?reference=#{order.reference}")}
+      else
+        case Paystack.initialize(order.email, order.total_amount, order.reference) do
+          %{"authorization_url" => url} ->
+            {:noreply, redirect(socket, external: url)}
+
+          %{"error" => reason} ->
+            {:noreply,
+             assign(socket, submitting: false, form_error: "Payment setup failed: #{reason}")}
+
+          _ ->
+            {:noreply,
+             assign(socket,
+               submitting: false,
+               form_error: "Payment setup failed. Please try again."
+             )}
+        end
+      end
+    else
+      {:error, message} when is_binary(message) ->
+        {:noreply, assign(socket, submitting: false, form_error: message)}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, submitting: false, form_error: changeset_error(changeset))}
+    end
   end
 
-  @impl true
-  def handle_event("update_quantity", %{"key" => key, "quantity" => qty}, socket) do
-    qty = max(1, min(99, String.to_integer(to_string(qty))))
-    {:noreply, push_event(socket, "update-cart-quantity", %{key: key, quantity: qty})}
+  defp validate(%{cart_items: []}), do: {:error, "Your cart is empty."}
+
+  defp validate(%{form: form}) do
+    required =
+      if form["order_type"] == "fitting",
+        do: ~w(name email phone delivery_area address fitting_date fitting_time),
+        else: ~w(name email phone delivery_area address)
+
+    case Enum.find(required, &blank?(form[&1])) do
+      nil ->
+        validate_conditional_fields(form)
+
+      field ->
+        {:error, "Please complete #{String.replace(field, "_", " ")}."}
+    end
   end
 
-  @impl true
-  def handle_event("place_order", _params, socket) do
-    %{cart_items: items, form: form, applied_promo: promo} = socket.assigns
-
+  defp validate_conditional_fields(form) do
     cond do
-      items == [] ->
-        {:noreply, assign(socket, :form_error, "Your cart is empty.")}
-
-      form["name"] == "" ->
-        {:noreply, assign(socket, :form_error, "Please enter your full name.")}
-
-      form["email"] == "" ->
-        {:noreply, assign(socket, :form_error, "Please enter your email address.")}
-
       not String.contains?(form["email"], "@") ->
-        {:noreply, assign(socket, :form_error, "Please enter a valid email address.")}
+        {:error, "Please enter a valid email address."}
+
+      form["delivery_area"] == "Other" and blank?(form["other_area"]) ->
+        {:error, "Please enter your delivery area."}
+
+      form["order_type"] == "fitting" and form["wants_additional"] == "yes" and
+          blank?(form["additional_items"]) ->
+        {:error, "Please tell us which additional items to bring."}
 
       true ->
-        socket = assign(socket, submitting: true, form_error: nil)
-
-        subtotal        = calc_subtotal(items)
-        discount_amount = if promo, do: Promotions.calc_discount(promo, subtotal), else: 0
-        total           = subtotal - discount_amount
-        reference       = Orders.generate_reference()
-
-        order_attrs = %{
-          reference:       reference,
-          email:           form["email"],
-          name:            form["name"],
-          phone:           form["phone"],
-          address:         form["address"],
-          total_amount:    total,
-          discount_amount: discount_amount,
-          promo_code:      if(promo, do: promo.code, else: nil),
-          items:           items
-        }
-
-        case Orders.create_order(order_attrs) do
-          {:ok, _order} ->
-            case Paystack.initialize(form["email"], total, reference) do
-              %{"authorization_url" => url} ->
-                {:noreply, redirect(socket, external: url)}
-
-              %{"error" => reason} ->
-                {:noreply,
-                 socket
-                 |> assign(:submitting, false)
-                 |> assign(:form_error, "Payment setup failed: #{reason}")}
-
-              _ ->
-                {:noreply,
-                 socket
-                 |> assign(:submitting, false)
-                 |> assign(:form_error, "Payment setup failed. Please try again.")}
-            end
-
-          {:error, changeset} ->
-            error = changeset.errors |> Enum.map(fn {k, {m, _}} -> "#{k}: #{m}" end) |> hd()
-
-            {:noreply,
-             socket
-             |> assign(:submitting, false)
-             |> assign(:form_error, error)}
-        end
+        :ok
     end
   end
 
-  defp calc_subtotal(items) do
-    Enum.reduce(items, 0, fn item, acc ->
-      acc + (item["price"] || 0) * (item["quantity"] || 1)
-    end)
+  defp create_order(%{cart_items: items, form: form, applied_promo: promo}) do
+    subtotal = subtotal(items)
+    discount = if promo, do: Promotions.calc_discount(promo, subtotal), else: 0
+    fee = delivery_fee(form)
+    type = form["order_type"]
+
+    area =
+      if form["delivery_area"] == "Other", do: form["other_area"], else: form["delivery_area"]
+
+    Orders.create_order(%{
+      reference: Orders.generate_reference(),
+      name: form["name"],
+      email: form["email"],
+      phone: form["phone"],
+      address: form["address"],
+      items: items,
+      order_type: type,
+      location_scope: form["location_scope"],
+      delivery_area: area,
+      estate: form["estate"],
+      building: form["building"],
+      unit_number: form["unit_number"],
+      floor: form["floor"],
+      delivery_instructions: form["delivery_instructions"],
+      courier: form["courier"],
+      fitting_date: blank_to_nil(form["fitting_date"]),
+      fitting_time: blank_to_nil(form["fitting_time"]),
+      additional_items:
+        if(form["wants_additional"] == "yes", do: blank_to_nil(form["additional_items"])),
+      delivery_fee: fee,
+      discount_amount: discount,
+      promo_code: if(promo, do: promo.code),
+      total_amount: if(type == "fitting", do: fee, else: subtotal - discount + fee),
+      status: if(type == "fitting", do: "fitting_requested", else: "pending")
+    })
   end
 
-  defp calc_total(items, promo) do
-    sub = calc_subtotal(items)
-    discount = if promo, do: Promotions.calc_discount(promo, sub), else: 0
-    sub - discount
-  end
+  defp delivery_fee(form),
+    do:
+      case(Enum.find(DeliveryAreas.list(true), fn area -> area.name == form["delivery_area"] end),
+        do: (
+          %{fee: fee} -> fee
+          nil -> 0
+        )
+      )
 
-  defp fmt(n), do: KulolaWeb.Format.price(n)
+  defp subtotal(items),
+    do: Enum.reduce(items, 0, &(&2 + (&1["price"] || 0) * (&1["quantity"] || 1)))
+
+  defp total(assigns),
+    do:
+      subtotal(assigns.cart_items) -
+        if(assigns.applied_promo,
+          do: Promotions.calc_discount(assigns.applied_promo, subtotal(assigns.cart_items)),
+          else: 0
+        ) + delivery_fee(assigns.form)
+
+  defp blank?(value), do: value in [nil, ""]
+  defp blank_to_nil(value), do: if(blank?(value), do: nil, else: value)
+
+  defp changeset_error(changeset),
+    do:
+      changeset.errors |> Enum.map(fn {k, {m, _}} -> "#{k}: #{m}" end) |> List.first() ||
+        "Please check your details."
+
+  defp fmt(value), do: KulolaWeb.Format.price(value)
 
   @impl true
   def render(assigns) do
     ~H"""
     <div id="checkout-page" class="min-h-screen bg-[#f9f9f7]" phx-hook="CartSync">
       <.navbar cart_items={@cart_items} collections={[]} />
-
-      <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <!-- Header -->
-        <div class="mb-8 flex items-center gap-3">
-          <a href="/cart" class="rounded-full p-1.5 text-gray-400 transition hover:bg-gray-200 hover:text-black">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-          </a>
-          <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Checkout</h1>
+      <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <a href="/cart" class="text-sm text-gray-500">← Back to cart</a>
+          <h1 class="mt-2 font-serif text-3xl font-bold">How would you like your order?</h1>
+          <p class="mt-2 text-gray-500">
+            Choose fitting or delivery, and we’ll collect only the details we need.
+          </p>
         </div>
-
         <div class="grid gap-8 lg:grid-cols-5">
-
-          <!-- ── Left: Contact & Delivery form ── -->
-          <div class="lg:col-span-3">
-            <div class="rounded-2xl border border-gray-200 bg-white p-7 shadow-sm">
-              <h2 class="mb-1 text-lg font-semibold text-gray-900">Contact & Delivery</h2>
-              <p class="mb-6 text-sm text-gray-400">We'll send your confirmation here.</p>
-
-              <%= if @form_error do %>
-                <div class="mb-5 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-                  <svg class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
-                  {@form_error}
-                </div>
-              <% end %>
-
-              <form phx-submit="place_order" phx-change="update_form" class="space-y-5">
-                <div class="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Full Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={@form["name"]}
-                      placeholder="Jane Doe"
-                      required
-                      class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
-                    />
-                  </div>
-                  <div>
-                    <label class="mb-1.5 block text-sm font-medium text-gray-700">Email Address *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={@form["email"]}
-                      placeholder="jane@example.com"
-                      required
-                      class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label class="mb-1.5 block text-sm font-medium text-gray-700">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={@form["phone"]}
-                    placeholder="+254 700 000 000"
-                    class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
+          <form
+            id="checkout-form"
+            phx-submit="place_order"
+            phx-change="update_form"
+            class="space-y-6 lg:col-span-3"
+          >
+            <%= if @form_error do %>
+              <div class="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{@form_error}</div>
+            <% end %>
+            <.card step="Step 1" title="Where are you located?">
+              <div class="grid grid-cols-2 gap-3">
+                <.choice
+                  name="location_scope"
+                  value="nairobi"
+                  checked={@form["location_scope"] == "nairobi"}
+                  label="Nairobi"
+                /><.choice
+                  name="location_scope"
+                  value="outside_nairobi"
+                  checked={@form["location_scope"] == "outside_nairobi"}
+                  label="Outside Nairobi"
+                />
+              </div>
+              <%= if @form["location_scope"] == "nairobi" do %>
+                <h3 class="mt-6 text-sm font-semibold">Are you available for fitting?</h3>
+                <div class="mt-3 grid grid-cols-2 gap-3">
+                  <.choice
+                    name="order_type"
+                    value="fitting"
+                    checked={@form["order_type"] == "fitting"}
+                    label="Yes — I want to fit"
+                  /><.choice
+                    name="order_type"
+                    value="delivery"
+                    checked={@form["order_type"] == "delivery"}
+                    label="No — deliver it"
                   />
                 </div>
-
-                <div>
-                  <label class="mb-1.5 block text-sm font-medium text-gray-700">Delivery Address</label>
-                  <textarea
-                    name="address"
-                    rows="3"
-                    placeholder="Street, City, County"
-                    class="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 transition focus:border-[#C8001F]/60 focus:outline-none focus:ring-1 focus:ring-[#C8001F]/30"
-                  >{@form["address"]}</textarea>
-                </div>
-
-                <!-- ── Promo Code ── -->
-                <div class="border-t border-gray-100 pt-5">
-                  <label class="mb-2 block text-sm font-medium text-gray-700">Promo / Discount Code</label>
-
-                  <%= if @applied_promo do %>
-                    <!-- Applied state -->
-                    <div class="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3">
-                      <svg class="h-5 w-5 flex-shrink-0 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <div class="flex-1 min-w-0">
-                        <p class="text-sm font-semibold text-green-800">
-                          <span class="font-mono">{@applied_promo.code}</span>
-                          · -{@applied_promo.discount_percent}% off applied!
-                        </p>
-                        <%= if @applied_promo.influencer_name not in [nil, ""] do %>
-                          <p class="text-xs text-green-600">By {@applied_promo.influencer_name}</p>
-                        <% end %>
-                      </div>
-                      <button
-                        type="button"
-                        phx-click="remove_promo"
-                        class="rounded-lg px-2.5 py-1 text-xs font-medium text-green-700 transition hover:bg-green-100"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  <% else %>
-                    <!-- Input state -->
-                    <div class="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Enter promo code"
-                        value={@promo_input}
-                        phx-input="update_promo_input"
-                        class={[
-                          "flex-1 rounded-xl border px-4 py-3 font-mono text-sm uppercase tracking-widest placeholder-gray-300 transition focus:outline-none focus:ring-1",
-                          if(@promo_error,
-                            do: "border-red-300 focus:border-red-400 focus:ring-red-200",
-                            else: "border-gray-300 focus:border-[#C8001F]/60 focus:ring-[#C8001F]/20"
-                          )
-                        ]}
-                      />
-                      <button
-                        type="button"
-                        phx-click="apply_promo"
-                        class="flex-shrink-0 rounded-xl border border-[#C8001F] px-5 py-3 text-sm font-semibold text-[#C8001F] transition hover:bg-[#C8001F] hover:text-white"
-                      >
-                        Apply
-                      </button>
-                    </div>
-                    <%= if @promo_error do %>
-                      <p class="mt-1.5 flex items-center gap-1 text-xs text-red-600">
-                        <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                        </svg>
-                        {@promo_error}
-                      </p>
-                    <% end %>
-                  <% end %>
-                </div>
-
-                <!-- Totals summary -->
-                <div class="space-y-1.5">
-                  <div class="flex items-center justify-between text-sm text-gray-500">
-                    <span>Subtotal</span>
-                    <span class="font-medium text-gray-700">KES {fmt(calc_subtotal(@cart_items))}</span>
-                  </div>
-                  <%= if @applied_promo do %>
-                    <div class="flex items-center justify-between text-sm text-green-600">
-                      <span>Discount ({@applied_promo.discount_percent}% off)</span>
-                      <span class="font-semibold">-KES {fmt(Promotions.calc_discount(@applied_promo, calc_subtotal(@cart_items)))}</span>
-                    </div>
-                  <% end %>
-                  <div class="flex items-center justify-between text-sm text-gray-500">
-                    <span>Shipping</span>
-                    <span class="font-medium text-green-600">Free</span>
-                  </div>
-                  <div class="flex items-center justify-between border-t border-gray-100 pt-2 text-base font-bold text-gray-900">
-                    <span>Total</span>
-                    <span class="text-[#C8001F]">KES {fmt(calc_total(@cart_items, @applied_promo))}</span>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={@submitting or @cart_items == []}
-                  class="w-full rounded-full bg-[#C8001F] py-3.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-primary-dark)] disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <%= if @submitting do %>
-                    <span class="flex items-center justify-center gap-2">
-                      <svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                      </svg>
-                      Redirecting to payment…
-                    </span>
-                  <% else %>
-                    Pay with Paystack →
-                  <% end %>
-                </button>
-
-                <div class="flex items-center justify-center gap-1.5 text-xs text-gray-400">
-                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  Secured & encrypted by Paystack
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <!-- ── Right: Editable cart ── -->
-          <div class="lg:col-span-2">
-            <div class="rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <div class="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-                <h2 class="font-semibold text-gray-900">Your Order</h2>
-                <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
-                  {length(@cart_items)} {if length(@cart_items) == 1, do: "item", else: "items"}
-                </span>
-              </div>
-
-              <div class="divide-y divide-gray-50 px-6">
-                <%= if @cart_items == [] do %>
-                  <div class="py-10 text-center">
-                    <p class="text-sm text-gray-400">No items in your cart.</p>
-                    <a href="/" class="mt-3 inline-block text-sm font-medium text-[#C8001F] underline underline-offset-2">
-                      Keep shopping
-                    </a>
-                  </div>
-                <% else %>
-                  <%= for item <- @cart_items do %>
-                    <div class="flex gap-4 py-4">
-                      <div class="h-20 w-16 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
-                        <%= if item["image"] do %>
-                          <img src={item["image"]} alt={item["name"]} class="h-full w-full object-cover" />
-                        <% else %>
-                          <div class="flex h-full items-center justify-center text-2xl">👗</div>
-                        <% end %>
-                      </div>
-
-                      <div class="flex flex-1 flex-col justify-between min-w-0">
-                        <div class="flex items-start justify-between gap-2">
-                          <div class="min-w-0">
-                            <p class="truncate text-sm font-semibold text-gray-900">{item["name"]}</p>
-                            <p class="mt-0.5 text-xs text-gray-400">
-                              <%= if item["color"], do: item["color"] %>
-                              <%= if item["color"] && item["size"], do: " · " %>
-                              <%= if item["size"], do: item["size"] %>
-                            </p>
-                          </div>
-                          <button
-                            phx-click="remove_item"
-                            phx-value-key={item["key"]}
-                            class="flex-shrink-0 rounded-lg p-1 text-gray-300 transition hover:bg-red-50 hover:text-red-500"
-                          >
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                          </button>
-                        </div>
-
-                        <div class="flex items-center justify-between">
-                          <div class="flex items-center gap-1 rounded-full border border-gray-200 px-2 py-1">
-                            <button
-                              phx-click="update_quantity"
-                              phx-value-key={item["key"]}
-                              phx-value-quantity={max(1, (item["quantity"] || 1) - 1)}
-                              class="flex h-5 w-5 items-center justify-center rounded-full text-gray-500 transition hover:bg-gray-100 hover:text-black"
-                            >−</button>
-                            <span class="w-5 text-center text-sm font-medium text-gray-800">{item["quantity"] || 1}</span>
-                            <button
-                              phx-click="update_quantity"
-                              phx-value-key={item["key"]}
-                              phx-value-quantity={(item["quantity"] || 1) + 1}
-                              class="flex h-5 w-5 items-center justify-center rounded-full text-gray-500 transition hover:bg-gray-100 hover:text-black"
-                            >+</button>
-                          </div>
-                          <span class="text-sm font-semibold text-gray-900">
-                            KES {fmt((item["price"] || 0) * (item["quantity"] || 1))}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-
-              <%= if @cart_items != [] do %>
-                <div class="border-t border-gray-100 px-6 py-4 space-y-1.5">
-                  <%= if @applied_promo do %>
-                    <div class="flex justify-between text-sm text-green-600">
-                      <span>Discount ({@applied_promo.discount_percent}% · <span class="font-mono">{@applied_promo.code}</span>)</span>
-                      <span class="font-semibold">-KES {fmt(Promotions.calc_discount(@applied_promo, calc_subtotal(@cart_items)))}</span>
-                    </div>
-                  <% end %>
-                  <div class="flex justify-between text-sm text-gray-500">
-                    <span>Shipping</span>
-                    <span class="font-medium text-green-600">Free</span>
-                  </div>
-                  <div class="flex justify-between border-t border-gray-100 pt-2 text-base font-bold text-gray-900">
-                    <span>Total</span>
-                    <span class="text-[#C8001F]">KES {fmt(calc_total(@cart_items, @applied_promo))}</span>
-                  </div>
+              <% else %>
+                <div class="mt-5 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+                  <strong>Countrywide delivery:</strong> please allow up to 48 hours for dispatch.
                 </div>
               <% end %>
+            </.card>
+            <.card step="Step 2" title="Your details">
+              <div class="grid gap-4 sm:grid-cols-2">
+                <.field name="name" label="Full name *" value={@form["name"]} /><.field
+                  name="phone"
+                  type="tel"
+                  label="Phone number *"
+                  value={@form["phone"]}
+                />
+                <div class="sm:col-span-2">
+                  <.field name="email" type="email" label="Email address *" value={@form["email"]} />
+                </div>
+              </div>
+            </.card>
+            <.card
+              step="Step 3"
+              title={
+                if @form["order_type"] == "fitting", do: "Fitting details", else: "Delivery details"
+              }
+            >
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label class="block text-sm font-medium">
+                  Area *<select
+                    name="delivery_area"
+                    class="mt-1.5 w-full rounded-xl border-gray-300"
+                    required
+                  ><option value="">Select an area</option><%= for area <- @areas do %><option
+                      value={area.name}
+                      selected={@form["delivery_area"] == area.name}
+                    >{area.name}{if area.fee > 0, do: " — KES #{area.fee}"}</option><% end %></select>
+                </label>
+                <%= if @form["delivery_area"] == "Other" do %>
+                  <.field name="other_area" label="Your area *" value={@form["other_area"]} />
+                <% end %>
+                <div class="sm:col-span-2">
+                  <.field
+                    name="address"
+                    label="Exact location / delivery address *"
+                    value={@form["address"]}
+                  />
+                </div>
+                <%= if @form["order_type"] == "fitting" do %>
+                  <.field
+                    name="fitting_date"
+                    type="date"
+                    label="Preferred fitting date *"
+                    value={@form["fitting_date"]}
+                  />
+                  <label class="block text-sm font-medium">
+                    2-hour fitting window *<select
+                      name="fitting_time"
+                      class="mt-1.5 w-full rounded-xl border-gray-300"
+                      required
+                    ><option value="">Select a time</option><%= for slot <- @slots do %><option
+                        value={slot}
+                        selected={@form["fitting_time"] == slot}
+                      >{slot}</option><% end %></select>
+                  </label>
+                  <div class="sm:col-span-2">
+                    <p class="text-sm font-medium">Bring other items in your size?</p>
+                    <div class="mt-2 flex gap-5">
+                      <label>
+                        <input
+                          type="radio"
+                          name="wants_additional"
+                          value="yes"
+                          checked={@form["wants_additional"] == "yes"}
+                        /> Yes
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="wants_additional"
+                          value="no"
+                          checked={@form["wants_additional"] != "yes"}
+                        /> No
+                      </label>
+                    </div>
+                  </div>
+                  <%= if @form["wants_additional"] == "yes" do %>
+                    <div class="sm:col-span-2">
+                      <.textarea
+                        name="additional_items"
+                        label="What should we bring?"
+                        value={@form["additional_items"]}
+                        placeholder="e.g. Brown sweater, size 10"
+                      />
+                    </div>
+                  <% end %>
+                <% else %>
+                  <.field name="estate" label="Estate" value={@form["estate"]} /><.field
+                    name="building"
+                    label="Apartment / office"
+                    value={@form["building"]}
+                  /><.field
+                    name="unit_number"
+                    label="House / office number"
+                    value={@form["unit_number"]}
+                  /><.field name="floor" label="Floor" value={@form["floor"]} />
+                  <div class="sm:col-span-2">
+                    <.field
+                      name="courier"
+                      label="Courier / delivery service"
+                      value={@form["courier"]}
+                    />
+                  </div>
+                  <div class="sm:col-span-2">
+                    <.textarea
+                      name="delivery_instructions"
+                      label="Delivery instructions"
+                      value={@form["delivery_instructions"]}
+                      placeholder="Landmark or other useful details"
+                    />
+                  </div>
+                <% end %>
+              </div>
+            </.card>
+            <section class="rounded-2xl border bg-white p-6 shadow-sm">
+              <h2 class="font-semibold">Promo code</h2>
+              <div class="mt-3 flex gap-2">
+                <input
+                  type="text"
+                  value={@promo_input}
+                  phx-input="update_promo_input"
+                  class="min-w-0 flex-1 rounded-xl border-gray-300"
+                />
+                <button
+                  type="button"
+                  phx-click="apply_promo"
+                  class="rounded-xl border border-[#C8001F] px-5 text-[#C8001F]"
+                >
+                  Apply
+                </button>
+              </div>
+              <%= if @promo_error do %>
+                <p class="mt-2 text-xs text-red-600">{@promo_error}</p>
+              <% end %>
+              <%= if @applied_promo do %>
+                <p class="mt-2 text-sm text-green-700">
+                  {@applied_promo.code} applied · {@applied_promo.discount_percent}% off
+                  <button type="button" phx-click="remove_promo" class="underline">Remove</button>
+                </p>
+              <% end %>
+            </section>
+            <button
+              type="submit"
+              disabled={@submitting or @cart_items == []}
+              class="w-full rounded-full bg-[#C8001F] py-4 font-semibold text-white disabled:opacity-50"
+            >
+              {if @form["order_type"] == "fitting",
+                do: "Submit fitting request →",
+                else: "Continue to secure payment →"}
+            </button>
+          </form>
+          <aside class="lg:col-span-2">
+            <div class="sticky top-6 rounded-2xl border bg-white p-6 shadow-sm">
+              <h2 class="font-semibold">Your order</h2>
+              <div class="mt-4 divide-y">
+                <%= for item <- @cart_items do %>
+                  <div class="flex gap-3 py-4">
+                    <%= if item["image"] do %>
+                      <img src={item["image"]} class="h-16 w-14 rounded-lg object-cover" />
+                    <% end %>
+                    <div class="min-w-0 flex-1">
+                      <p class="truncate text-sm font-semibold">{item["name"]}</p>
+                      <p class="text-xs text-gray-500">
+                        {item["size"]} · Qty {item["quantity"] || 1}
+                      </p>
+                    </div>
+                    <span class="text-sm font-semibold">
+                      KES {fmt((item["price"] || 0) * (item["quantity"] || 1))}
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+              <div class="space-y-2 border-t pt-4 text-sm">
+                <div class="flex justify-between">
+                  <span>Subtotal</span><span>KES {fmt(subtotal(@cart_items))}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Delivery / fitting fee</span><span>{if delivery_fee(@form) == 0, do: "To be confirmed", else: "KES #{fmt(delivery_fee(@form))}"}</span>
+                </div>
+                <div class="flex justify-between border-t pt-3 text-lg font-bold">
+                  <span>{if @form["order_type"] == "fitting", do: "Fee due", else: "Total"}</span><span class="text-[#C8001F]">KES {fmt(if @form["order_type"] == "fitting", do: delivery_fee(@form), else: total(assigns))}</span>
+                </div>
+              </div>
+              <p class="mt-5 rounded-xl bg-gray-50 p-3 text-xs leading-5">
+                Delivery orders dispatch within 48 hours. Our team will follow up on fitting requests.
+              </p>
             </div>
-          </div>
-
+          </aside>
         </div>
-      </div>
-
+      </main>
       <.footer />
     </div>
+    """
+  end
+
+  attr :step, :string, required: true
+  attr :title, :string, required: true
+  slot :inner_block, required: true
+
+  defp card(assigns) do
+    ~H"""
+    <section class="rounded-2xl border bg-white p-6 shadow-sm">
+      <p class="text-xs font-bold uppercase tracking-widest text-[#C8001F]">{@step}</p>
+      <h2 class="mb-4 mt-1 text-lg font-semibold">{@title}</h2>
+      {render_slot(@inner_block)}
+    </section>
+    """
+  end
+
+  attr :name, :string, required: true
+  attr :value, :string, required: true
+  attr :checked, :boolean, default: false
+  attr :label, :string, required: true
+
+  defp choice(assigns) do
+    ~H"""
+    <label class={[
+      "cursor-pointer rounded-xl border p-4 text-center text-sm font-semibold",
+      if(@checked, do: "border-[#C8001F] bg-red-50 text-[#C8001F]", else: "border-gray-200")
+    ]}>
+      <input type="radio" name={@name} value={@value} checked={@checked} class="sr-only" />{@label}
+    </label>
+    """
+  end
+
+  attr :name, :string, required: true
+  attr :label, :string, required: true
+  attr :value, :string, default: ""
+  attr :type, :string, default: "text"
+
+  defp field(assigns) do
+    ~H"""
+    <label class="block text-sm font-medium">
+      {@label}<input
+        type={@type}
+        name={@name}
+        value={@value}
+        class="mt-1.5 w-full rounded-xl border-gray-300"
+      />
+    </label>
+    """
+  end
+
+  attr :name, :string, required: true
+  attr :label, :string, required: true
+  attr :value, :string, default: ""
+  attr :placeholder, :string, default: ""
+
+  defp textarea(assigns) do
+    ~H"""
+    <label class="block text-sm font-medium">
+      {@label}<textarea
+        name={@name}
+        rows="3"
+        placeholder={@placeholder}
+        class="mt-1.5 w-full rounded-xl border-gray-300"
+      >{@value}</textarea>
+    </label>
     """
   end
 end

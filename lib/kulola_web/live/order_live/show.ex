@@ -48,30 +48,33 @@ defmodule KulolaWeb.OrderLive.Show do
 
   defp status_color(status) do
     case status do
-      "paid"       -> "bg-[#C8001F]/10 text-[#C8001F] border-[#C8001F]/20"
+      "paid" -> "bg-[#C8001F]/10 text-[#C8001F] border-[#C8001F]/20"
+      "fitting_requested" -> "bg-amber-50 text-amber-700 border-amber-200"
       "processing" -> "bg-pink-50 text-pink-700 border-pink-200"
-      "shipped"    -> "bg-indigo-50 text-indigo-600 border-indigo-200"
-      "delivered"  -> "bg-green-50 text-green-700 border-green-200"
-      "cancelled"  -> "bg-gray-100 text-gray-500 border-gray-200"
-      "failed"     -> "bg-red-50 text-red-400 border-red-200"
-      _            -> "bg-gray-100 text-gray-500 border-gray-200"
+      "shipped" -> "bg-indigo-50 text-indigo-600 border-indigo-200"
+      "delivered" -> "bg-green-50 text-green-700 border-green-200"
+      "cancelled" -> "bg-gray-100 text-gray-500 border-gray-200"
+      "failed" -> "bg-red-50 text-red-400 border-red-200"
+      _ -> "bg-gray-100 text-gray-500 border-gray-200"
     end
   end
 
   defp status_dot(status) do
     case status do
-      "paid"       -> "bg-[#C8001F]"
+      "paid" -> "bg-[#C8001F]"
+      "fitting_requested" -> "bg-amber-500"
       "processing" -> "bg-pink-500"
-      "shipped"    -> "bg-indigo-500"
-      "delivered"  -> "bg-green-500"
-      "cancelled"  -> "bg-gray-400"
-      "failed"     -> "bg-red-400"
-      _            -> "bg-gray-400"
+      "shipped" -> "bg-indigo-500"
+      "delivered" -> "bg-green-500"
+      "cancelled" -> "bg-gray-400"
+      "failed" -> "bg-red-400"
+      _ -> "bg-gray-400"
     end
   end
 
   defp next_statuses(current) do
     flow = %{
+      "fitting_requested" => ["processing", "cancelled"],
       "paid" => ["processing", "shipped", "cancelled"],
       "processing" => ["shipped", "cancelled"],
       "shipped" => ["delivered", "cancelled"],
@@ -108,14 +111,22 @@ defmodule KulolaWeb.OrderLive.Show do
     ~H"""
     <div class="space-y-6">
 
-      <!-- ── Breadcrumb banner ── -->
+    <!-- ── Breadcrumb banner ── -->
       <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#C8001F] to-[#8b0014] px-7 py-6 text-white shadow-md">
-        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
+        <div class="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5">
+        </div>
         <div class="flex items-center gap-4">
-          <.link navigate="/admin/orders"
-            class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20">
+          <.link
+            navigate="/admin/orders"
+            class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20"
+          >
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </.link>
           <div>
@@ -135,7 +146,7 @@ defmodule KulolaWeb.OrderLive.Show do
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-        <!-- ── Left: items + totals ── -->
+    <!-- ── Left: items + totals ── -->
         <div class="space-y-6 lg:col-span-2">
           <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-6 py-5">
@@ -182,8 +193,8 @@ defmodule KulolaWeb.OrderLive.Show do
                 <span>KES {fmt(subtotal(@order.items))}</span>
               </div>
               <div class="flex justify-between text-sm text-gray-500">
-                <span>Shipping</span>
-                <span class="font-semibold text-green-600">Free</span>
+                <span>Delivery / fitting fee</span>
+                <span class="font-semibold">KES {fmt(@order.delivery_fee)}</span>
               </div>
               <div class="flex justify-between border-t border-gray-200 pt-2.5 text-base font-bold text-gray-900">
                 <span>Total</span>
@@ -193,10 +204,10 @@ defmodule KulolaWeb.OrderLive.Show do
           </div>
         </div>
 
-        <!-- ── Right: status + customer ── -->
+    <!-- ── Right: status + customer ── -->
         <div class="space-y-5">
 
-          <!-- Status actions -->
+    <!-- Status actions -->
           <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-5 py-4">
               <h2 class="font-serif text-sm font-semibold text-gray-900">Order Status</h2>
@@ -215,12 +226,16 @@ defmodule KulolaWeb.OrderLive.Show do
                           "rounded-2xl border px-4 py-2.5 text-sm font-semibold capitalize transition",
                           case next do
                             "cancelled" -> "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
-                            "paid"      -> "border-[#C8001F]/30 bg-[#C8001F] text-white hover:bg-[#a8001a]"
-                            _           -> "border-[#C8001F]/30 bg-[#C8001F] text-white hover:bg-[#a8001a]"
+                            "paid" -> "border-[#C8001F]/30 bg-[#C8001F] text-white hover:bg-[#a8001a]"
+                            _ -> "border-[#C8001F]/30 bg-[#C8001F] text-white hover:bg-[#a8001a]"
                           end
                         ]}
                       >
-                        <%= if next == "paid" do %>✓ Mark as Paid — deducts stock<% else %>Mark as {String.capitalize(next)} →<% end %>
+                        <%= if next == "paid" do %>
+                          ✓ Mark as Paid — deducts stock
+                        <% else %>
+                          Mark as {String.capitalize(next)} →
+                        <% end %>
                       </button>
                     <% end %>
                   </div>
@@ -230,7 +245,7 @@ defmodule KulolaWeb.OrderLive.Show do
             </div>
           </div>
 
-          <!-- Customer info -->
+    <!-- Customer info -->
           <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-5 py-4">
               <h2 class="font-serif text-sm font-semibold text-gray-900">Customer</h2>
@@ -242,7 +257,10 @@ defmodule KulolaWeb.OrderLive.Show do
               </div>
               <div class="flex items-start justify-between gap-3">
                 <span class="text-gray-400 shrink-0">Email</span>
-                <a href={"mailto:#{@order.email}"} class="font-medium text-[#C8001F] hover:underline text-right break-all">
+                <a
+                  href={"mailto:#{@order.email}"}
+                  class="font-medium text-[#C8001F] hover:underline text-right break-all"
+                >
                   {@order.email}
                 </a>
               </div>
@@ -258,12 +276,43 @@ defmodule KulolaWeb.OrderLive.Show do
                   <span class="font-medium text-gray-900 text-right">{@order.address}</span>
                 </div>
               <% end %>
+              <div class="border-t border-gray-100 pt-3">
+                <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-gray-400">
+                  Fulfilment
+                </p>
+                <div class="space-y-3">
+                  <.detail label="Type" value={String.capitalize(@order.order_type || "delivery")} />
+                  <.detail label="Area" value={@order.delivery_area} />
+                  <.detail label="Estate" value={@order.estate} />
+                  <.detail label="Building" value={@order.building} />
+                  <.detail label="Unit" value={@order.unit_number} />
+                  <.detail label="Floor" value={@order.floor} />
+                  <.detail label="Courier" value={@order.courier} />
+                  <.detail label="Fitting date" value={@order.fitting_date} />
+                  <.detail label="Fitting time" value={@order.fitting_time} />
+                  <.detail label="Additional items" value={@order.additional_items} />
+                  <.detail label="Instructions" value={@order.delivery_instructions} />
+                </div>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
+    """
+  end
+
+  attr :label, :string, required: true
+  attr :value, :any, default: nil
+
+  defp detail(assigns) do
+    ~H"""
+    <%= if @value not in [nil, ""] do %>
+      <div class="flex items-start justify-between gap-3 text-sm">
+        <span class="shrink-0 text-gray-400">{@label}</span>
+        <span class="text-right font-medium text-gray-900">{@value}</span>
+      </div>
+    <% end %>
     """
   end
 end

@@ -6,9 +6,9 @@ defmodule Kulola.Orders do
   alias Kulola.ProductVariants.ProductVariant
   alias Kulola.Customers
 
-  @all_statuses ~w(pending paid processing shipped delivered cancelled failed)
+  @all_statuses ~w(pending fitting_requested paid processing shipped delivered cancelled failed)
   # Statuses shown in admin — excludes "pending" (pre-payment, incomplete)
-  @visible_statuses ~w(paid processing shipped delivered cancelled failed)
+  @visible_statuses ~w(fitting_requested paid processing shipped delivered cancelled failed)
 
   # ── CRUD ──────────────────────────────────────────────────────────────────
 
@@ -18,8 +18,11 @@ defmodule Kulola.Orders do
         if order.promo_code not in [nil, ""] do
           Task.start(fn -> Kulola.Promotions.record_usage(order.promo_code) end)
         end
+
         result
-      error -> error
+
+      error ->
+        error
     end
   end
 
