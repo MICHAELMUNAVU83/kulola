@@ -18,8 +18,8 @@ defmodule KulolaWeb.CheckoutLiveTest do
     {:ok, view, html} = live(conn, ~p"/checkout")
 
     assert html =~ "Where are you located?"
-    assert html =~ "Yes — I want to fit"
-    assert html =~ "No — deliver it"
+    assert html =~ "Yes, I want to fit"
+    assert html =~ "No, deliver it"
     assert html =~ "2-hour fitting window"
 
     html =

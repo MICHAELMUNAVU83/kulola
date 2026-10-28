@@ -253,12 +253,12 @@ defmodule KulolaWeb.CheckoutLive.Index do
                     name="order_type"
                     value="fitting"
                     checked={@form["order_type"] == "fitting"}
-                    label="Yes — I want to fit"
+                    label="Yes, I want to fit"
                   /><.choice
                     name="order_type"
                     value="delivery"
                     checked={@form["order_type"] == "delivery"}
-                    label="No — deliver it"
+                    label="No, deliver it"
                   />
                 </div>
               <% else %>
@@ -295,7 +295,7 @@ defmodule KulolaWeb.CheckoutLive.Index do
                   ><option value="">Select an area</option><%= for area <- @areas do %><option
                       value={area.name}
                       selected={@form["delivery_area"] == area.name}
-                    >{area.name}{if area.fee > 0, do: " — KES #{area.fee}"}</option><% end %></select>
+                    >{area.name}{if area.fee > 0, do: " - KES #{area.fee}"}</option><% end %></select>
                 </label>
                 <%= if @form["delivery_area"] == "Other" do %>
                   <.field name="other_area" label="Your area *" value={@form["other_area"]} />
